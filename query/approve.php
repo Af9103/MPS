@@ -338,10 +338,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 $message = "Pemberitahuan Mutasi Karyawan!!\n\nBatch Mutasi [$batchMutasi1] telah di-approve oleh Foreman $cwocAsal. Status saat ini menunggu persetujuan Supervisor $cwocAsal.\nKaryawan disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon proses persetujuan.";
                 $flags = "queue";
 
-                $query_phone = "SELECT no_hp FROM isd 
-                                LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-                                WHERE ct_users.golongan = 4 AND ct_users.acting = 2 AND dept = '$cwocAsal'";
-                $result_phone = mysqli_query($koneksi2, $query_phone);
+                $query_npk = "SELECT npk FROM ct_users WHERE golongan = 4 AND acting = 2 AND dept = '$cwocAsal'";
+                $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                // Ambil hasil query npk
+                $npk_list = array();
+                if ($result_npk) {
+                    while ($row = mysqli_fetch_assoc($result_npk)) {
+                        $npk_list[] = "'" . $row['npk'] . "'";
+                    }
+                }
+
+                if (!empty($npk_list)) {
+                    // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                    $npk_list_str = implode(',', $npk_list);
+                    $query_phone = "SELECT no_hp FROM isd.hp WHERE npk IN ($npk_list_str)";
+                    $result_phone = mysqli_query($koneksi4, $query_phone);
+                } else {
+                    $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                }
 
                 if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                     while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -359,11 +374,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
 
                 if (!empty($emnoArray)) {
                     $emnoList = "'" . implode("','", $emnoArray) . "'";
-                    $query_phone = "SELECT isd.no_hp, ct_users.npk 
-                                    FROM isd 
-                                    LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-                                    WHERE ct_users.npk IN ($emnoList)";
-                    $result_phone = mysqli_query($koneksi2, $query_phone);
+                    $query_phone = "SELECT no_hp, npk 
+                                    FROM hp 
+                                    WHERE npk IN ($emnoList)";
+                    $result_phone = mysqli_query($koneksi4, $query_phone);
 
                     if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                         while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -401,12 +415,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 $updateField = "SPV = '$name', tgl_spv = '$tgl_spv'";
                 $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Supervisor $cwocAsal. Status saat ini adalah menunggu persetujuan Kepala Departemen $cwocAsal.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                 $flags = "queue";
-                $query_phone = "SELECT isd.no_hp
-                                FROM isd
-                                JOIN ct_users ON ct_users.npk = isd.npk
-                                WHERE ct_users.dept = '$cwocAsal'
-                                AND ct_users.npk IN (SELECT npk FROM hrd_so WHERE tipe = 1);";
-                $result_phone = mysqli_query($koneksi2, $query_phone);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept = '$cwocAsal' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                // Ambil hasil query npk
+                $npk_list = array();
+                if ($result_npk) {
+                    while ($row = mysqli_fetch_assoc($result_npk)) {
+                        $npk_list[] = "'" . $row['npk'] . "'";
+                    }
+                }
+
+                if (!empty($npk_list)) {
+                    // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                    $npk_list_str = implode(',', $npk_list);
+                    $query_phone = "SELECT no_hp FROM hp WHERE npk IN ($npk_list_str)";
+                    $result_phone = mysqli_query($koneksi4, $query_phone);
+                } else {
+                    $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                }
 
                 if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                     while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -424,10 +451,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
 
                 if (!empty($emnoArray)) {
                     $emnoList = "'" . implode("','", $emnoArray) . "'";
-                    $query_phone = "SELECT isd.no_hp, ct_users.npk 
-                                    FROM isd 
-                                    LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-                                    WHERE ct_users.npk IN ($emnoList)";
+                    $query_phone = "SELECT no_hp, npk 
+                                    FROM hp 
+                                    WHERE npk IN ($emnoList)";
                     $result_phone = mysqli_query($koneksi2, $query_phone);
 
                     if ($result_phone && mysqli_num_rows($result_phone) > 0) {
@@ -471,11 +497,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     // Fetch phone number for newStatus 3
                     if ($npk) {
                         // Fetch phone number for newStatus 3
-                        $query_phone = "SELECT isd.no_hp
-                                        FROM isd
-                                        JOIN ct_users ON ct_users.npk = isd.npk
-                                        WHERE ct_users.npk = '$npk'";
-                        $result_phone = mysqli_query($koneksi2, $query_phone);
+                        $query_phone = "SELECT no_hp
+                                        FROM hp
+                                        WHERE npk = '$npk'";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
 
                         if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                             while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -492,13 +517,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Departemen $cwocAsal. Status saat ini adalah menunggu persetujuan Kepala Departemen $cwocBaru.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                     $flags = "queue";
 
-                    // Fetch phone number for newStatus 3
-                    $query_phone = "SELECT isd.no_hp
-                                    FROM isd
-                                    JOIN ct_users ON ct_users.npk = isd.npk
-                                    WHERE ct_users.dept = '$cwocBaru'
-                                    AND ct_users.npk IN (SELECT npk FROM hrd_so WHERE tipe = 1);";
-                    $result_phone = mysqli_query($koneksi2, $query_phone);
+                    $query_npk = "SELECT npk FROM ct_users WHERE dept = '$cwocBaru' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                    $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                    // Ambil hasil query npk
+                    $npk_list = array();
+                    if ($result_npk) {
+                        while ($row = mysqli_fetch_assoc($result_npk)) {
+                            $npk_list[] = "'" . $row['npk'] . "'";
+                        }
+                    }
+
+                    if (!empty($npk_list)) {
+                        // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                        $npk_list_str = implode(',', $npk_list);
+                        $query_phone = "SELECT no_hp FROM hp WHERE npk IN ($npk_list_str)";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+                    } else {
+                        $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                    }
 
                     if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                         while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -515,12 +552,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     $updateField = "Kadept2 = '$name', tgl_kadept2 = '$tgl_kadept2'";
                     $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Departmen $cwocBaru. Status saat ini adalah menunggu persetujuan Direktur.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                     $flags = "queue";
-                    // Fetch phone number for newStatus 3
-                    $query_phone = "SELECT isd.no_hp
-                                    FROM isd
-                                    JOIN ct_users ON ct_users.npk = isd.npk
-                                    WHERE ct_users.dept = '$deptTarget'";
-                    $result_phone = mysqli_query($koneksi2, $query_phone);
+                    $query_npk = "SELECT npk FROM ct_users WHERE dept = '$deptTarget'";
+                    $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                    // Ambil hasil query npk
+                    $npk_list = array();
+                    if ($result_npk) {
+                        while ($row = mysqli_fetch_assoc($result_npk)) {
+                            $npk_list[] = "'" . $row['npk'] . "'";
+                        }
+                    }
+
+                    if (!empty($npk_list)) {
+                        // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                        $npk_list_str = implode(',', $npk_list);
+                        $query_phone = "SELECT no_hp FROM hp WHERE npk IN ($npk_list_str)";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+                    } else {
+                        $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                    }
 
                     if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                         while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -538,11 +588,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     // Fetch phone number for newStatus 3
                     if ($npk) {
                         // Fetch phone number for newStatus 3
-                        $query_phone = "SELECT isd.no_hp
-                                        FROM isd
-                                        JOIN ct_users ON ct_users.npk = isd.npk
-                                        WHERE ct_users.npk = '$npk2';";
-                        $result_phone = mysqli_query($koneksi2, $query_phone);
+                        $query_phone = "SELECT no_hp
+                                        FROM hp
+                                        WHERE npk = '$npk2';";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
 
                         if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                             while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -561,11 +610,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     // Fetch phone number for newStatus 3
                     if ($npk) {
                         // Fetch phone number for newStatus 3
-                        $query_phone = "SELECT isd.no_hp
-                                        FROM isd
-                                        JOIN ct_users ON ct_users.npk = isd.npk
-                                        WHERE ct_users.npk = '$npk';";
-                        $result_phone = mysqli_query($koneksi2, $query_phone);
+                        $query_phone = "SELECT no_hp
+                                        FROM hp
+                                        WHERE npk = '$npk';";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
 
                         if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                             while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -585,16 +633,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     $updateField = "Kadiv1 = '$name', Kadiv2 = '$name', tgl_kadiv1 = '$tgl_kadiv1', tgl_kadiv2 = '$tgl_kadiv2'";
                     $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Divisi $divisi. Status saat ini adalah menunggu persetujuan HRD.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                     $flags = "queue";
-                    // Fetch phone number for newStatus 3
-                    $query_phone = "SELECT isd.no_hp 
-                    FROM isd 
-                    LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-                    WHERE ct_users.dept = 'HRD IR'
-                    AND NOT EXISTS (
-                        SELECT 1 FROM hrd_so 
-                        WHERE hrd_so.npk = isd.npk)";
+                    $query_npk = "SELECT npk FROM ct_users WHERE ct_users.dept = 'HRD IR' AND NOT EXISTS (SELECT 1 FROM hrd_so WHERE hrd_so.npk = ct_users.npk)";
+                    $result_npk = mysqli_query($koneksi2, $query_npk);
 
-                    $result_phone = mysqli_query($koneksi2, $query_phone);
+                    // Ambil hasil query npk
+                    $npk_list = [];
+                    if ($result_npk) {
+                        while ($row = mysqli_fetch_assoc($result_npk)) {
+                            $npk_list[] = "'" . $row['npk'] . "'";
+                        }
+                    }
+
+                    if (!empty($npk_list)) {
+                        // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                        $npk_list_str = implode(',', $npk_list);
+                        $query_phone = "SELECT no_hp FROM isd.hp WHERE npk IN ($npk_list_str)";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+                    } else {
+                        $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                    }
 
                     if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                         while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -632,11 +689,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     // Fetch phone number for newStatus 3
                     if ($npk) {
                         // Fetch phone number for newStatus 3
-                        $query_phone = "SELECT isd.no_hp
-                                        FROM isd
-                                        JOIN ct_users ON ct_users.npk = isd.npk
-                                        WHERE ct_users.npk = '$npk2'";
-                        $result_phone = mysqli_query($koneksi2, $query_phone);
+                        $query_phone = "SELECT no_hp
+                                        FROM hp
+                                        WHERE npk = '$npk2'";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
 
                         if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                             while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -653,12 +709,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 $updateField = "Kadiv2 = '$name', tgl_kadiv2 = '$tgl_kadiv2'";
                 $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Divisi $divisiBaru. Status saat ini adalah menunggu persetujuan Direktur.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                 $flags = "queue";
-                // Fetch phone number for newStatus 3
-                $query_phone = "SELECT isd.no_hp
-                                    FROM isd
-                                    JOIN ct_users ON ct_users.npk = isd.npk
-                                    WHERE ct_users.dept = '$deptTarget'";
-                $result_phone = mysqli_query($koneksi2, $query_phone);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept = '$deptTarget'";
+                $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                // Ambil hasil query npk
+                $npk_list = array();
+                if ($result_npk) {
+                    while ($row = mysqli_fetch_assoc($result_npk)) {
+                        $npk_list[] = "'" . $row['npk'] . "'";
+                    }
+                }
+
+                if (!empty($npk_list)) {
+                    // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                    $npk_list_str = implode(',', $npk_list);
+                    $query_phone = "SELECT no_hp FROM hp WHERE npk IN ($npk_list_str)";
+                    $result_phone = mysqli_query($koneksi4, $query_phone);
+                } else {
+                    $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                }
 
                 if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                     while ($phone_row = mysqli_fetch_assoc($result_phone)) {
@@ -675,16 +744,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 $updateField = "Direktur = '$name', tgl_direktur = '$tgl_direktur'";
                 $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Direktur. Status saat ini adalah menunggu HRD.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                 $flags = "queue";
-                // Fetch phone number for newStatus 3
-                $query_phone = "SELECT isd.no_hp 
-                FROM isd 
-                LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-                WHERE ct_users.dept = 'HRD IR'
-                AND NOT EXISTS (
-                    SELECT 1 FROM hrd_so 
-                    WHERE hrd_so.npk = isd.npk
-                )";
-                $result_phone = mysqli_query($koneksi2, $query_phone);
+                $query_npk = "SELECT npk FROM ct_users WHERE ct_users.dept = 'HRD IR' AND NOT EXISTS (SELECT 1 FROM hrd_so WHERE hrd_so.npk = ct_users.npk)";
+                $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                // Ambil hasil query npk
+                $npk_list = [];
+                if ($result_npk) {
+                    while ($row = mysqli_fetch_assoc($result_npk)) {
+                        $npk_list[] = "'" . $row['npk'] . "'";
+                    }
+                }
+
+                if (!empty($npk_list)) {
+                    // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                    $npk_list_str = implode(',', $npk_list);
+                    $query_phone = "SELECT no_hp FROM isd.hp WHERE npk IN ($npk_list_str)";
+                    $result_phone = mysqli_query($koneksi4, $query_phone);
+                } else {
+                    $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                }
 
                 if ($result_phone && mysqli_num_rows($result_phone) > 0) {
                     while ($phone_row = mysqli_fetch_assoc($result_phone)) {

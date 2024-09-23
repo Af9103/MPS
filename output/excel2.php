@@ -2501,7 +2501,6 @@ $start_row++; // Increment number for the next row
 
 $queryIL = "SELECT karyawan.cwoc
                 FROM karyawan
-                INNER JOIN sect ON karyawan.sect = sect.Id_sect
                 WHERE karyawan.cwoc IN ('PRODUCTION 1','PRODUCTION 2','PRODUCTION 3','PRODUCTION 4','PRODUCTION 5')
                 GROUP BY karyawan.cwoc
                 ORDER BY FIELD(karyawan.cwoc, 'PRODUCTION 1','PRODUCTION 2','PRODUCTION 3','PRODUCTION 4','PRODUCTION 5')";
@@ -2608,7 +2607,6 @@ while ($user_data = mysqli_fetch_array($resultIL)) {
 
 $queryIL2 = "SELECT karyawan.cwoc
                 FROM karyawan
-                INNER JOIN sect ON karyawan.sect = sect.Id_sect
                 WHERE karyawan.cwoc IN ('PRODUCTION SYSTEM','PPC','PCE','PE 2W','PE 4W','PDE 2W','PDE 4W','QA','CQE 2W','CQE 4W','GENERAL PURCHASE','PROCUREMENT','VENDOR DEVELOPMENT','WAREHOUSE')
                 GROUP BY karyawan.cwoc
                 ORDER BY FIELD(karyawan.cwoc, 'PRODUCTION SYSTEM','PPC','PCE','PE 2W','PE 4W','PDE 2W','PDE 4W','QA','CQE 2W','CQE 4W','GENERAL PURCHASE','PROCUREMENT','VENDOR DEVELOPMENT','WAREHOUSE')";
@@ -2753,7 +2751,6 @@ $start_row++; // Increment number for the next row
 
 $queryGA = "SELECT karyawan.cwoc
 FROM karyawan
-INNER JOIN sect ON karyawan.sect = sect.Id_sect
 WHERE karyawan.cwoc IN ('FINANCE ACCOUNTING', 'PLANNING BUDGETING', 'HRD IR', 'GA', 'EHS','COMITTEE QCC - SS', 'PDCA CPC', 'MARKETING', 'MIS', 'BOD INDONESIA')
 GROUP BY karyawan.cwoc
 ORDER BY FIELD(karyawan.cwoc,'FINANCE ACCOUNTING', 'PLANNING BUDGETING', 'HRD IR', 'GA', 'EHS','COMITTEE QCC - SS', 'PDCA CPC', 'MARKETING', 'MIS', 'BOD INDONESIA')";

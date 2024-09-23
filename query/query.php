@@ -49,7 +49,7 @@ $queryUmur = "SELECT
 FROM
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 // Execute query
@@ -84,7 +84,7 @@ $queryJK = "SELECT
           FROM
          karyawan
          WHERE
-                ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 $resultJK = mysqli_query($koneksi, $queryJK);
 
@@ -121,8 +121,8 @@ $queryMK = "SELECT
             FROM
                 karyawan
             WHERE
-            ($defaultDateCondition2 OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
-    AND joindate <= '$endDate'";
+            ($defaultDateCondition2 OR (resdate > '$endDate'))
+                AND joindate <= '$endDate'";
 
 $resultMK = mysqli_query($koneksi, $queryMK);
 
@@ -155,10 +155,10 @@ $jumlah_perempuan_lebih_dari_30 = $row['>30 Perempuan'];
 $queryPend = "SELECT
             SUM(CASE WHEN pendidikan = 'SD' AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria SD',
             SUM(CASE WHEN pendidikan = 'SD' AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan SD',
-            SUM(CASE WHEN pendidikan = 'SLTP' AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria SLTP',
-            SUM(CASE WHEN pendidikan = 'SLTP' AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan SLTP',
-            SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU') AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria SMA',
-            SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU') AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan SMA',
+            SUM(CASE WHEN pendidikan IN ('SMP', 'SLTP') AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria SLTP',
+            SUM(CASE WHEN pendidikan IN ('SMP', 'SLTP') AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan SLTP',
+            SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU', 'SPG', 'SMEA') AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria SMA',
+            SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU', 'SPG', 'SMEA') AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan SMA',
             SUM(CASE WHEN pendidikan IN ('D1', 'D2', 'D3', 'D4') AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria Diploma',
             SUM(CASE WHEN pendidikan IN ('D1', 'D2', 'D3', 'D4') AND sexe='P' THEN 1 ELSE 0 END) AS 'Perempuan Diploma',
             SUM(CASE WHEN pendidikan = 'S1' AND sexe='L' THEN 1 ELSE 0 END) AS 'Pria S1',
@@ -170,8 +170,8 @@ $queryPend = "SELECT
           FROM
             karyawan
             WHERE
-                ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
-    AND joindate <= '$endDate'";
+            ($defaultDateCondition OR (resdate > '$endDate'))
+                AND joindate <= '$endDate'";
 
 
 $resultPend = mysqli_query($koneksi, $queryPend);
@@ -238,8 +238,8 @@ $queryDashboard = "SELECT
     SUM(CASE WHEN karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'EXP%' THEN 1 ELSE 0 END) AS Tetap  
     FROM 
     karyawan
-    WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+WHERE
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'
     GROUP BY 
     karyawan.cwoc";
@@ -282,8 +282,8 @@ $queryDashboard1 = "SELECT
     SUM(CASE WHEN karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'EXP%' THEN 1 ELSE 0 END) AS Tetap  
     FROM 
     karyawan
-    WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+WHERE
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 $resultDashboard1 = mysqli_query($koneksi, $queryDashboard1);
@@ -378,8 +378,9 @@ $queryModalUmur = "SELECT
                     SUM(CASE WHEN sexe = 'L' AND TIMESTAMPDIFF(YEAR, birthday, '$endDate') > 55 THEN 1 ELSE 0 END) AS '>55 Pria',
                     SUM(CASE WHEN sexe = 'P' AND TIMESTAMPDIFF(YEAR, birthday, '$endDate') > 55 THEN 1 ELSE 0 END) AS '>55 Perempuan'
                     FROM karyawan
-                    WHERE 
-                    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate'))) AND joindate <= '$endDate'
+                    WHERE
+                    ($defaultDateCondition OR (resdate > '$endDate'))
+                        AND joindate <= '$endDate'
                     GROUP BY karyawan.cwoc";
 
 
@@ -432,8 +433,9 @@ $queryModalMK = "SELECT
                 SUM(CASE WHEN sexe = 'P' AND TIMESTAMPDIFF(YEAR, joindate, CURDATE()) > 30 THEN 1 ELSE 0 END) AS '>30 Perempuan Modal'
                 FROM 
                 karyawan 
-                WHERE 
-                ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate'))) AND joindate <= '$endDate'
+                WHERE
+                ($defaultDateCondition OR (resdate > '$endDate'))
+                    AND joindate <= '$endDate'
                     GROUP BY karyawan.cwoc";
 
 $resultModalMK = mysqli_query($koneksi, $queryModalMK);
@@ -464,10 +466,10 @@ while ($row = mysqli_fetch_assoc($resultModalMK)) {
 //MODAL PENDIDIKAN
 $queryModalPendidikan = "SELECT 
                         karyawan.cwoc,
-                        SUM(CASE WHEN pendidikan IN ('SD', 'SLTP') AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria SD, SLTP Modal',
-                        SUM(CASE WHEN pendidikan IN ('SD', 'SLTP') AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan SD, SLTP Modal',
-                        SUM(CASE WHEN pendidikan = 'SLTA' AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria SMA Modal',
-                        SUM(CASE WHEN pendidikan = 'SLTA' AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan SMA Modal',
+                        SUM(CASE WHEN pendidikan IN ('SD', 'SLTP', 'SMP') AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria SD, SLTP Modal',
+                        SUM(CASE WHEN pendidikan IN ('SD', 'SLTP', 'SMP') AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan SD, SLTP Modal',
+                        SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU', 'SPG', 'SMEA') AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria SMA Modal',
+                        SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU', 'SPG', 'SMEA') AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan SMA Modal',
                         SUM(CASE WHEN pendidikan IN ('D3', 'D4') AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria Diploma Modal',
                         SUM(CASE WHEN pendidikan IN ('D3', 'D4') AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan Diploma Modal',
                         SUM(CASE WHEN pendidikan = 'S1' AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria S1 Modal',
@@ -475,15 +477,16 @@ $queryModalPendidikan = "SELECT
                         SUM(CASE WHEN pendidikan IN ('S2', 'S3') AND sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria S2, S3 Modal',
                         SUM(CASE WHEN pendidikan IN ('S2', 'S3') AND sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan S2, S3 Modal',
                         SUM(CASE WHEN pendidikan IN ('SD') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'SD',
-                        SUM(CASE WHEN pendidikan IN ('SLTP') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'SLTP',
-                        SUM(CASE WHEN pendidikan IN ('SLTA') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%' ) THEN 1 ELSE 0 END) AS 'SLTA',
+                        SUM(CASE WHEN pendidikan IN ('SLTP', 'SMP') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'SLTP',
+                        SUM(CASE WHEN pendidikan IN ('SLTA', 'SMA', 'SMK', 'SMU', 'SPG', 'SMEA') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%' ) THEN 1 ELSE 0 END) AS 'SLTA',
                         SUM(CASE WHEN pendidikan IN ('D1', 'D2') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'D1_D2',
                         SUM(CASE WHEN pendidikan IN ('D3') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'D3',
                         SUM(CASE WHEN pendidikan IN ('S1') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'S1',
                         SUM(CASE WHEN pendidikan IN ('S2', 'S3') AND (karyawan.emno LIKE '0%' OR karyawan.emno REGEXP '^[0-9]+$' OR karyawan.emno LIKE 'P%' OR karyawan.emno LIKE 'EXP%') THEN 1 ELSE 0 END) AS 'S2_S3'
                         FROM karyawan 
-                        WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate'))) AND joindate <= '$endDate'
+                            WHERE
+                            ($defaultDateCondition OR (resdate > '$endDate'))
+                                AND joindate <= '$endDate'
                         GROUP BY karyawan.cwoc";
 
 $resultModalPendidikan = mysqli_query($koneksi, $queryModalPendidikan);
@@ -520,8 +523,9 @@ $queryModalJK = "SELECT
                 SUM(CASE WHEN sexe = 'L' THEN 1 ELSE 0 END) AS 'Pria Modal',
                 SUM(CASE WHEN sexe = 'P' THEN 1 ELSE 0 END) AS 'Perempuan Modal'
                 FROM karyawan 
-                WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate'))) AND joindate <= '$endDate'
+                WHERE
+                ($defaultDateCondition OR (resdate > '$endDate'))
+                    AND joindate <= '$endDate'
                 GROUP BY karyawan.cwoc";
 
 $resultModalJK = mysqli_query($koneksi, $queryModalJK);
@@ -547,7 +551,7 @@ $queryDL = "SELECT
     FROM 
     karyawan
     WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'
     GROUP BY 
     karyawan.sect";
@@ -578,7 +582,7 @@ $queryDLBulanLalu = "SELECT
     FROM 
     karyawan
     WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate2') AND YEAR(resdate) = YEAR('$endDate2')))
+($defaultDateCondition OR (resdate > '$endDate2'))
     AND joindate <= '$endDate2'
     GROUP BY 
     karyawan.sect";
@@ -609,9 +613,9 @@ $queryIDL = "SELECT
     SUM(CASE WHEN karyawan.gol IN (4, 5, 6) AND karyawan.emno LIKE 'P%' THEN 1 ELSE 0 END) AS T
     FROM 
     karyawan
-WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
-    AND joindate <= '$endDate'
+        WHERE
+        ($defaultDateCondition OR (resdate > '$endDate'))
+            AND joindate <= '$endDate'
     GROUP BY 
     karyawan.cwoc";
 
@@ -643,7 +647,7 @@ $queryIDLLalu = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate2') AND YEAR(resdate) = YEAR('$endDate2')))
+($defaultDateCondition OR (resdate > '$endDate2'))
     AND joindate <= '$endDate2'
     GROUP BY 
     karyawan.cwoc";
@@ -675,7 +679,7 @@ $queryIDL2 = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'
     GROUP BY 
     karyawan.cwoc";
@@ -706,7 +710,7 @@ $queryIDL2Lalu = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate2') AND YEAR(resdate) = YEAR('$endDate2')))
+($defaultDateCondition OR (resdate > '$endDate2'))
     AND joindate <= '$endDate2'
     GROUP BY 
     karyawan.cwoc";
@@ -837,7 +841,7 @@ while ($row = $resultMutasiSect->fetch_assoc()) {
 
 
 
-$ExcelMutasiInSectbysect = [];
+$ExcelMutasiInSectbysect = array();
 
 // Your query to get data for mutasi in sections
 $queryMutasiInSect = "SELECT mutasi.sectBaru, COUNT(*) as MutasiIn FROM 
@@ -955,7 +959,7 @@ $queryBODIndo = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate' AND cwoc = 'BOD'";
 
 $resultBODIndo = mysqli_query($koneksi, $queryBODIndo);
@@ -982,7 +986,7 @@ $queryBODIndoLalu = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate2') AND YEAR(resdate) = YEAR('$endDate2')))
+($defaultDateCondition OR (resdate > '$endDate2'))
     AND joindate <= '$endDate2' AND cwoc = 'BOD'";
 
 $resultBODIndoLalu = mysqli_query($koneksi, $queryBODIndoLalu);
@@ -1006,7 +1010,8 @@ $queryBODEXP = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate'))) AND joindate <= '$endDate' AND cwoc = 'BOD'";
+($defaultDateCondition OR (resdate > '$endDate'))
+    AND joindate <= '$endDate' AND cwoc = 'BOD'";
 
 $resultBODEXP = mysqli_query($koneksi, $queryBODEXP);
 
@@ -1026,7 +1031,8 @@ $queryBODEXPLalu = "SELECT
     FROM 
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate2') AND YEAR(resdate) = YEAR('$endDate2'))) AND joindate <= '$endDate2' AND cwoc = 'BOD'";
+($defaultDateCondition OR (resdate > '$endDate2'))
+    AND joindate <= '$endDate2' AND cwoc = 'BOD'";
 
 $resultBODEXPLalu = mysqli_query($koneksi, $queryBODEXPLalu);
 
@@ -1123,7 +1129,7 @@ $queryUmur2 = "SELECT
 FROM
     karyawan
 WHERE
-($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 // Execute query
@@ -1213,8 +1219,8 @@ $querygolStatus = "SELECT
     SUM(CASE WHEN karyawan.gol = 7 AND (karyawan.emno LIKE 'EXP%') AND karyawan.sexe = 'P' THEN 1 ELSE 0 END) AS Asing7P
     FROM 
     karyawan
-    WHERE
-        ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+WHERE
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 // Execute query
@@ -1280,11 +1286,11 @@ $Asing7P = $row['Asing7P'];
 
 $queryJabatan = "SELECT 
     SUM(CASE WHEN karyawan.gol >= 5 THEN 1 ELSE 0 END) AS Manager,
-    SUM(CASE WHEN karyawan.gol <= 4 THEN 1 ELSE 0 END) AS NonManager
+    SUM(CASE WHEN karyawan.gol IN ('1', '2', '3', '4') THEN 1 ELSE 0 END) AS NonManager
     FROM 
     karyawan
-    WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+WHERE
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 $resultJabatan = mysqli_query($koneksi, $queryJabatan);
@@ -1340,8 +1346,8 @@ $queryDLIDLSGA = "SELECT
     
     FROM 
     karyawan
-    WHERE 
-    ($defaultDateCondition OR (MONTH(resdate) >= MONTH('$endDate') AND YEAR(resdate) = YEAR('$endDate')))
+WHERE
+($defaultDateCondition OR (resdate > '$endDate'))
     AND joindate <= '$endDate'";
 
 $resultDLIDLSGA = mysqli_query($koneksi, $queryDLIDLSGA);

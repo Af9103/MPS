@@ -130,90 +130,90 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Dashboard Mutasi</title>
-  <link href="../../asset/img/k-logo.jpg" rel="icon">
+    <title>Dashboard Mutasi</title>
+    <link href="../../asset/img/k-logo.jpg" rel="icon">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../asset/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="../../asset/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="../../asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="../../asset/plugins/jqvmap/jqvmap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../../asset/dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../../asset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="../../asset/plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="../../asset/plugins/summernote/summernote-bs4.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../asset/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="../../asset/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../../asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="../../asset/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../asset/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="../../asset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="../../asset/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="../../asset/plugins/summernote/summernote-bs4.min.css">
 
-  <link rel="stylesheet" href="../../style.css"> <!-- Hubungkan dengan file CSS terpisah -->
-  <link rel="stylesheet" href="../../asset/select/select.min.css">
+    <link rel="stylesheet" href="../../style.css"> <!-- Hubungkan dengan file CSS terpisah -->
+    <link rel="stylesheet" href="../../asset/select/select.min.css">
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
-  <div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Preloader -->
-    <!-- <div class="preloader flex-column justify-content-center align-items-center">
+        <!-- Preloader -->
+        <!-- <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__shake" src="../../asset/img/k-logo.jpg" alt="AdminLTELogo" height="100" width="100">
     </div> -->
 
-    <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <?php include '../../layout/header.php'; ?>
-    </nav>
-    <!-- /.navbar -->
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <?php include '../../layout/header.php'; ?>
+        </nav>
+        <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
-      <?php include '../../layout/sidebar.php'; ?>
-      </nav>
-      <!-- /.sidebar-menu -->
-  </div>
-  <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <?php include '../../layout/sidebar.php'; ?>
+            </nav>
+            <!-- /.sidebar-menu -->
     </div>
-    <!-- /.content-header -->
+    <!-- /.sidebar -->
+    </aside>
 
-    <!-- Main content -->
-    <section class="content">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Dashboard</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
 
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-          <div class="col-lg-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <?php
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <?php
                 $bulan_ini = date('Y-m'); // Format YYYY-MM untuk bulan ini
                 if (isset($_SESSION['role'])) {
                   if ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01033') {
@@ -245,22 +245,23 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   $jumlahStatus = $row['jumlah'];
                 }
                 ?>
-                <h3><?php echo $jumlahStatus; ?></h3>
-                <p>Mutasi karyawan masuk bulan ini</p>
+                                <h3><?php echo $jumlahStatus; ?></h3>
+                                <p>Mutasi karyawan masuk bulan ini</p>
 
-              </div>
-              <div class="icon">
-                <i class="fas fa-sign-in-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
-              </div>
-              <a href="mutasiIn.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <?php
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-sign-in-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
+                            </div>
+                            <a href="mutasiIn.php" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <?php
                 $bulan_ini = date('Y-m'); // Format YYYY-MM untuk bulan ini
                 
                 if (isset($_SESSION['role'])) {
@@ -293,21 +294,22 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   $jumlahStatus = $row['jumlah'];
                 }
                 ?>
-                <h3><?php echo $jumlahStatus; ?></h3>
-                <p>Mutasi karyawan keluar bulan ini</p>
-              </div>
-              <div class="icon">
-                <i class="fas fa-sign-out-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
-              </div>
-              <a href="mutasiOut.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-          <div class="col-lg-4 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <?php
+                                <h3><?php echo $jumlahStatus; ?></h3>
+                                <p>Mutasi karyawan keluar bulan ini</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-sign-out-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
+                            </div>
+                            <a href="mutasiOut.php" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <?php
                 if (isset($_SESSION['role'])) {
                   if ($_SESSION['role'] == 'Foreman') {
                     $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND mutasi.cwocAsal = '{$_SESSION['dept']}' AND mutasi.status = '2'";
@@ -346,53 +348,53 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   $jumlahStatus = $row['jumlah'];
                 }
                 ?>
-                <h3><?php echo $jumlahStatus; ?></h3>
-                <p>Memerlukan tindakan</p>
-              </div>
-              <div class="icon">
-                <i class="nav-icon fas fa-exchange-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
-              </div>
-              <a href="approvalMutasi.php" class="small-box-footer">More info <i
-                  class="fas fa-arrow-circle-right"></i></a>
+                                <h3><?php echo $jumlahStatus; ?></h3>
+                                <p>Memerlukan tindakan</p>
+                            </div>
+                            <div class="icon">
+                                <i class="nav-icon fas fa-exchange-alt"></i> <!-- Ganti dengan ikon yang sesuai -->
+                            </div>
+                            <a href="approvalMutasi.php" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+
+                </div>
+                <!-- ./col -->
+                <br>
+
             </div>
-          </div>
-          <!-- ./col -->
 
-        </div>
-        <!-- ./col -->
-        <br>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-2 col-md-6 col-6" style="margin-bottom: 20px;">
 
-      </div>
-
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-2 col-md-6 col-6" style="margin-bottom: 20px;">
-
-            <!-- Elemen filter tahun -->
-            <div class="input-group-prepend" style="width: 150px; margin-top:-20px;">
-              <select id="statusFilter" class="selectpicker" data-live-search="true">
-                <option value="">Semua Status</option>
-                <option value="2">Menunggu Foreman</option>
-                <option value="3">Menunggu Supervisor</option>
-                <option value="4">Menunggu Ka.Dept Asal</option>
-                <option value="5">Menunggu Ka.Dept Tujuan</option>
-                <option value="6">Menunggu Ka.Div Asal</option>
-                <option value="7">Menunggu Ka.Div Tujuan</option>
-                <option value="8">Menunggu Direktur</option>
-                <option value="9">Menunggu HRD</option>
-                <!-- <option value="10">Finish</option> -->
-              </select>
+                        <!-- Elemen filter tahun -->
+                        <div class="input-group-prepend" style="width: 150px; margin-top:-20px;">
+                            <select id="statusFilter" class="selectpicker" data-live-search="true">
+                                <option value="">Semua Status</option>
+                                <option value="2">Menunggu Foreman</option>
+                                <option value="3">Menunggu Supervisor</option>
+                                <option value="4">Menunggu Ka.Dept Asal</option>
+                                <option value="5">Menunggu Ka.Dept Tujuan</option>
+                                <option value="6">Menunggu Ka.Div Asal</option>
+                                <option value="7">Menunggu Ka.Div Tujuan</option>
+                                <option value="8">Menunggu Direktur</option>
+                                <option value="9">Menunggu HRD</option>
+                                <!-- <option value="10">Finish</option> -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">
-                <?php
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <?php
                 if ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01033') {
                   echo 'Daftar Mutasi Divisi Quality Assurance';
                 } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01561') {
@@ -415,43 +417,44 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   echo 'Daftar Mutasi Departemen ' . $_SESSION['dept'];
                 }
                 ?>
-              </h3>
+                            </h3>
 
-              <div class="card-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-default">
-                      <i class="fas fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.card-header -->
-            <div id="dasbor" class="card-body table-responsive p-0" style="max-height: 330px;">
-              <table class="table table-head-fixed text-nowrap mx-auto" style="width: 100%;">
-                <thead class="thead-fixed">
-                  <tr>
-                    <th rowspan="2" style="vertical-align: middle;">No</th>
-                    <th rowspan="2" style="vertical-align: middle;">Batch Mutasi</th>
-                    <th colspan="2">Dari</th>
-                    <th colspan="2">Ke</th>
-                    <th rowspan="2" style="vertical-align: middle;">Tanggal Mutasi</th>
-                    <th rowspan="2" style="vertical-align: middle;">Jumlah</th>
-                    <th rowspan="2" style="vertical-align: middle;">Status</th>
-                    <th rowspan="2" style="vertical-align: middle;">Aksi</th>
-                  </tr>
-                  <tr>
-                    <th rowspan="1">Departemen</th>
-                    <th rowspan="1">Seksi</th>
-                    <th rowspan="1">Departemen</th>
-                    <th rowspan="1">Seksi</th>
-                  </tr>
-                </thead>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right"
+                                        placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div id="dasbor" class="card-body table-responsive p-0" style="max-height: 330px;">
+                            <table class="table table-head-fixed text-nowrap mx-auto" style="width: 100%;">
+                                <thead class="thead-fixed">
+                                    <tr>
+                                        <th rowspan="2" style="vertical-align: middle;">No</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Batch Mutasi</th>
+                                        <th colspan="2">Dari</th>
+                                        <th colspan="2">Ke</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Tanggal Mutasi</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Jumlah</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Status</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Aksi</th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="1">Departemen</th>
+                                        <th rowspan="1">Seksi</th>
+                                        <th rowspan="1">Departemen</th>
+                                        <th rowspan="1">Seksi</th>
+                                    </tr>
+                                </thead>
 
-                <tbody id="table-body">
-                  <?php
+                                <tbody id="table-body">
+                                    <?php
                   $no = 1; // Definisikan variabel $no di sini
                   while ($row = mysqli_fetch_assoc($resultMutasi)) {
                     $statusMessage = '';
@@ -623,82 +626,83 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   echo "        showConfirmButton: false,";
                   echo "        timer: 2000";
                   echo "      });";
-                  echo "      setTimeout(function(){ window.location.href = '?update=' + IdMutasi; }, 2000);"; // Redirect ke halaman index.php setelah menutup SweetAlert
+                  echo "      setTimeout(function(){ window.location.href = '?update=' + batchMutasi; }, 2000);"; // Redirect ke halaman index.php setelah menutup SweetAlert
                   echo "    }";
                   echo "  });";
                   echo "}";
                   echo "</script>";
                   ?>
-                </tbody>
-              </table>
+                                </tbody>
+                            </table>
 
 
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
             </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-      </div>
-      <!-- /.container-fluid -->
+            <!-- /.container-fluid -->
 
-      <div class="modal fade custom-modal" id="detailModal" tabindex="-1" role="dialog"
-        aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-width" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="detailModalLabel">Mutasi dari dept</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal fade custom-modal" id="detailModal" tabindex="-1" role="dialog"
+                aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-width" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailModalLabel">Mutasi dari dept</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- First Table -->
+                            <h6 class="mb-3 font-weight-bold">Detail Batch Mutasi</h6>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NPK</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal Buat</th>
+                                        <th>Tanggal Mutasi</th>
+                                        <th class="aksi-header">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="modal-body-content">
+                                    <!-- Data will be inserted here by JavaScript -->
+                                </tbody>
+                            </table>
+
+                            <!-- Second Table -->
+                            <h6 class="mt-4 mb-3 font-weight-bold">Riwayat Status Batch Mutasi</h6>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Disetujui Oleh</th>
+                                        <th>Tanggal Disetujui</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="second-table-body">
+                                    <!-- Additional data for the second table will be inserted here -->
+                                </tbody>
+                            </table>
+                            <div class="form-check aksi-check-all">
+                                <input type="checkbox" class="form-check-input" id="check-all">
+                                <label class="form-check-label" for="check-all">Check All</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="delete-selected"
+                                class="btn btn-danger aksi-check-all">Hapus</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-              <!-- First Table -->
-              <h6 class="mb-3 font-weight-bold">Detail Batch Mutasi</h6>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>NPK</th>
-                    <th>Nama</th>
-                    <th>Tanggal Buat</th>
-                    <th>Tanggal Mutasi</th>
-                    <th class="aksi-header">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="modal-body-content">
-                  <!-- Data will be inserted here by JavaScript -->
-                </tbody>
-              </table>
-
-              <!-- Second Table -->
-              <h6 class="mt-4 mb-3 font-weight-bold">Riwayat Status Batch Mutasi</h6>
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Status</th>
-                    <th>Disetujui Oleh</th>
-                    <th>Tanggal Disetujui</th>
-                  </tr>
-                </thead>
-                <tbody id="second-table-body">
-                  <!-- Additional data for the second table will be inserted here -->
-                </tbody>
-              </table>
-              <div class="form-check aksi-check-all">
-                <input type="checkbox" class="form-check-input" id="check-all">
-                <label class="form-check-label" for="check-all">Check All</label>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="delete-selected" class="btn btn-danger aksi-check-all">Hapus</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
 
-      <?php
+            <?php
       // Periksa apakah parameter 'update' telah diset
       if (isset($_GET['update'])) {
         // Periksa apakah nilai 'update' adalah angka
@@ -744,335 +748,337 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 
 
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <?php include '../../layout/footer.php'; ?>
-  </footer>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <?php include '../../layout/footer.php'; ?>
+    </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-  </div>
-  <!-- ./wrapper -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
 
-  <!-- jQuery -->
-  <script src="../../asset/plugins/jquery/jquery.min.js"></script>
-  <!-- jQuery UI 1.11.4 -->
-  <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
+    <!-- jQuery -->
+    <script src="../../asset/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
     $.widget.bridge('uibutton', $.ui.button)
-  </script>
-  <!-- Bootstrap 4 -->
-  <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- ChartJS -->
-  <script src="../../asset/plugins/chart.js/Chart.min.js"></script>
-  <!-- Sparkline -->
-  <script src="../../asset/plugins/sparklines/sparkline.js"></script>
-  <!-- JQVMap -->
-  <script src="../../asset/plugins/jqvmap/jquery.vmap.min.js"></script>
-  <script src="../../asset/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="../../asset/plugins/jquery-knob/jquery.knob.min.js"></script>
-  <!-- daterangepicker -->
-  <script src="../../asset/plugins/moment/moment.min.js"></script>
-  <script src="../../asset/plugins/daterangepicker/daterangepicker.js"></script>
-  <!-- Tempusdominus Bootstrap 4 -->
-  <script src="../../asset/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-  <!-- Summernote -->
-  <script src="../../asset/plugins/summernote/summernote-bs4.min.js"></script>
-  <!-- overlayScrollbars -->
-  <script src="../../asset/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../../asset/dist/js/adminlte.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../../asset/dist/js/demo.js"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-  <script src="../../asset/dist/js/pages/dashboard.js"></script>
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="../../asset/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="../../asset/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="../../asset/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="../../asset/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="../../asset/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="../../asset/plugins/moment/moment.min.js"></script>
+    <script src="../../asset/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="../../asset/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="../../asset/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="../../asset/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../asset/dist/js/adminlte.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../asset/dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="../../asset/dist/js/pages/dashboard.js"></script>
 
-  <!-- Skrip JavaScript yang Anda tambahkan -->
-  <script src="../../asset/JS/search.js"></script>
-  <script src="../../asset/js/day.js"></script>
-  <script src="../../asset/select/select.min.js"></script>
+    <!-- Skrip JavaScript yang Anda tambahkan -->
+    <script src="../../asset/JS/search.js"></script>
+    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/select/select.min.js"></script>
 
 
-  <script>
+    <script>
     // Assuming you have set this variable somewhere in your HTML template
     var currentRole = '<?php echo $_SESSION['role']; ?>';
 
     function getStatusMessage(statusCode, rejectMessage) {
-      switch (parseInt(statusCode, 10)) {
-        case 2:
-          return 'Menunggu Foreman';
-        case 3:
-          return 'Menunggu Supervisor';
-        case 4:
-          return 'Menunggu Ka.Dept Asal';
-        case 5:
-          return 'Menunggu Ka.Dept Tujuan';
-        case 6:
-          return 'Menunggu Ka.Div Asal';
-        case 7:
-          return 'Menunggu Ka.Div Tujuan';
-        case 8:
-          return 'Menunggu Direktur';
-        case 9:
-          return 'Menunggu HRD';
-        case 10:
-          return 'Finish';
-        default:
-          return `Ditolak oleh ${rejectMessage}`;
-      }
+        switch (parseInt(statusCode, 10)) {
+            case 2:
+                return 'Menunggu Foreman';
+            case 3:
+                return 'Menunggu Supervisor';
+            case 4:
+                return 'Menunggu Ka.Dept Asal';
+            case 5:
+                return 'Menunggu Ka.Dept Tujuan';
+            case 6:
+                return 'Menunggu Ka.Div Asal';
+            case 7:
+                return 'Menunggu Ka.Div Tujuan';
+            case 8:
+                return 'Menunggu Direktur';
+            case 9:
+                return 'Menunggu HRD';
+            case 10:
+                return 'Finish';
+            default:
+                return `Ditolak oleh ${rejectMessage}`;
+        }
     }
 
     function canShowCheckbox(statusCode, cwocAsal) {
-      var rolesStatusMap = {
-        'Foreman': ['Menunggu Foreman'],
-        'Foreman HRD': ['Menunggu Foreman'],
-        'Supervisor': ['Menunggu Foreman', 'Menunggu Supervisor'],
-        'Supervisor HRD': ['Menunggu Foreman', 'Menunggu Supervisor'],
-        'Kepala Departemen': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
-          'Menunggu Ka.Dept Tujuan'
-        ],
-        'Kepala Departemen HRD': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
-          'Menunggu Ka.Dept Tujuan'
-        ],
-        'Kepala Divisi': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
-          'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan'
-        ],
-        'Direktur Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
-          'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
-          'Menunggu Direktur'
-        ],
-        'Direktur Non Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
-          'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
-          'Menunggu Direktur'
-        ]
-      };
+        var rolesStatusMap = {
+            'Foreman': ['Menunggu Foreman'],
+            'Foreman HRD': ['Menunggu Foreman'],
+            'Supervisor': ['Menunggu Foreman', 'Menunggu Supervisor'],
+            'Supervisor HRD': ['Menunggu Foreman', 'Menunggu Supervisor'],
+            'Kepala Departemen': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
+                'Menunggu Ka.Dept Tujuan'
+            ],
+            'Kepala Departemen HRD': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
+                'Menunggu Ka.Dept Tujuan'
+            ],
+            'Kepala Divisi': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
+                'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan'
+            ],
+            'Direktur Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
+                'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
+                'Menunggu Direktur'
+            ],
+            'Direktur Non Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
+                'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
+                'Menunggu Direktur'
+            ]
+        };
 
-      // Special case for HRD roles
-      if (['Foreman HRD', 'Supervisor HRD', 'Kepala Departemen HRD'].includes(currentRole)) {
-        if (cwocAsal === 'HRD IR') {
-          return rolesStatusMap[currentRole] && rolesStatusMap[currentRole].includes(statusCode);
+        // Special case for HRD roles
+        if (['Foreman HRD', 'Supervisor HRD', 'Kepala Departemen HRD'].includes(currentRole)) {
+            if (cwocAsal === 'HRD IR') {
+                return rolesStatusMap[currentRole] && rolesStatusMap[currentRole].includes(statusCode);
+            }
+            return false;
         }
-        return false;
-      }
 
-      return rolesStatusMap[currentRole] && rolesStatusMap[currentRole].includes(statusCode);
+        return rolesStatusMap[currentRole] && rolesStatusMap[currentRole].includes(statusCode);
     }
 
     function formatDate(dateString) {
-      const date = new Date(dateString);
-      const day = date.getDate().toString().padStart(2, '0');
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const month = monthNames[date.getMonth()];
-      const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
 
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
 
-      return `${day} ${month} ${year} ${hours}:${minutes}`;
+        return `${day} ${month} ${year} ${hours}:${minutes}`;
     }
 
-    $(document).on('click', '.btn-detail', function () {
-      var batchMutasi = $(this).data('id');
-      console.log('Batch Mutasi:', batchMutasi);
+    $(document).on('click', '.btn-detail', function() {
+        var batchMutasi = $(this).data('id');
+        console.log('Batch Mutasi:', batchMutasi);
 
-      $.ajax({
-        url: '../../query/detail.php',
-        type: 'GET',
-        data: {
-          batchMutasi: batchMutasi
-        },
-        dataType: 'json',
-        success: function (data) {
-          console.log('AJAX Success:', data);
-
-          var tbody = $('#modal-body-content');
-          tbody.empty();
-
-          var showAksi = false; // Flag to control visibility of "Aksi" column
-
-          if (data.error) {
-            console.error('Data Error:', data.error);
-            tbody.append('<tr><td colspan="5">Error: ' + data.error + '</td></tr>');
-          } else if (data.IdMutasi.length > 0) {
-            $.each(data.IdMutasi, function (index, IdMutasi) {
-              var statusCode = data.status[index];
-              var rejectMessage = data.reject[index];
-              var status = getStatusMessage(statusCode, rejectMessage);
-              var nama = data.nama[index];
-              var emno = data.emnos[index];
-              var cwocAsal = data.cwocAsal; // Get cwocAsal
-              var tanggalBuat = formatDate(data.tanggalBuat[index]);
-              var tanggalMutasi = formatDate(data.tanggalMutasi[index]);
-              var IdMutasi = data.IdMutasi[index];
-
-              // Only display checkboxes based on role and status
-              var checkbox = '';
-              if (statusCode === 10 || status === "Finish" || !canShowCheckbox(
-                status, cwocAsal)) {
-                checkbox =
-                  ''; // No checkbox if status is Finish or role does not permit
-              } else {
-                checkbox =
-                  '<td><input type="checkbox" class="select-checkbox" data-id="' +
-                  IdMutasi + '"></td>';
-                showAksi = true; // Set flag to true if checkbox is shown
-              }
-
-              var row = '<tr><td>' + (index + 1) + '</td>' +
-                '<td>' + emno + '</td>' +
-                '<td>' + nama + '</td>' +
-                '<td>' + tanggalBuat + '</td>' +
-                '<td>' + tanggalMutasi + '</td>' + checkbox + '</tr>';
-
-              tbody.append(row);
-            });
-          } else {
-            tbody.append('<tr><td colspan="5">No data available</td></tr>');
-          }
-
-          var secondTableBody = $('#second-table-body');
-          secondTableBody.empty();
-
-          $.each(data.approvals, function (index, approval) {
-            var status = getStatusMessage(approval.status);
-            var approver = approval.approver;
-            var status2 = approval.status2 ||
-              ''; // Ensure status2 has a default value if undefined
-            var date = formatDate(approval.date);
-
-            var row = '<tr>' +
-              '<td>' + status2 + '</td>' +
-              '<td>' + approver + '</td>' +
-              '<td>' + date + '</td>' +
-              '</tr>';
-            secondTableBody.append(row);
-          });
-
-          // Conditionally hide or show the "Aksi" column and check-all checkbox
-          if (showAksi) {
-            $('.aksi-header').show();
-            $('.aksi-check-all').show();
-          } else {
-            $('.aksi-header').hide();
-            $('.aksi-check-all').hide();
-          }
-
-          $('#detailModal .modal-title').text('Mutasi dari dept ' + data.cwocAsal + ' ke ' +
-            data.cwocBaru);
-          $('#detailModal').modal('show');
-        },
-
-        error: function (xhr, status, error) {
-          console.error('AJAX Error:', status, error);
-          alert('Error retrieving data.');
-        }
-      });
-    });
-
-
-    $(document).on('click', '#check-all', function () {
-      var isChecked = $(this).is(':checked');
-      $('.select-checkbox').prop('checked', isChecked);
-    });
-
-    $(document).on('click', '#delete-selected', function () {
-      var batchMutasi = $('.btn-detail').data('id'); // Ensure this is correctly retrieved
-      var selectedIdMutasi = [];
-
-      $('.select-checkbox:checked').each(function () {
-        selectedIdMutasi.push($(this).data('id'));
-      });
-
-      if (selectedIdMutasi.length === 0) {
-        Swal.fire('No Selection', 'No employee numbers selected for deletion.', 'info');
-        return;
-      }
-
-      Swal.fire({
-        title: 'Yakin ingin menghapus Pengajuan Mutasi ini?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            url: '../../query/delete.php',
-            type: 'POST',
+        $.ajax({
+            url: '../../query/detail.php',
+            type: 'GET',
             data: {
-              batchMutasi: batchMutasi,
-              IdMutasi: selectedIdMutasi
+                batchMutasi: batchMutasi
             },
             dataType: 'json',
-            success: function (response) {
-              if (response.success) {
-                Swal.fire({
-                  position: 'center',
-                  icon: 'success',
-                  title: 'Data berhasil dihapus',
-                  showConfirmButton: false,
-                  timer: 2000
-                }).then(() => {
-                  document.location = 'dashboard.php';
+            success: function(data) {
+                console.log('AJAX Success:', data);
+
+                var tbody = $('#modal-body-content');
+                tbody.empty();
+
+                var showAksi = false; // Flag to control visibility of "Aksi" column
+
+                if (data.error) {
+                    console.error('Data Error:', data.error);
+                    tbody.append('<tr><td colspan="5">Error: ' + data.error + '</td></tr>');
+                } else if (data.IdMutasi.length > 0) {
+                    $.each(data.IdMutasi, function(index, IdMutasi) {
+                        var statusCode = data.status[index];
+                        var rejectMessage = data.reject[index];
+                        var status = getStatusMessage(statusCode, rejectMessage);
+                        var nama = data.nama[index];
+                        var emno = data.emnos[index];
+                        var cwocAsal = data.cwocAsal; // Get cwocAsal
+                        var tanggalBuat = formatDate(data.tanggalBuat[index]);
+                        var tanggalMutasi = formatDate(data.tanggalMutasi[index]);
+                        var IdMutasi = data.IdMutasi[index];
+
+                        // Only display checkboxes based on role and status
+                        var checkbox = '';
+                        if (statusCode === 10 || status === "Finish" || !canShowCheckbox(
+                                status, cwocAsal)) {
+                            checkbox =
+                                ''; // No checkbox if status is Finish or role does not permit
+                        } else {
+                            checkbox =
+                                '<td><input type="checkbox" class="select-checkbox" data-id="' +
+                                IdMutasi + '"></td>';
+                            showAksi = true; // Set flag to true if checkbox is shown
+                        }
+
+                        var row = '<tr><td>' + (index + 1) + '</td>' +
+                            '<td>' + emno + '</td>' +
+                            '<td>' + nama + '</td>' +
+                            '<td>' + tanggalBuat + '</td>' +
+                            '<td>' + tanggalMutasi + '</td>' + checkbox + '</tr>';
+
+                        tbody.append(row);
+                    });
+                } else {
+                    tbody.append('<tr><td colspan="5">No data available</td></tr>');
+                }
+
+                var secondTableBody = $('#second-table-body');
+                secondTableBody.empty();
+
+                $.each(data.approvals, function(index, approval) {
+                    var status = getStatusMessage(approval.status);
+                    var approver = approval.approver;
+                    var status2 = approval.status2 ||
+                        ''; // Ensure status2 has a default value if undefined
+                    var date = formatDate(approval.date);
+
+                    var row = '<tr>' +
+                        '<td>' + status2 + '</td>' +
+                        '<td>' + approver + '</td>' +
+                        '<td>' + date + '</td>' +
+                        '</tr>';
+                    secondTableBody.append(row);
                 });
-              } else {
-                Swal.fire('Error!', 'Error: ' + response.error, 'error');
-              }
+
+                // Conditionally hide or show the "Aksi" column and check-all checkbox
+                if (showAksi) {
+                    $('.aksi-header').show();
+                    $('.aksi-check-all').show();
+                } else {
+                    $('.aksi-header').hide();
+                    $('.aksi-check-all').hide();
+                }
+
+                $('#detailModal .modal-title').text('Mutasi dari dept ' + data.cwocAsal + ' ke ' +
+                    data.cwocBaru);
+                $('#detailModal').modal('show');
             },
-            error: function (xhr, status, error) {
-              console.error('AJAX Error:', status, error);
-              Swal.fire('Error!', 'Error deleting records.', 'error');
+
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                alert('Error retrieving data.');
             }
-          });
-        }
-      });
-    });
-  </script>
-
-
-  <script>
-    $(document).ready(function () {
-      function fetchData(status) {
-        // $('#loading').show();
-        // $('#table-body').hide();
-        $.ajax({
-          url: 'dashboard.php',
-          type: 'GET',
-          data: { status: status },
-          success: function (response) {
-            // Assume response contains the HTML to update the table
-            $('#loading').hide();
-            var table = $(response).find('#dasbor').html();
-            // Update the table on the current page
-            $('#dasbor').html(table);
-            $('#table-body').show();
-          },
-          error: function () {
-            alert('Error fetching data');
-          }
         });
-      }
-
-      // Initial fetch with no filter
-      fetchData('');
-
-      // Fetch data when filter changes
-      $('#statusFilter').change(function () {
-        var status = $(this).val();
-        fetchData(status);
-      });
     });
-  </script>
+
+
+    $(document).on('click', '#check-all', function() {
+        var isChecked = $(this).is(':checked');
+        $('.select-checkbox').prop('checked', isChecked);
+    });
+
+    $(document).on('click', '#delete-selected', function() {
+        var batchMutasi = $('.btn-detail').data('id'); // Ensure this is correctly retrieved
+        var selectedIdMutasi = [];
+
+        $('.select-checkbox:checked').each(function() {
+            selectedIdMutasi.push($(this).data('id'));
+        });
+
+        if (selectedIdMutasi.length === 0) {
+            Swal.fire('No Selection', 'No employee numbers selected for deletion.', 'info');
+            return;
+        }
+
+        Swal.fire({
+            title: 'Yakin ingin menghapus Pengajuan Mutasi ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '../../query/delete.php',
+                    type: 'POST',
+                    data: {
+                        batchMutasi: batchMutasi,
+                        IdMutasi: selectedIdMutasi
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Data berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                document.location = 'dashboard.php';
+                            });
+                        } else {
+                            Swal.fire('Error!', 'Error: ' + response.error, 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        Swal.fire('Error!', 'Error deleting records.', 'error');
+                    }
+                });
+            }
+        });
+    });
+    </script>
+
+
+    <script>
+    $(document).ready(function() {
+        function fetchData(status) {
+            // $('#loading').show();
+            // $('#table-body').hide();
+            $.ajax({
+                url: 'dashboard.php',
+                type: 'GET',
+                data: {
+                    status: status
+                },
+                success: function(response) {
+                    // Assume response contains the HTML to update the table
+                    $('#loading').hide();
+                    var table = $(response).find('#dasbor').html();
+                    // Update the table on the current page
+                    $('#dasbor').html(table);
+                    $('#table-body').show();
+                },
+                error: function() {
+                    alert('Error fetching data');
+                }
+            });
+        }
+
+        // Initial fetch with no filter
+        fetchData('');
+
+        // Fetch data when filter changes
+        $('#statusFilter').change(function() {
+            var status = $(this).val();
+            fetchData(status);
+        });
+    });
+    </script>
 
 
 
@@ -1081,20 +1087,20 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 </html>
 
 <style>
-  .custom-modal .modal-dialog.custom-width {
+.custom-modal .modal-dialog.custom-width {
     max-width: 60%;
     /* Adjust the percentage as needed */
-  }
+}
 
-  @media (max-width: 767.98px) {
+@media (max-width: 767.98px) {
     .custom-modal .modal-dialog.custom-width {
-      max-width: 95%;
-      /* Adjust for smaller screens */
+        max-width: 95%;
+        /* Adjust for smaller screens */
     }
 
     .custom-modal .modal-dialog {
-      margin: 0;
-      /* Ensure there's no extra margin on smaller screens */
+        margin: 0;
+        /* Ensure there's no extra margin on smaller screens */
     }
-  }
+}
 </style>

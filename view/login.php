@@ -44,11 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION["otp_code"] = $otp_code;
 
                     // Fetch no_hp from isd table
-                    $sql_no_hp = "SELECT isd.no_hp 
-              FROM isd 
-              LEFT JOIN ct_users ON ct_users.npk = isd.npk 
-              WHERE ct_users.npk = '$npk'";
-                    $result_no_hp = mysqli_query($koneksi2, $sql_no_hp);
+                    $sql_no_hp = "SELECT no_hp 
+              FROM hp  
+              WHERE npk = '$npk'";
+                    $result_no_hp = mysqli_query($koneksi4, $sql_no_hp);
 
                     if ($no_hp_row = mysqli_fetch_assoc($result_no_hp)) {
                         $no_hp = $no_hp_row['no_hp'];
