@@ -15,41 +15,41 @@ if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] == 'Foreman HRD') {
         $queryMutasi = "SELECT *
                       FROM mutasi
-                      WHERE hapus IS NULL AND (mutasi.status = '9' OR (mutasi.status = '2' AND mutasi.cwocAsal = '{$_SESSION['dept']}')) AND batchMutasi IS NOT NULL
+                      WHERE hapus IS NULL AND (mutasi.status = '10' OR (mutasi.status = '2' AND mutasi.cwocAsal = '{$_SESSION['dept']}')) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY mutasi.status ASC";
+                      ORDER BY mutasi.tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Supervisor HRD') {
         $queryMutasi = "SELECT *
                       FROM mutasi
-                      WHERE hapus IS NULL AND (mutasi.status = '9' OR (mutasi.status = '3' AND mutasi.cwocAsal = '{$_SESSION['dept']}')) AND batchMutasi IS NOT NULL
+                      WHERE hapus IS NULL AND (mutasi.status = '10' OR (mutasi.status = '3' AND mutasi.cwocAsal = '{$_SESSION['dept']}')) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY mutasi.status ASC";
+                      ORDER BY mutasi.tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Departemen HRD') {
         $queryMutasi = "SELECT *
                       FROM mutasi
                       WHERE hapus IS NULL AND (mutasi.cwocAsal = 'HRD IR' AND mutasi.status = '4'  
                       OR mutasi.cwocBaru = 'HRD IR' AND mutasi.status = '5') AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY mutasi.status ASC";
+                      ORDER BY mutasi.tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Foreman') {
         $queryMutasi = "SELECT *
                       FROM mutasi
                       WHERE hapus IS NULL AND mutasi.cwocAsal = '{$_SESSION['dept']}' AND mutasi.status = '2' AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY mutasi.status ASC";
+                      ORDER BY mutasi.tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Supervisor') {
         $queryMutasi = "SELECT *
                       FROM mutasi
                       WHERE hapus IS NULL AND cwocAsal = '{$_SESSION['dept']}' AND status = '3' AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY status ASC";
+                      ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Departemen') {
         $queryMutasi = "SELECT *
                         FROM mutasi
                         WHERE hapus IS NULL AND (cwocAsal = '{$_SESSION['dept']}' AND status = '4' 
                       OR cwocBaru = '{$_SESSION['dept']}' AND status = '5') AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                      ORDER BY status ASC";
+                      ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01033') {
         $queryMutasi = "SELECT *
                         FROM mutasi
@@ -60,7 +60,7 @@ if (isset($_SESSION['role'])) {
                             (cwocBaru IN ('QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W') AND status = '7')
                         ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                        ORDER BY status ASC";
+                        ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01561') {
         $queryMutasi = "SELECT *
                         FROM mutasi
@@ -71,7 +71,7 @@ if (isset($_SESSION['role'])) {
                             (cwocBaru IN ('HRD IR', 'GA', 'MIS') AND status = '7')
                         ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                        ORDER BY status ASC";
+                        ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01961') {
         $queryMutasi = "SELECT *
                         FROM mutasi
@@ -82,7 +82,7 @@ if (isset($_SESSION['role'])) {
                             (cwocBaru IN ('PCE', 'PE 2W', 'PE 4W') AND status = '7')
                         ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                        ORDER BY status ASC";
+                        ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01166') {
         $queryMutasi = "SELECT *
                           FROM mutasi
@@ -93,7 +93,7 @@ if (isset($_SESSION['role'])) {
                               (cwocBaru IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '7')
                           ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                          ORDER BY status ASC";
+                          ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01266') {
         $queryMutasi = "SELECT *
                           FROM mutasi
@@ -104,7 +104,7 @@ if (isset($_SESSION['role'])) {
                               (cwocBaru IN ('WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status = '7')
                           ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                          ORDER BY status ASC";
+                          ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01577') {
         $queryMutasi = "SELECT *
                             FROM mutasi
@@ -115,19 +115,27 @@ if (isset($_SESSION['role'])) {
                                 (cwocBaru IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status = '7')
                             ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                            ORDER BY status ASC";
+                            ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Direktur Plant') {
         $queryMutasi = "SELECT *
                         FROM mutasi
-                        WHERE hapus IS NULL AND status = '8' AND cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND batchMutasi IS NOT NULL
+                        WHERE hapus IS NULL AND (
+                                (cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status = '8')
+                                OR 
+                                (cwocBaru IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status = '9')
+                            ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                        ORDER BY status ASC";
+                        ORDER BY tanggalMutasi ASC";
     } elseif ($_SESSION['role'] == 'Direktur Non Plant') {
         $queryMutasi = "SELECT *
                         FROM mutasi
-                        WHERE hapus IS NULL AND status = '8' AND cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND batchMutasi IS NOT NULL
+                        WHERE hapus IS NULL AND (
+                                (cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '8')
+                                OR 
+                                (cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '9')
+                            ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
-                        ORDER BY status ASC";
+                        ORDER BY tanggalMutasi ASC";
 
     }
 }
@@ -137,6 +145,7 @@ $resultMutasi = mysqli_query($koneksi3, $queryMutasi);
 if (!$resultMutasi) {
     die("Query error: " . mysqli_error($koneksi3));
 }
+
 
 $batchCounts = [];
 
@@ -158,6 +167,7 @@ $response = array();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empty($_POST['batchMutasi'])) {
     $IdMutasi = $_POST['IdMutasi'];
     $batchMutasi = $_POST['batchMutasi'];
+    $feedback = $_POST['feedback'];
 
     // Sanitize input
     $batchMutasi = $koneksi3->real_escape_string($batchMutasi);
@@ -165,6 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
     $IdMutasiList = implode(',', $IdMutasi);
     $name = isset($_SESSION['npk']) ? $_SESSION['npk'] : '';
     $namareject = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    $oleh = isset($_SESSION['name']) ? $_SESSION['name'] : '';
     date_default_timezone_set('Asia/Jakarta');
     $tgl_apv_hrd = date("Y-m-d H:i:s");
     $tgl_fm = date("Y-m-d H:i:s");
@@ -174,7 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
     $tgl_kadiv1 = date("Y-m-d H:i:s");
     $tgl_kadiv2 = date("Y-m-d H:i:s");
     $tgl_direktur = date("Y-m-d H:i:s");
+    $tgl_direktur2 = date("Y-m-d H:i:s");
     $tgl_reject = date("Y-m-d H:i:s");
+    $datefeedback = date("Y-m-d H:i:s");
 
 
     $queryGetStatus = "SELECT status, emno, cwocAsal, cwocBaru, sectAsal, sectBaru, tanggalMutasi, nama, batchMutasi FROM mutasi WHERE IdMutasi IN ($IdMutasiList)";
@@ -186,6 +199,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
     $employeeDetails = array();
     $emnoArray = array();
     $counter = 1; // Initialize a counter to add numbering
+    $fileContent = ""; // Initialize fileContent to avoid undefined variable notice
+
+    $DetailMutasi = array(); // New array to hold detailed information
+
+    // Adding the header
+    $DetailMutasi[] = sprintf(
+        "%-10s %-10s %-20s %-20s %-20s %-20s %-15s",
+        "NPK",
+        "Nama",
+        "Departemen Asal",
+        "Seksi Asal",
+        "Departemen Baru",
+        "Seksi Baru",
+        "Tanggal Berlaku"
+    );
+
     while ($row = mysqli_fetch_assoc($resultGetStatus)) {
         $status = $row['status'];
         $emno = $row['emno'];
@@ -217,10 +246,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
             $sectBaruDesc = 'Unknown Section'; // Default value if not found
         }
 
+
         $employeeDetails[] = "$counter. $emno - $nama";
+        $DetailMutasi[] = sprintf(
+            "%-10s %-10s %-20s %-20s %-20s %-20s %-15s",
+            $emno,
+            $nama,
+            $cwocAsal,
+            $sectAsalDesc,
+            $cwocBaru,
+            $sectBaruDesc,
+            $tanggalMutasi
+        );
+
         $counter++; // Increment counter for the next employee
         $emnoArray[] = $emno;
+
+
     }
+    $fileContent .= implode("\n\n", $DetailMutasi) . "\n";
 
     // Define the groups
     $kelompok1 = ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'];
@@ -320,6 +364,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
         $deptTarget = 'BOD Non Plant';
     }
 
+    if (in_array($cwocBaru, $plantGroups)) {
+        $deptTargetBaru = 'BOD PLANT';
+    } elseif (in_array($cwocBaru, $nonPlantGroups)) {
+        $deptTargetBaru = 'BOD Non Plant';
+    }
+
     // Define all groups in an array
     $allGroups = [$kelompok1, $kelompok2, $kelompok3, $kelompok4, $kelompok5, $kelompok6];
     $specialGroups = ['PDCA CPC', 'EHS', 'PLANNING BUDGETING', 'FINANCE ACCOUNTING'];
@@ -335,7 +385,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
             if ($status == 2) {
                 $newStatus = 3;
                 $updateField = "FM = '$name', tgl_fm = '$tgl_fm'";
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nBatch Mutasi [$batchMutasi1] telah di-approve oleh Foreman $cwocAsal. Status saat ini menunggu persetujuan Supervisor $cwocAsal.\nKaryawan disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon proses persetujuan.";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nBatch Mutasi [$batchMutasi1] telah di-approve oleh Foreman $cwocAsal. Status saat ini menunggu persetujuan Supervisor $cwocAsal.\nKaryawan disetujui:\n" . implode("\n", $employeeDetails) . "\n\n";
+                if (!empty($feedback)) {
+                    $message .= "Dengan feedback:\n$feedback\n\n";
+                }
+                $message .= "Mohon proses persetujuan.";
                 $flags = "queue";
 
                 $query_npk = "SELECT npk FROM ct_users WHERE golongan = 4 AND acting = 2 AND dept = '$cwocAsal'";
@@ -402,7 +456,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
 
                     }
                 }
-
                 foreach ($messages as $phone_number => $message) {
                     $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
                                          VALUES ('$phone_number', '$message', '$flags')";
@@ -548,7 +601,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 }
             } elseif ($status == 5) {
                 if (in_array($cwocAsal, $specialGroups) && in_array($cwocBaru, $specialGroups)) {
-                    $newStatus = 8;
+                    $newStatus = 10;
                     $updateField = "Kadept2 = '$name', tgl_kadept2 = '$tgl_kadept2'";
                     $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Departmen $cwocBaru. Status saat ini adalah menunggu persetujuan Direktur.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                     $flags = "queue";
@@ -629,7 +682,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
         } elseif ($_SESSION['role'] == 'Kepala Divisi') {
             if ($status == 6) {
                 if ($cwocAsal == $cwocBaru) {
-                    $newStatus = 9;
+                    $newStatus = 10;
                     $updateField = "Kadiv1 = '$name', Kadiv2 = '$name', tgl_kadiv1 = '$tgl_kadiv1', tgl_kadiv2 = '$tgl_kadiv2'";
                     $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Divisi $divisi. Status saat ini adalah menunggu persetujuan HRD.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                     $flags = "queue";
@@ -679,6 +732,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                             $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
                                              VALUES ('$phone_number', '$message', '$flags')";
                             mysqli_query($koneksi3, $queryInsertNotif);
+                        }
+                    }
+                } elseif (in_array($cwocBaru, $specialGroups)) {
+                    $newStatus = 10;
+                    $updateField = "Kadiv1 = '$name', tgl_kaivd1 = '$tgl_kadiv1'";
+                    $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Kepala Divisi $divisi. Status saat ini adalah menunggu persetujuan Direktur.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
+                    $flags = "queue";
+                    // Fetch phone number for newStatus 3
+                    if ($npk) {
+                        // Fetch phone number for newStatus 3
+                        $query_phone = "SELECT isd.no_hp
+                                        FROM isd
+                                        JOIN ct_users ON ct_users.npk = isd.npk
+                                        WHERE ct_users.dept = '$deptTarget'";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+
+                        if ($result_phone && mysqli_num_rows($result_phone) > 0) {
+                            while ($phone_row = mysqli_fetch_assoc($result_phone)) {
+                                $phone_number = $phone_row['no_hp'];
+                                $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
+                                             VALUES ('$phone_number', '$message', '$flags')";
+                                mysqli_query($koneksi3, $queryInsertNotif);
+                            }
                         }
                     }
                 } else {
@@ -739,9 +815,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 }
             }
         } elseif ($_SESSION['role'] == 'Direktur Plant' || $_SESSION['role'] == 'Direktur Non Plant') {
+
+            $sameDirectorate = (in_array($cwocAsal, $plantGroups) && in_array($cwocBaru, $plantGroups)) ||
+                (in_array($cwocAsal, $nonPlantGroups) && in_array($cwocBaru, $nonPlantGroups));
+
             if ($status == 8) {
-                $newStatus = 9;
-                $updateField = "Direktur = '$name', tgl_direktur = '$tgl_direktur'";
+                if ($sameDirectorate) {
+                    $newStatus = 10;
+                    $updateField = "Direktur = '$name', tgl_direktur = '$tgl_direktur', Direktur2 = '$name', tgl_direktur2 = '$tgl_direktur'";
+                    $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Direktur Asal. Status saat ini adalah menunggu Direktur Tujuan.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
+                    $flags = "queue";
+                    $query_npk = "SELECT npk FROM ct_users WHERE dept = '$deptTargetBaru'";
+                    $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                    // Ambil hasil query npk
+                    $npk_list = [];
+                    if ($result_npk) {
+                        while ($row = mysqli_fetch_assoc($result_npk)) {
+                            $npk_list[] = "'" . $row['npk'] . "'";
+                        }
+                    }
+
+                    if (!empty($npk_list)) {
+                        // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                        $npk_list_str = implode(',', $npk_list);
+                        $query_phone = "SELECT no_hp FROM isd.hp WHERE npk IN ($npk_list_str)";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+                    } else {
+                        $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                    }
+
+                    if ($result_phone && mysqli_num_rows($result_phone) > 0) {
+                        while ($phone_row = mysqli_fetch_assoc($result_phone)) {
+                            $phone_number = $phone_row['no_hp'];
+                            $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
+                                             VALUES ('$phone_number', '$message', '$flags')";
+                            mysqli_query($koneksi3, $queryInsertNotif);
+                        }
+                    }
+                } else {
+                    $newStatus = 9;
+                    $updateField = "Direktur = '$name', tgl_direktur = '$tgl_direktur'";
+                    $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Direktur Asal. Status saat ini adalah menunggu Direktur Tujuan.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
+                    $flags = "queue";
+                    $query_npk = "SELECT npk FROM ct_users WHERE dept = '$deptTargetBaru'";
+                    $result_npk = mysqli_query($koneksi2, $query_npk);
+
+                    // Ambil hasil query npk
+                    $npk_list = [];
+                    if ($result_npk) {
+                        while ($row = mysqli_fetch_assoc($result_npk)) {
+                            $npk_list[] = "'" . $row['npk'] . "'";
+                        }
+                    }
+
+                    if (!empty($npk_list)) {
+                        // Query kedua untuk mengambil nomor HP dari isd.hp berdasarkan hasil query sebelumnya
+                        $npk_list_str = implode(',', $npk_list);
+                        $query_phone = "SELECT no_hp FROM isd.hp WHERE npk IN ($npk_list_str)";
+                        $result_phone = mysqli_query($koneksi4, $query_phone);
+                    } else {
+                        $query_phone = ""; // Kosongkan jika tidak ada npk yang sesuai
+                    }
+
+                    if ($result_phone && mysqli_num_rows($result_phone) > 0) {
+                        while ($phone_row = mysqli_fetch_assoc($result_phone)) {
+                            $phone_number = $phone_row['no_hp'];
+                            $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
+                                             VALUES ('$phone_number', '$message', '$flags')";
+                            mysqli_query($koneksi3, $queryInsertNotif);
+                        }
+                    }
+                }
+            }
+
+            if ($status == 9) {
+                $newStatus = 10;
+                $updateField = "Direktur2 = '$name', tgl_direktur2 = '$tgl_direktur'";
                 $message = "Pemberitahuan Mutasi Karyawan!!\n\nKami informasikan bahwa Batch Mutasi [$batchMutasi1] telah di-approve oleh Direktur. Status saat ini adalah menunggu HRD.\nBerikut daftar karyawan yang disetujui:\n" . implode("\n", $employeeDetails) . "\n\nMohon untuk memproses persetujuan sesuai prosedur yang berlaku.\nTerima kasih atas perhatian dan kerjasamanya.";
                 $flags = "queue";
                 $query_npk = "SELECT npk FROM ct_users WHERE ct_users.dept = 'HRD IR' AND NOT EXISTS (SELECT 1 FROM hrd_so WHERE hrd_so.npk = ct_users.npk)";
@@ -768,11 +918,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                     while ($phone_row = mysqli_fetch_assoc($result_phone)) {
                         $phone_number = $phone_row['no_hp'];
                         $queryInsertNotif = "INSERT INTO notif (phone_number, message, flags) 
-                                             VALUES ('$phone_number', '$message', '$flags')";
+                                                 VALUES ('$phone_number', '$message', '$flags')";
                         mysqli_query($koneksi3, $queryInsertNotif);
                     }
                 }
             }
+        }
+
+        if ($newStatus == 11) {
+            // Define the file path
+            $tanggalMutasi = date('dmY'); // Format: ddmmyy
+            $fileName = "M-$tanggalMutasi-$batchMutasi1.txt"; // Generate the filename
+            $filePath = "../file_mutasi/$fileName"; // Set your desired path
+
+            file_put_contents($filePath, $fileContent);
         }
 
         if ($updateField) {
@@ -790,6 +949,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
                 if (!$resultUpdateUnselected) {
                     $response['error'] = "Error updating unselected records: " . mysqli_error($koneksi3);
                     $response['success'] = false;
+                }
+
+                if (!empty($feedback) && $feedback !== null) {
+                    // Prepare feedback data
+                    $queryInsertFeedback = "INSERT INTO feedbacks (batchMutasi, feedback, oleh, date) VALUES ('$batchMutasi1', '$feedback', '$oleh', '$datefeedback')";
+                    $resultInsertFeedback = mysqli_query($koneksi3, $queryInsertFeedback);
+
+                    if (!$resultInsertFeedback) {
+                        $response['error'] = "Error inserting feedback: " . mysqli_error($koneksi3) . " | Query: " . $queryInsertFeedback;
+                        $response['success'] = false;
+                    }
                 }
 
             } else {

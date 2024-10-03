@@ -5,7 +5,7 @@ if (isset($_GET['batchMutasi'])) {
     $batchMutasi = $koneksi3->real_escape_string($_GET['batchMutasi']);
 
     // Query untuk mendapatkan cwocAsal dan cwocBaru berdasarkan batchMutasi
-    $query = "SELECT cwocAsal, cwocBaru, sectAsal, sectBaru FROM mutasi WHERE batchMutasi = '$batchMutasi'";
+    $query = "SELECT cwocAsal, cwocBaru, sectAsal, sectBaru, FM, SPV, Kadept1 FROM mutasi WHERE batchMutasi = '$batchMutasi'";
     $result = $koneksi3->query($query);
 
     $data = [
@@ -14,6 +14,9 @@ if (isset($_GET['batchMutasi'])) {
         'cwocAsal' => '',
         'cwocBaru' => '',
         'sectAsal' => '',
+        'FM' => '',
+        'SPV' => '',
+        'Kadept1' => '',
         'sectBaru' => '',
         'sectAsalDesc' => '',
         'sectBaruDesc' => '',
@@ -31,6 +34,10 @@ if (isset($_GET['batchMutasi'])) {
         $data['cwocBaru'] = $row['cwocBaru'];
         $data['sectAsal'] = $row['sectAsal'];
         $data['sectBaru'] = $row['sectBaru'];
+        $data['FM'] = $row['FM'];
+        $data['SPV'] = $row['SPV'];
+        $data['Kadept1'] = $row['Kadept1'];
+
 
         // Get sectAsal description
         $querySectAsal = "SELECT `desc` AS sectAsalDesc FROM hrd_sect WHERE sect = '" . $data['sectAsal'] . "'";
@@ -69,10 +76,18 @@ if (isset($_GET['batchMutasi'])) {
     // Function to get the full name of an approver
     function getFullName($npk, $koneksi2)
     {
+        // Check if the npk is empty; if so, return 'N/A'
+        if (empty($npk)) {
+            return 'N/A';
+        }
+
+        // Query to get the full name based on the npk
         $queryFullName = "SELECT full_name FROM ct_users WHERE npk = '$npk'";
         $resultFullName = mysqli_query($koneksi2, $queryFullName);
         $fullNameData = mysqli_fetch_assoc($resultFullName);
-        return isset($fullNameData['full_name']) ? $fullNameData['full_name'] : 'N/A';
+
+        // Return the full name if found; otherwise, return the npk
+        return isset($fullNameData['full_name']) ? $fullNameData['full_name'] : $npk;
     }
 
     // Initialize the array for the second table data
@@ -300,11 +315,13 @@ if (isset($_GET['batchMutasi'])) {
                 }
             }
 
-            $data['approvals'][] = [
-                'status2' => 'Disetujui Kepala Divisi ' . $divisi,
-                'approver' => $Kadiv1_fullName,
-                'date' => $rowApprovals['tgl_kadiv1']
-            ];
+            if ($Kadiv1_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadiv1'])) {
+                $data['approvals'][] = [
+                    'status2' => 'Disetujui Kepala Divisi ' . $divisi,
+                    'approver' => $Kadiv1_fullName,
+                    'date' => $rowApprovals['tgl_kadiv1']
+                ];
+            }
 
         } elseif ($rowApprovals['status'] == 8) {
             $data['approvals'][] = [
@@ -447,6 +464,16 @@ if (isset($_GET['batchMutasi'])) {
                 ];
             }
         }
+    }
+
+    $queryRemarks = "SELECT COUNT(*) as remarkCount FROM remarks WHERE batchMutasi = '$batchMutasi'";
+    $resultRemarks = $koneksi3->query($queryRemarks);
+
+    if ($resultRemarks) {
+        $rowRemarks = $resultRemarks->fetch_assoc();
+        $data['hasRemarks'] = $rowRemarks['remarkCount'] > 0;  // true if exists, false otherwise
+    } else {
+        $data['hasRemarks'] = false;  // In case of query failure
     }
 
 

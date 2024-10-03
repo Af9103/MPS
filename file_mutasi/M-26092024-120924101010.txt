@@ -1,0 +1,5 @@
+NPK        Nama       Departemen Asal      Seksi Asal           Departemen Baru      Seksi Baru           Tanggal Berlaku
+
+K010       JKADS      PRODUCTION 1         AA                   PRODUCTION 2         AAA                  2024-09-19     
+
+K0192      GAHB AGGA  PRODUCTION 1         AA                   PRODUCTION 2         AAA                  2024-09-19     

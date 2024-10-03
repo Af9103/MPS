@@ -191,11 +191,11 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
+                        <h1 class="m-0">Halaman Utama</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                            <li class="breadcrumb-item"><a href="dashboard.php">Beranda</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -217,23 +217,23 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                 $bulan_ini = date('Y-m'); // Format YYYY-MM untuk bulan ini
                 if (isset($_SESSION['role'])) {
                   if ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01033') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01561') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('HRD IR', 'GA', 'MIS') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('HRD IR', 'GA', 'MIS') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01961') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PCE', 'PE 2W', 'PE 4W') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PCE', 'PE 2W', 'PE 4W') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01166') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01266') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01577') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Direktur Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Direktur Non Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } else {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru = '{$_SESSION['dept']}' AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocBaru = '{$_SESSION['dept']}' AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   }
                 }
 
@@ -266,23 +266,23 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                 
                 if (isset($_SESSION['role'])) {
                   if ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01033') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01561') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('HRD IR', 'GA', 'MIS') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('HRD IR', 'GA', 'MIS') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01961') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PCE', 'PE 2W', 'PE 4W') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PCE', 'PE 2W', 'PE 4W') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01166') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01266') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01577') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Direktur Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } elseif ($_SESSION['role'] == 'Direktur Non Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   } else {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal = '{$_SESSION['dept']}' AND status= 10 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND cwocAsal = '{$_SESSION['dept']}' AND status= 11 AND DATE_FORMAT(tanggalMutasi, '%Y-%m') = '{$bulan_ini}'";
                   }
                 }
 
@@ -314,11 +314,11 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   if ($_SESSION['role'] == 'Foreman') {
                     $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND mutasi.cwocAsal = '{$_SESSION['dept']}' AND mutasi.status = '2'";
                   } elseif ($_SESSION['role'] == 'Foreman HRD') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND (mutasi.status = '9' OR (mutasi.status = '2' AND mutasi.cwocAsal = '{$_SESSION['dept']}'))";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND (mutasi.status = '10' OR (mutasi.status = '2' AND mutasi.cwocAsal = '{$_SESSION['dept']}'))";
                   } elseif ($_SESSION['role'] == 'Supervisor') {
                     $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND mutasi.cwocAsal = '{$_SESSION['dept']}' AND mutasi.status = '3'";
                   } elseif ($_SESSION['role'] == 'Supervisor HRD') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND (mutasi.status = '9' OR (mutasi.status = '3' AND mutasi.cwocAsal = '{$_SESSION['dept']}'))";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND (mutasi.status = '10' OR (mutasi.status = '3' AND mutasi.cwocAsal = '{$_SESSION['dept']}'))";
                   } elseif ($_SESSION['role'] == 'Kepala Departemen' || $_SESSION['role'] == 'Kepala Departemen HRD') {
                     $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND ((mutasi.cwocAsal = '{$_SESSION['dept']}' AND mutasi.status = '4') OR (mutasi.cwocBaru = '{$_SESSION['dept']}' AND mutasi.status = '5'))";
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01561') {
@@ -334,9 +334,9 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                   } elseif ($_SESSION['role'] == 'Kepala Divisi' && $_SESSION['npk'] == '01577') {
                     $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND ((mutasi.cwocAsal IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND mutasi.status = '6') OR (mutasi.cwocBaru IN ('PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5') AND mutasi.status = '7'))";
                   } elseif ($_SESSION['role'] == 'Direktur Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND mutasi.status = '8' AND mutasi.cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC')";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE hapus IS NULL AND ((mutasi.cwocAsal IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND mutasi.status = '8') OR (mutasi.cwocBaru IN ('PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC') AND mutasi.status = '9'))";
                   } elseif ($_SESSION['role'] == 'Direktur Non Plant') {
-                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE  hapus IS NULL AND mutasi.status = '8' AND mutasi.cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE')";
+                    $queryJumlahData = "SELECT COUNT(DISTINCT batchMutasi) AS jumlah FROM mutasi WHERE  hapus IS NULL AND ((mutasi.cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND mutasi.status = '8') OR (mutasi.cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND mutasi.status = '9'))";
                   }
                 }
 
@@ -380,8 +380,9 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                                 <option value="5">Menunggu Ka.Dept Tujuan</option>
                                 <option value="6">Menunggu Ka.Div Asal</option>
                                 <option value="7">Menunggu Ka.Div Tujuan</option>
-                                <option value="8">Menunggu Direktur</option>
-                                <option value="9">Menunggu HRD</option>
+                                <option value="8">Menunggu Direktur Asal</option>
+                                <option value="9">Menunggu Drektur Tujuan</option>
+                                <option value="10">Menunggu HRD</option>
                                 <!-- <option value="10">Finish</option> -->
                             </select>
                         </div>
@@ -440,7 +441,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                                         <th rowspan="2" style="vertical-align: middle;">Batch Mutasi</th>
                                         <th colspan="2">Dari</th>
                                         <th colspan="2">Ke</th>
-                                        <th rowspan="2" style="vertical-align: middle;">Tanggal Mutasi</th>
+                                        <th rowspan="2" style="vertical-align: middle;">Tanggal Berlaku Mutasi</th>
                                         <th rowspan="2" style="vertical-align: middle;">Jumlah</th>
                                         <th rowspan="2" style="vertical-align: middle;">Status</th>
                                         <th rowspan="2" style="vertical-align: middle;">Aksi</th>
@@ -486,14 +487,18 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                         $badgeColor = 'badge-warning';
                         break;
                       case 8:
-                        $statusMessage = 'Menunggu Direktur';
+                        $statusMessage = 'Menunggu Direktur Asal';
                         $badgeColor = 'badge-warning';
                         break;
                       case 9:
-                        $statusMessage = 'Menunggu HRD';
+                        $statusMessage = 'Menunggu Direktur Tujuan';
                         $badgeColor = 'badge-warning';
                         break;
                       case 10:
+                        $statusMessage = 'Menunggu HRD';
+                        $badgeColor = 'badge-warning';
+                        break;
+                      case 11:
                         $statusMessage = 'Selesai';
                         $badgeColor = 'badge-success';
                         break;
@@ -571,8 +576,8 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                       'Kepala Departemen' => [2, 3, 4, 5],
                       'Kepala Departemen HRD' => [2, 3, 4, 5],
                       'Kepala Divisi' => [2, 3, 4, 5, 6, 7],
-                      'Direktur Plant' => [2, 3, 4, 5, 6, 7, 8],
-                      'Direktur Non Plant' => [2, 3, 4, 5, 6, 7, 8]
+                      'Direktur Plant' => [2, 3, 4, 5, 6, 7, 8, 9],
+                      'Direktur Non Plant' => [2, 3, 4, 5, 6, 7, 8, 9]
                     ];
 
                     $current_role = $_SESSION['role'];
@@ -664,7 +669,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                                         <th>NPK</th>
                                         <th>Nama</th>
                                         <th>Tanggal Buat</th>
-                                        <th>Tanggal Mutasi</th>
+                                        <th>Tanggal Berlaku</th>
                                         <th class="aksi-header">Aksi</th>
                                     </tr>
                                 </thead>
@@ -689,7 +694,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                             </table>
                             <div class="form-check aksi-check-all">
                                 <input type="checkbox" class="form-check-input" id="check-all">
-                                <label class="form-check-label" for="check-all">Check All</label>
+                                <label class="form-check-label" for="check-all">Pilih Semua</label>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -801,7 +806,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
     <script src="../../asset/JS/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/day.js"></script>
     <script src="../../asset/select/select.min.js"></script>
 
 
@@ -824,10 +829,12 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
             case 7:
                 return 'Menunggu Ka.Div Tujuan';
             case 8:
-                return 'Menunggu Direktur';
+                return 'Menunggu Direktur Asal';
             case 9:
-                return 'Menunggu HRD';
+                return 'Menunggu Direktur Tujuan';
             case 10:
+                return 'Menunggu HRD';
+            case 11:
                 return 'Finish';
             default:
                 return `Ditolak oleh ${rejectMessage}`;
@@ -851,11 +858,11 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
             ],
             'Direktur Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
                 'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
-                'Menunggu Direktur'
+                'Menunggu Direktur Asal', 'Menunggu Direktur Tujuan'
             ],
             'Direktur Non Plant': ['Menunggu Foreman', 'Menunggu Supervisor', 'Menunggu Ka.Dept Asal',
                 'Menunggu Ka.Dept Tujuan', 'Menunggu Ka.Div Asal', 'Menunggu Ka.Div Tujuan',
-                'Menunggu Direktur'
+                'Menunggu Direktur Asal', 'Menunggu Direktur Tujuan'
             ]
         };
 
@@ -881,6 +888,17 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
         const minutes = date.getMinutes().toString().padStart(2, '0');
 
         return `${day} ${month} ${year} ${hours}:${minutes}`;
+    }
+
+
+    function formatDate2(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
+
+        return `${day} ${month} ${year}`; // Same as formatDate now
     }
 
     $(document).on('click', '.btn-detail', function() {
@@ -914,7 +932,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                         var emno = data.emnos[index];
                         var cwocAsal = data.cwocAsal; // Get cwocAsal
                         var tanggalBuat = formatDate(data.tanggalBuat[index]);
-                        var tanggalMutasi = formatDate(data.tanggalMutasi[index]);
+                        var tanggalMutasi = formatDate2(data.tanggalMutasi[index]);
                         var IdMutasi = data.IdMutasi[index];
 
                         // Only display checkboxes based on role and status
@@ -982,10 +1000,22 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
     });
 
 
+    // Event for individual checkbox change
+    $(document).on('change', '.select-checkbox', function() {
+        // Check if all individual checkboxes are checked
+        var allChecked = $('.select-checkbox').length === $('.select-checkbox:checked').length;
+
+        // Toggle "Check All" checkbox based on whether all checkboxes are checked
+        $('#check-all').prop('checked', allChecked);
+    });
+
+    // Event for "Check All" checkbox
     $(document).on('click', '#check-all', function() {
         var isChecked = $(this).is(':checked');
+        // Check/uncheck all individual checkboxes based on the "Check All" checkbox status
         $('.select-checkbox').prop('checked', isChecked);
     });
+
 
     $(document).on('click', '#delete-selected', function() {
         var batchMutasi = $('.btn-detail').data('id'); // Ensure this is correctly retrieved
@@ -1079,6 +1109,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
         });
     });
     </script>
+
 
 
 

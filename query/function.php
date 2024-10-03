@@ -51,18 +51,43 @@ if (isset($_POST['id_sect'])) {
     }
     exit;
 }
-if (isset($_POST['id_subsect'])) {
+
+$options = [];
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == 'Foreman' || $_SESSION['role'] == 'Foreman HRD') {
+        $options[] = '<option value="0">Golongan 0</option>';
+        $options[] = '<option value="1">Golongan 1</option>';
+        $options[] = '<option value="2">Golongan 2</option>';
+    } elseif ($_SESSION['role'] == 'Supervisor' || $_SESSION['role'] == 'Supervisor HRD') {
+        $options[] = '<option value="0">Golongan 0</option>';
+        $options[] = '<option value="1">Golongan 1</option>';
+        $options[] = '<option value="2">Golongan 2</option>';
+        $options[] = '<option value="3">Golongan 3</option>';
+    } elseif ($_SESSION['role'] == 'Kepala Departemen' || $_SESSION['role'] == 'Kepala Departemen HRD') {
+        $options[] = '<option value="0">Golongan 0</option>';
+        $options[] = '<option value="1">Golongan 1</option>';
+        $options[] = '<option value="2">Golongan 2</option>';
+        $options[] = '<option value="3">Golongan 3</option>';
+        $options[] = '<option value="4_acting_2">Golongan 4</option>';
+    }
+}
+
+if (isset($_POST['id_subsect']) && isset($_POST['selected_golongan'])) {
     $id_subsect = mysqli_real_escape_string($koneksi2, $_POST['id_subsect']);
+    $selected_golongan = mysqli_real_escape_string($koneksi2, $_POST['selected_golongan']);
     $user_department = isset($_SESSION['dept']) ? $_SESSION['dept'] : '';
 
-    if ($_SESSION['role'] == 'Foreman' || $_SESSION['role'] == 'Foreman HRD') {
-        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan <=2 AND approved = 1");
-    } elseif ($_SESSION['role'] == 'Supervisor' || $_SESSION['role'] == 'Supervisor HRD') {
-        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan <=3 AND approved = 1");
-    } elseif ($_SESSION['role'] == 'Kepala Departemen' || $_SESSION['role'] == 'Kepala Departemen HRD') {
-        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan <= 4 AND acting = 2 AND approved = 1");
-    } else {
-        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND approved = 1");
+    // Sesuaikan query berdasarkan golongan yang dipilih
+    if ($selected_golongan == '0') {
+        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan = 0 AND approved = 1");
+    } elseif ($selected_golongan == '1') {
+        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan = 1 AND approved = 1");
+    } elseif ($selected_golongan == '2') {
+        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan = 2 AND approved = 1");
+    } elseif ($selected_golongan == '3') {
+        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan = 3 AND approved = 1");
+    } elseif ($selected_golongan == '4_acting_2') {
+        $query = mysqli_query($koneksi2, "SELECT DISTINCT npk, full_name FROM ct_users WHERE dept = '$user_department' AND subsect = '$id_subsect' AND golongan = 4 AND acting = 2 AND approved = 1");
     }
 
     //perubahan

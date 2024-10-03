@@ -274,7 +274,6 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                                         <th colspan="2">Ke</th>
                                         <th rowspan="2" style="vertical-align: middle;">Tanggal Mutasi</th>
                                         <th rowspan="2" style="vertical-align: middle;">Jumlah</th>
-                                        <th rowspan="2" style="vertical-align: middle;">Status</th>
                                         <th rowspan="2" style="vertical-align: middle;">Aksi</th>
                                     </tr>
                                     <tr>
@@ -410,7 +409,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
     <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -441,179 +440,179 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
     <script src="../../asset/JS/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
     <script src="../../asset/select/select.min.js"></script>
 
 
     <script>
-        function getStatusMessage(statusCode, rejectMessage) {
-            switch (parseInt(statusCode, 10)) {
-                case 2:
-                    return 'Waiting Foreman';
-                case 3:
-                    return 'Waiting Supervisor';
-                case 4:
-                    return 'Waiting Ka.Dept Applicant';
-                case 5:
-                    return 'Waiting Ka.Dept Recipient';
-                case 6:
-                    return 'Waiting Ka.Div Applicant';
-                case 7:
-                    return 'Waiting Ka.Div Recipient';
-                case 8:
-                    return 'Waiting Direktur';
-                case 9:
-                    return 'Waiting HRD';
-                case 10:
-                    return 'Finish';
-                default:
-                    return `Reject by ${rejectMessage}`;
-            }
+    function getStatusMessage(statusCode, rejectMessage) {
+        switch (parseInt(statusCode, 10)) {
+            case 2:
+                return 'Waiting Foreman';
+            case 3:
+                return 'Waiting Supervisor';
+            case 4:
+                return 'Waiting Ka.Dept Applicant';
+            case 5:
+                return 'Waiting Ka.Dept Recipient';
+            case 6:
+                return 'Waiting Ka.Div Applicant';
+            case 7:
+                return 'Waiting Ka.Div Recipient';
+            case 8:
+                return 'Waiting Direktur';
+            case 9:
+                return 'Waiting HRD';
+            case 10:
+                return 'Finish';
+            default:
+                return `Reject by ${rejectMessage}`;
         }
+    }
 
-        $(document).on('click', '.btn-detail', function () {
-            var batchMutasi = $(this).data('id');
-            console.log('Batch Mutasi:', batchMutasi);
+    $(document).on('click', '.btn-detail', function() {
+        var batchMutasi = $(this).data('id');
+        console.log('Batch Mutasi:', batchMutasi);
 
-            $.ajax({
-                url: '../../query/detail.php',
-                type: 'GET',
-                data: {
-                    batchMutasi: batchMutasi
-                },
-                dataType: 'json',
-                success: function (data) {
-                    console.log('AJAX Success:', data);
+        $.ajax({
+            url: '../../query/detail.php',
+            type: 'GET',
+            data: {
+                batchMutasi: batchMutasi
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log('AJAX Success:', data);
 
-                    var tbody = $('#modal-body-content');
-                    tbody.empty();
+                var tbody = $('#modal-body-content');
+                tbody.empty();
 
-                    if (data.error) {
-                        console.error('Data Error:', data.error);
-                        tbody.append('<tr><td colspan="5">Error: ' + data.error + '</td></tr>');
-                    } else if (data.IdMutasi.length > 0) {
-                        $.each(data.IdMutasi, function (index, IdMutasi) {
-                            var statusCode = data.status[index];
-                            var rejectMessage = data.reject[index];
-                            var status = getStatusMessage(statusCode, rejectMessage);
-                            var nama = data.nama[index];
-                            var emno = data.emnos[index];
-                            var cwocAsal = data.cwocAsal; // Get cwocAsal
-                            var IdMutasi = data.IdMutasi[index];
+                if (data.error) {
+                    console.error('Data Error:', data.error);
+                    tbody.append('<tr><td colspan="5">Error: ' + data.error + '</td></tr>');
+                } else if (data.IdMutasi.length > 0) {
+                    $.each(data.IdMutasi, function(index, IdMutasi) {
+                        var statusCode = data.status[index];
+                        var rejectMessage = data.reject[index];
+                        var status = getStatusMessage(statusCode, rejectMessage);
+                        var nama = data.nama[index];
+                        var emno = data.emnos[index];
+                        var cwocAsal = data.cwocAsal; // Get cwocAsal
+                        var IdMutasi = data.IdMutasi[index];
 
-                            var row = '<tr><td>' + (index + 1) + '</td>' +
-                                '<td>' + emno + '</td>' +
-                                '<td>' + nama + '</td>' +
-                                '<td>' + status + '</td>'
-                            '</tr>';
+                        var row = '<tr><td>' + (index + 1) + '</td>' +
+                            '<td>' + emno + '</td>' +
+                            '<td>' + nama + '</td>' +
+                            '<td>' + status + '</td>'
+                        '</tr>';
 
-                            tbody.append(row);
-                        });
-                    } else {
-                        tbody.append('<tr><td colspan="5">No data available</td></tr>');
-                    }
-
-                    $('#detailModal .modal-title').text('Mutasi dari dept ' + data.cwocAsal + ' ke ' +
-                        data.cwocBaru);
-                    $('#detailModal').modal('show');
-                },
-
-                error: function (xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                    alert('Error retrieving data.');
+                        tbody.append(row);
+                    });
+                } else {
+                    tbody.append('<tr><td colspan="5">No data available</td></tr>');
                 }
-            });
+
+                $('#detailModal .modal-title').text('Mutasi dari dept ' + data.cwocAsal + ' ke ' +
+                    data.cwocBaru);
+                $('#detailModal').modal('show');
+            },
+
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                alert('Error retrieving data.');
+            }
         });
+    });
     </script>
 
 
 
     <script>
-        $(document).ready(function () {
-            var exportBaseUrl = '../output/excelMutasi.php';
+    $(document).ready(function() {
+        var exportBaseUrl = '../output/excelMutasi.php';
 
-            // Fungsi untuk menangani klik pada tombol Export Excel
-            function handleExportExcel(e) {
-                e.preventDefault();
+        // Fungsi untuk menangani klik pada tombol Export Excel
+        function handleExportExcel(e) {
+            e.preventDefault();
 
-                // Ambil nilai bulan dan tahun yang sedang dipilih
-                var selectedMonth = $('#bulan').val();
-                var selectedYear = $('#tahun').val();
-                var exportUrl = exportBaseUrl;
+            // Ambil nilai bulan dan tahun yang sedang dipilih
+            var selectedMonth = $('#bulan').val();
+            var selectedYear = $('#tahun').val();
+            var exportUrl = exportBaseUrl;
 
-                // Cek apakah sedang menampilkan semua data
-                if ($('#showAllLink').data('show-all')) {
-                    exportUrl += '?show_all=1';
-                } else {
-                    exportUrl += '?tahun=' + selectedYear + '&bulan=' + selectedMonth;
+            // Cek apakah sedang menampilkan semua data
+            if ($('#showAllLink').data('show-all')) {
+                exportUrl += '?show_all=1';
+            } else {
+                exportUrl += '?tahun=' + selectedYear + '&bulan=' + selectedMonth;
+            }
+
+            // Redirect ke halaman ekspor Excel
+            window.location.href = exportUrl;
+        }
+
+        $('#exportExcel').click(handleExportExcel);
+
+        // Fungsi untuk meng-handle perubahan pada dropdown bulan dan tahun
+        $('#bulan, #tahun').change(function() {
+            $('#showAllLink').data('show-all', false);
+            filterByMonthAndYear();
+        });
+
+        function filterByMonthAndYear() {
+            var selectedMonth = $('#bulan').val();
+            var selectedYear = $('#tahun').val();
+            var url = 'mutasiIn.php'; // Sesuaikan dengan nama halaman PHP Anda
+
+            // Lakukan permintaan AJAX
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {
+                    bulan: selectedMonth,
+                    tahun: selectedYear
+                },
+                success: function(data) {
+                    // Dapatkan tabel dari respons data
+                    var table = $(data).find('.table-responsive').html();
+                    // Perbarui tabel di halaman saat ini
+                    $('.table-responsive').html(table);
+
+                    var title = $(data).find('.card-title').text();
+                    $('h3').text(title);
                 }
-
-                // Redirect ke halaman ekspor Excel
-                window.location.href = exportUrl;
-            }
-
-            $('#exportExcel').click(handleExportExcel);
-
-            // Fungsi untuk meng-handle perubahan pada dropdown bulan dan tahun
-            $('#bulan, #tahun').change(function () {
-                $('#showAllLink').data('show-all', false);
-                filterByMonthAndYear();
             });
+        }
 
-            function filterByMonthAndYear() {
-                var selectedMonth = $('#bulan').val();
-                var selectedYear = $('#tahun').val();
-                var url = 'mutasiIn.php'; // Sesuaikan dengan nama halaman PHP Anda
+        // Fungsi untuk menangani klik pada tautan "Tampilkan semua"
+        $('#showAllLink').click(function(e) {
+            e.preventDefault();
 
-                // Lakukan permintaan AJAX
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        bulan: selectedMonth,
-                        tahun: selectedYear
-                    },
-                    success: function (data) {
-                        // Dapatkan tabel dari respons data
-                        var table = $(data).find('.table-responsive').html();
-                        // Perbarui tabel di halaman saat ini
-                        $('.table-responsive').html(table);
+            var url = 'mutasiIn.php'; // Sesuaikan dengan nama halaman PHP Anda
 
-                        var title = $(data).find('.card-title').text();
-                        $('h3').text(title);
-                    }
-                });
-            }
+            // Lakukan permintaan AJAX tanpa parameter bulan dan tahun
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {
+                    show_all: '1'
+                },
+                success: function(data) {
+                    // Dapatkan tabel dari respons data
+                    var table = $(data).find('.table-responsive').html();
+                    // Perbarui tabel di halaman saat ini
+                    $('.table-responsive').html(table);
 
-            // Fungsi untuk menangani klik pada tautan "Tampilkan semua"
-            $('#showAllLink').click(function (e) {
-                e.preventDefault();
+                    var title = $(data).find('.card-title').text();
+                    $('h3').text(title);
 
-                var url = 'mutasiIn.php'; // Sesuaikan dengan nama halaman PHP Anda
-
-                // Lakukan permintaan AJAX tanpa parameter bulan dan tahun
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        show_all: '1'
-                    },
-                    success: function (data) {
-                        // Dapatkan tabel dari respons data
-                        var table = $(data).find('.table-responsive').html();
-                        // Perbarui tabel di halaman saat ini
-                        $('.table-responsive').html(table);
-
-                        var title = $(data).find('.card-title').text();
-                        $('h3').text(title);
-
-                        // Tandai bahwa sedang menampilkan semua data
-                        $('#showAllLink').data('show-all', true);
-                    }
-                });
+                    // Tandai bahwa sedang menampilkan semua data
+                    $('#showAllLink').data('show-all', true);
+                }
             });
         });
+    });
     </script>
 
 

@@ -154,7 +154,8 @@ if (isset($_GET['show_all'])) {
                 LEFT JOIN nama ON karyawan.emno = nama.emno 
                 LEFT JOIN sect ON karyawan.sect = sect.Id_sect 
                 LEFT JOIN subsect ON karyawan.subsect = subsect.id_subsect
-                WHERE karyawan.resdate is NULL";
+                WHERE karyawan.resdate is NULL
+                ORDER BY joindate ASC";
 } else {
 
     // Set default value for month range if no filter is applied
@@ -174,7 +175,8 @@ if (isset($_GET['show_all'])) {
                 LEFT JOIN nama ON karyawan.emno = nama.emno 
                 LEFT JOIN sect ON karyawan.sect = sect.Id_sect 
                 LEFT JOIN subsect ON karyawan.subsect = subsect.id_subsect
-                WHERE karyawan.resdate is NULL AND MONTH(karyawan.joindate) BETWEEN '$startMonth' AND '$endMonth' AND YEAR(karyawan.joindate) = '$selectedYear'";
+                WHERE karyawan.resdate is NULL AND MONTH(karyawan.joindate) BETWEEN '$startMonth' AND '$endMonth' AND YEAR(karyawan.joindate) = '$selectedYear'
+                ORDER BY joindate ASC";
 }
 
 // Execute the query
@@ -207,6 +209,26 @@ while ($user_data = mysqli_fetch_array($resultIn)) {
     ) : null;
     $cwoc = isset($user_data['cwoc']) ? $user_data['cwoc'] : null;
     $joindate = isset($user_data['joindate']) ? date('d/M/y', strtotime($user_data['joindate'])) : null;
+    $divisiList = [
+        'Quality Assurance' => ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'],
+        'HRGA & MIS' => ['HRD IR', 'GA', 'MIS'],
+        'Engineering' => ['PCE', 'PE 2W', 'PE 4W'],
+        'Marketing & Procurement' => ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'],
+        'Production Control' => ['WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC'],
+        'Production' => ['PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5']
+    ];
+
+    $cwoc = isset($user_data['cwoc']) ? $user_data['cwoc'] : null;
+    $divisi = "Non Divisi";
+
+    if ($cwoc !== null) {
+        foreach ($divisiList as $division => $codes) {
+            if (in_array($cwoc, $codes)) {
+                $divisi = $division;
+                break; // Stop searching once we find the division
+            }
+        }
+    }
 
     // Set cell values
     $objPHPExcel->setActiveSheetIndex(0)
@@ -217,6 +239,7 @@ while ($user_data = mysqli_fetch_array($resultIn)) {
         ->setCellValue('G' . ($no + $start_row - 1), $status)
         ->setCellValue('H' . ($no + $start_row - 1), $posisi)
         ->setCellValue('I' . ($no + $start_row - 1), $cwoc)
+        ->setCellValue('J' . ($no + $start_row - 1), $divisi)
         ->setCellValue('K' . ($no + $start_row - 1), $joindate);
 
     // Terapkan gaya tepi (border) ke baris saat ini
@@ -388,7 +411,8 @@ if (isset($_GET['show_all'])) {
                 LEFT JOIN nama ON karyawan.emno = nama.emno 
                 LEFT JOIN sect ON karyawan.sect = sect.Id_sect 
                 LEFT JOIN subsect ON karyawan.subsect = subsect.id_subsect
-                WHERE karyawan.resdate is NOT NULL";
+                WHERE karyawan.resdate is NOT NULL
+                ORDER BY resdate ASC";
 } else {
     // Set default value for month range if no filter is applied
     $selectedMonth = isset($_GET['bulan']) ? $_GET['bulan'] : $defaultMonthRange;
@@ -407,7 +431,8 @@ if (isset($_GET['show_all'])) {
                 LEFT JOIN nama ON karyawan.emno = nama.emno 
                 LEFT JOIN sect ON karyawan.sect = sect.Id_sect 
                 LEFT JOIN subsect ON karyawan.subsect = subsect.id_subsect
-                WHERE karyawan.resdate is NOT NULL AND MONTH(karyawan.resdate) BETWEEN '$startMonth' AND '$endMonth' AND YEAR(karyawan.resdate) = '$selectedYear'";
+                WHERE karyawan.resdate is NOT NULL AND MONTH(karyawan.resdate) BETWEEN '$startMonth' AND '$endMonth' AND YEAR(karyawan.resdate) = '$selectedYear'
+                ORDER BY resdate ASC";
 }
 
 // Execute the query
@@ -441,6 +466,26 @@ while ($user_data = mysqli_fetch_array($resultOut)) {
     $cwoc = isset($user_data['cwoc']) ? $user_data['cwoc'] : null;
     $resdate = isset($user_data['resdate']) ? date('d/M/y', strtotime($user_data['resdate'])) : null;
     $reason = isset($user_data['reason']) ? $user_data['reason'] : null;
+    $divisiList = [
+        'Quality Assurance' => ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'],
+        'HRGA & MIS' => ['HRD IR', 'GA', 'MIS'],
+        'Engineering' => ['PCE', 'PE 2W', 'PE 4W'],
+        'Marketing & Procurement' => ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'],
+        'Production Control' => ['WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC'],
+        'Production' => ['PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5']
+    ];
+
+    $cwoc = isset($user_data['cwoc']) ? $user_data['cwoc'] : null;
+    $divisi = "Non Divisi";
+
+    if ($cwoc !== null) {
+        foreach ($divisiList as $division => $codes) {
+            if (in_array($cwoc, $codes)) {
+                $divisi = $division;
+                break; // Stop searching once we find the division
+            }
+        }
+    }
 
     // Set cell values
     $objPHPExcel->setActiveSheetIndex(1)
@@ -451,6 +496,7 @@ while ($user_data = mysqli_fetch_array($resultOut)) {
         ->setCellValue('F' . ($no + $start_row - 1), $status)
         ->setCellValue('G' . ($no + $start_row - 1), $posisi)
         ->setCellValue('H' . ($no + $start_row - 1), $cwoc)
+        ->setCellValue('I' . ($no + $start_row - 1), $divisi)
         ->setCellValue('J' . ($no + $start_row - 1), $resdate)
         ->setCellValue('K' . ($no + $start_row - 1), $reason);
 

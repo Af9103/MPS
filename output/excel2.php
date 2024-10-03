@@ -3187,7 +3187,7 @@ $styleArray = array(
 
 $objPHPExcel->setActiveSheetIndex(4)
     ->setCellValue('B3', 'Golongan')
-    ->setCellValue('C3', 'Kontrak Abis')
+    ->setCellValue('C3', 'Kontrak Habis')
     ->setCellValue('E3', 'Dikeluarkan')
     ->setCellValue('G3', 'Kehendak Sendiri')
     ->setCellValue('I3', 'Mutasi Out')

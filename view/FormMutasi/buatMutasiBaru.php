@@ -95,7 +95,7 @@ include __DIR__ . '/../../query/function.php';
                         <div class="card-body">
                             <form id="formMutasi" action="../../query/submitMutasi.php" method="POST">
                                 <div class="row mb-3">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="cwocAsal" class="col-form-label">Departemen Asal</label>
                                         <select class="form-control selectpicker" id="cwocAsal" name="cwocAsal"
                                             data-live-search="true" disabled>
@@ -112,7 +112,7 @@ include __DIR__ . '/../../query/function.php';
                                             value="<?php echo htmlspecialchars($user_department, ENT_QUOTES, 'UTF-8'); ?>">
                                     </div>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="sectAsal" class="col-form-label">Seksi Asal</label>
                                         <select class="form-control selectpicker" id="sectAsal" name="sectAsal"
                                             data-live-search="true">
@@ -120,14 +120,29 @@ include __DIR__ . '/../../query/function.php';
                                         </select>
                                     </div>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <label for="sectAsal" class="col-form-label">Subseksi Asal</label>
                                         <select class="form-control selectpicker" id="subsectAsal" name="subsectAsal"
                                             data-live-search="true" data-placeholder="Select NPK">
                                             <option value="" disabled hidden>Pilh Subskesi Asal</option>
                                         </select>
                                     </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="golongan" class="col-form-label">Golongan</label>
+                                        <select class="form-control selectpicker" id="golongan" name="golongan"
+                                            data-live-search="true" disabled>
+                                            <option value="" disabled selected hidden>Pilih Golongan</option>
+                                            <option value="0">Golongan 0</option>
+                                            <option value="1">Golongan 1</option>
+                                            <option value="2">Golongan 2</option>
+                                            <option value="3">Golongan 3</option>
+                                            <option value="4_acting_2">Golongan 4</option>
+                                        </select>
+                                    </div>
+
                                 </div>
+
 
                                 <div class="row mb-3">
                                     <div class="col-sm-12">
@@ -146,7 +161,7 @@ include __DIR__ . '/../../query/function.php';
                                     </div>
 
                                     <div class="col-sm-6">
-                                        <label for="npk2" class="col-form-label">Tanggal Mutasi</label>
+                                        <label for="npk2" class="col-form-label">Tanggal Berlaku Mutasi</label>
                                         <input type="text" class="form-control" id="tanggalMutasi" name="tanggalMutasi"
                                             autocomplete="off">
                                     </div>
@@ -184,7 +199,7 @@ include __DIR__ . '/../../query/function.php';
                                 </div>
 
                                 <div class="text-right mb-3">
-                                    <button type="submit" class="btn btn-primary custom-button mr-2">Submit</button>
+                                    <button type="submit" class="btn btn-primary custom-button mr-2">Ajukan</button>
                                     <button type="button" class="btn btn-danger custom-button"
                                         onclick="resetForm()">Reset</button>
                                 </div>
@@ -218,301 +233,402 @@ include __DIR__ . '/../../query/function.php';
     <script src="../../asset/plugins/moment/moment.min.js"></script>
     <script src="../../asset/sweetalert2/sweetalert2.all.min.js"></script>
 
-    <script src="../../asset/js/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/search.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
 
     <script>
-        $(document).ready(function () {
-            // Initialize Select2 Elements
-            $('.select2').select2();
+    $(document).ready(function() {
+        // Initialize Select2 Elements
+        $('.select2').select2();
 
-            // Initialize Select2 Elements with Bootstrap 4 theme
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            });
-
-
-            // Ketika departemen asal berubah
-            $('#cwocAsal').on('change', function () {
-                var cwoc = $(this).val();
-                if (cwoc) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            cwoc: cwoc
-                        },
-                        success: function (html) {
-                            $('#sectAsal').html(html);
-                            $('#sectAsal').prop('disabled', false); // Enable select
-                            $('#sectAsal').selectpicker('refresh'); // Refresh selectpicker UI
-
-                            $('#subsectAsal').html(
-                                '<option value="" disabled selected hidden>Pilih Subseksi</option>'
-                            ).prop('disabled', true).selectpicker('refresh');
-
-                            $('#emno').prop('disabled', true); // Enable select
-                            $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
-
-                            $('#nama').val('').prop('disabled', true);
-
-                            // Refresh Select2 elements
-                            $('.select2').val('').trigger('change');
-                        }
-                    });
-                } else {
-                    $('#sectAsal').html(
-                        '<option value="" disabled selected hidden>Pilih Seksi Asal</option>');
-                    $('#sectAsal').prop('disabled', true); // Disable select
-                    $('#sectAsal').selectpicker('refresh'); // Refresh selectpicker UI
-                }
-            });
-
-            // Ketika section asal berubah
-            $('#sectAsal').on('change', function () {
-                var id_sect = $(this).val();
-                if (id_sect) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            id_sect: id_sect
-                        },
-                        success: function (html) {
-                            $('#subsectAsal').html(html);
-                            $('#subsectAsal').prop('disabled', false); // Enable select
-                            $('#subsectAsal').selectpicker(
-                                'refresh'); // Refresh selectpicker UI
-                        }
-                    });
-                } else {
-                    $('#subsectAsal').html(
-                        '<option value="" disabled selected hidden>Pilih Karyawan</option>');
-                    $('#subsectAsal').prop('disabled', true); // Disable select
-                    $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
-                }
-            });
-
-            var id_sect = $('#sectAsal').val();
-            if (!id_sect) {
-                // Jika belum terpilih, disable subsect dan atur opsi default
-                $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
-                $('#subsectAsal').prop('disabled', true); // Disable select
-                $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
-            }
-
-            // Ketika subsectAsal berubah
-            // Cek apakah sect asal sudah terpilih saat halaman dimuat
-            var id_sect = $('#sectAsal').val();
-            if (!id_sect) {
-                // Jika belum terpilih, disable subsect dan atur opsi default
-                $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
-                $('#subsectAsal').prop('disabled', true); // Disable select
-                $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
-            }
-
-            // Ketika subsectAsal berubah
-            $('#subsectAsal').on('change', function () {
-                var id_subsect = $(this).val();
-                if (id_subsect) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            id_subsect: id_subsect
-                        },
-                        success: function (html) {
-                            $('#emno').html(html);
-                            $('#emno').prop('disabled', false); // Enable select
-                            $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
-                        }
-                    });
-                } else {
-                    $('#emno').html('<option value="" disabled hidden>Pilih Karyawan</option>');
-                    $('#emno').prop('disabled', true); // Disable select
-                    $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
-
-                }
-            });
-
-            $('#cwocBaru').on('change', function () {
-                var cwoc = $(this).val();
-                if (cwoc) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            cwoc: cwoc
-                        },
-                        success: function (html) {
-                            $('#sectBaru').html(html);
-                            $('#sectBaru').prop('disabled', false); // Enable select
-                            $('#sectBaru').selectpicker('refresh'); // Refresh selectpicker UI
-
-                            $('#subsectBaru').html(
-                                '<option value="" disabled selected hidden>Pilih Subseksi</option>'
-                            ).prop('disabled', true).selectpicker('refresh');
-                        }
-                    });
-                } else {
-                    $('#sectBaru').html(
-                        '<option value="" disabled selected hidden>Pilih Seksi</option>');
-                    $('#sectBaru').prop('disabled', true); // Disable select
-                    $('#sectBaru').selectpicker('refresh'); // Refresh selectpicker UI
-
-                    $('#emno').html('<option value="" disabled hidden>Pilih Karyawan</option>');
-                    $('#emno').prop('disabled', true); // Disable select
-                    $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
-
-                }
-            });
-
-            $('#sectBaru').on('change', function () {
-                var id_sect = $(this).val();
-                if (id_sect) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            id_sect: id_sect
-                        },
-                        success: function (html) {
-                            $('#subsectBaru').html(html);
-                            $('#subsectBaru').prop('disabled', false); // Enable select
-                            $('#subsectBaru').selectpicker(
-                                'refresh'); // Refresh selectpicker UI
-                        }
-                    });
-                } else {
-                    $('#subsectBaru').html(
-                        '<option value="" disabled selected hidden>Pilih Subseksi</option>');
-                    $('#subsectBaru').prop('disabled', true); // Disable select
-                    $('#subsectBaru').selectpicker('refresh'); // Refresh selectpicker UI
-
-                }
-            });
-
-            // Memastikan bahwa saat halaman dimuat ulang, status dropdown diatur sesuai keadaan awal
-            // Cek apakah sect asal sudah terpilih saat halaman dimuat
-            var id_sect = $('#sectAsal').val();
-            if (!id_sect) {
-                // Jika belum terpilih, disable subsect dan atur opsi default
-                $('#subsectBaru').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
-                $('#subsectBaru').prop('disabled', true); // Disable select
-                $('#subsectBaru').selectpicker('refresh'); // Refresh selectpicker UI
-            }
-
-            // Ketika npk 1 berubah
-            $('#emno').on('change', function () {
-                var emno = $(this).val();
-                if (emno) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'buatMutasiBaru.php', // Pastikan path ini benar
-                        data: {
-                            emno: emno
-                        },
-                        success: function (response) {
-                            $('#nama').val(response);
-                            $('#emno option[value=""]').remove(); // Remove "Select NPK" option
-                            $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
-                        }
-                    });
-                }
-            });
-
-            $('#cwocAsal').trigger('change');
-            $('#cwocBaru').trigger('change');
+        // Initialize Select2 Elements with Bootstrap 4 theme
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
         });
 
-        function resetForm() {
-            document.getElementById("formMutasi").reset();
-            // Reset juga semua dropdown select
-            $('#cwocAsal').val('').trigger('change');
-            $('#sectAsal').html('<option value="" disabled selected hidden>Pilih Seksi</option>').prop('disabled', true)
-                .selectpicker('refresh');
-            $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>').prop('disabled',
-                true).selectpicker('refresh');
-            $('#emno').html('<option value="" disabled selected hidden>Pilih NPK</option>').prop('disabled', true)
-                .selectpicker('refresh');
-            $('#cwocBaru').val('').trigger('change');
-            $('#sectBaru').html('<option value="" disabled selected hidden>Pilih Seksi</option>').prop('disabled', true)
-                .selectpicker('refresh');
-            $('#subsectBaru').html('<option value="" disabled selected hidden>Pilih Subseksi</option>').prop('disabled',
-                true).selectpicker('refresh');
-            $('.select2').val('').trigger('change');
-        }
 
-        $('#formMutasi').submit(function (event) {
-            event.preventDefault();
-            var form = $(this);
+        // Ketika departemen asal berubah
+        $('#cwocAsal').on('change', function() {
+            var cwoc = $(this).val();
+            if (cwoc) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php', // Pastikan path ini benar
+                    data: {
+                        cwoc: cwoc
+                    },
+                    success: function(html) {
+                        $('#sectAsal').html(html);
+                        $('#sectAsal').prop('disabled', false); // Enable select
+                        $('#sectAsal').selectpicker('refresh'); // Refresh selectpicker UI
 
-            var valid = true;
-            var errorMsg = "<strong>Perhatian!</strong> Terdapat kesalahan dalam pengisian form:<br><ul>";
+                        $('#subsectAsal').html(
+                            '<option value="" disabled selected hidden>Pilih Subseksi</option>'
+                        ).prop('disabled', true).selectpicker('refresh');
 
-            if (!$('#cwocAsal').val()) {
-                valid = false;
-                errorMsg += "<li>Departemen Asal harus dipilih.</li>";
-            }
-            if (!$('#sectAsal').val()) {
-                valid = false;
-                errorMsg += "<li>Section Asal harus dipilih.</li>";
-            }
-            if (!$('#subsectAsal').val()) {
-                valid = false;
-                errorMsg += "<li>Sub Section Asal harus dipilih.</li>";
-            }
-            if (!$('#emno').val()) {
-                valid = false;
-                errorMsg += "<li>NPK harus dipilih.</li>";
-            }
-            if (!$('#cwocBaru').val()) {
-                valid = false;
-                errorMsg += "<li>Departemen Baru harus dipilih.</li>";
-            }
-            if (!$('#tanggalMutasi').val()) {
-                valid = false;
-                errorMsg += "<li>Tanggal Mutasi harus diisi.</li>";
-            }
+                        $('#emno').prop('disabled', true); // Enable select
+                        $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
 
-            errorMsg += "</ul>";
+                        $('#nama').val('').prop('disabled', true);
 
-            if (!valid) {
-                // Jika ada kesalahan, tampilkan pesan error dengan SweetAlert2
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    html: errorMsg
+                        // Refresh Select2 elements
+                        $('.select2').val('').trigger('change');
+                    }
                 });
             } else {
-                // Jika validasi sukses, lakukan pengajuan mutasi via AJAX
+                $('#sectAsal').html(
+                    '<option value="" disabled selected hidden>Pilih Seksi Asal</option>');
+                $('#sectAsal').prop('disabled', true); // Disable select
+                $('#sectAsal').selectpicker('refresh'); // Refresh selectpicker UI
+            }
+        });
+
+        // Ketika section asal berubah
+        $('#sectAsal').on('change', function() {
+            var id_sect = $(this).val();
+            if (id_sect) {
                 $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    success: function (response) {
-                        Swal.fire({
-                            position: "center",
-                            icon: "success",
-                            title: "Berhasil melakukan pengajuan mutasi",
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(() => {
-                            window.location.href = "Dashboard.php";
-                        });
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php', // Pastikan path ini benar
+                    data: {
+                        id_sect: id_sect
+                    },
+                    success: function(html) {
+                        $('#subsectAsal').html(html);
+                        $('#subsectAsal').prop('disabled', false); // Enable select
+                        $('#subsectAsal').selectpicker(
+                            'refresh'); // Refresh selectpicker UI
+
+                        $('#emno').html(
+                                '<option value="" disabled selected hidden>Pilih NPK</option>'
+                            ).prop('disabled', true)
+                            .selectpicker('refresh');
+                        $('#golongan').html(
+                            '<option value="" disabled selected hidden>Pilih Golongan</option>' +
+                            '<option value="0">Golongan 0</option>' +
+                            '<option value="1">Golongan 1</option>' +
+                            '<option value="2">Golongan 2</option>' +
+                            '<option value="3">Golongan 3</option>' +
+                            '<option value="4_acting_2">Golongan 4</option>'
+                        ).prop('disabled', true).selectpicker(
+                            'refresh'); // Refresh selectpicker UI
+
+                    }
+                });
+            } else {
+                $('#subsectAsal').html(
+                    '<option value="" disabled selected hidden>Pilih Karyawan</option>');
+                $('#subsectAsal').prop('disabled', true); // Disable select
+                $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
+            }
+        });
+
+        var id_sect = $('#sectAsal').val();
+        if (!id_sect) {
+            // Jika belum terpilih, disable subsect dan atur opsi default
+            $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
+            $('#subsectAsal').prop('disabled', true); // Disable select
+            $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
+
+        }
+
+        // Ketika subsectAsal berubah
+        // Cek apakah sect asal sudah terpilih saat halaman dimuat
+        var id_sect = $('#sectAsal').val();
+        if (!id_sect) {
+            // Jika belum terpilih, disable subsect dan atur opsi default
+            $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
+            $('#subsectAsal').prop('disabled', true); // Disable select
+            $('#subsectAsal').selectpicker('refresh'); // Refresh selectpicker UI
+        }
+
+        // Ketika subsectAsal berubah
+        $('#subsectAsal').on('change', function() {
+            var id_subsect = $(this).val();
+
+            if (id_subsect) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php',
+                    data: {
+                        id_subsect: id_subsect
+                    },
+                    success: function(html) {
+                        $('#emno').html(
+                                '<option value="" disabled selected hidden>Pilih NPK</option>'
+                            ).prop('disabled', true)
+                            .selectpicker('refresh');
+
+                        // Determine the role from PHP before this script runs
+                        var role = '<?= $_SESSION['role'] ?>'; // Get the role from PHP
+                        // Inside the success function when setting golongan options
+                        var golonganOptions =
+                            '<option value="" disabled selected hidden>Pilih Golongan</option>';
+
+                        if (role === 'Foreman' || role === 'Foreman HRD') {
+                            golonganOptions += '<option value="0">Golongan 0</option>';
+                            golonganOptions += '<option value="1">Golongan 1</option>';
+                            golonganOptions += '<option value="2">Golongan 2</option>';
+                        } else if (role === 'Supervisor' || role === 'Supervisor HRD') {
+                            golonganOptions += '<option value="0">Golongan 0</option>';
+                            golonganOptions += '<option value="1">Golongan 1</option>';
+                            golonganOptions += '<option value="2">Golongan 2</option>';
+                            golonganOptions += '<option value="3">Golongan 3</option>';
+                        } else if (role === 'Kepala Departemen' || role ===
+                            'Kepala Departemen HRD') {
+                            golonganOptions += '<option value="0">Golongan 0</option>';
+                            golonganOptions += '<option value="1">Golongan 1</option>';
+                            golonganOptions += '<option value="2">Golongan 2</option>';
+                            golonganOptions += '<option value="3">Golongan 3</option>';
+                            golonganOptions +=
+                                '<option value="4_acting_2">Golongan 4</option>';
+                        }
+
+                        $('#golongan').html(golonganOptions) // Set the options for golongan
+                            .prop('disabled', false) // Enable golongan select
+                            .selectpicker('refresh'); // Refresh selectpicker UI
+
+                    }
+                });
+            } else {
+                $('#golongan').prop('disabled', true); // Disable Golongan select
+                $('#golongan').selectpicker('refresh'); // Refresh selectpicker UI
+            }
+        });
+
+
+        $('#golongan').on('change', function() {
+            var id_subsect = $('#subsectAsal').val();
+            var selected_golongan = $(this).val();
+
+            if (id_subsect && selected_golongan) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php',
+                    data: {
+                        id_subsect: id_subsect,
+                        selected_golongan: selected_golongan
+                    },
+                    success: function(html) {
+                        $('#emno').html(html);
+                        $('#emno').prop('disabled', false); // Enable select for Karyawan
+                        $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
+
+                        // Keep golongan enabled until emno is selected
+                        // No need to disable golongan here
+                    }
+                });
+            } else {
+                $('#emno').html('<option value="" disabled hidden>Pilih Karyawan</option>');
+                $('#emno').prop('disabled', true); // Disable Karyawan select
+                $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
+            }
+        });
+
+        // Disable golongan when an employee is selected
+        $('#emno').on('change', function() {
+            // Only disable golongan after selecting emno
+            $('#golongan').prop('disabled', true).selectpicker(
+            'refresh'); // Disable golongan when an employee is selected
+        });
+
+
+
+        $('#cwocBaru').on('change', function() {
+            var cwoc = $(this).val();
+            if (cwoc) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php', // Pastikan path ini benar
+                    data: {
+                        cwoc: cwoc
+                    },
+                    success: function(html) {
+                        $('#sectBaru').html(html);
+                        $('#sectBaru').prop('disabled', false); // Enable select
+                        $('#sectBaru').selectpicker('refresh'); // Refresh selectpicker UI
+
+                        $('#subsectBaru').html(
+                            '<option value="" disabled selected hidden>Pilih Subseksi</option>'
+                        ).prop('disabled', true).selectpicker('refresh');
+                    }
+                });
+            } else {
+                $('#sectBaru').html(
+                    '<option value="" disabled selected hidden>Pilih Seksi</option>');
+                $('#sectBaru').prop('disabled', true); // Disable select
+                $('#sectBaru').selectpicker('refresh'); // Refresh selectpicker UI
+
+                $('#emno').html('<option value="" disabled hidden>Pilih Karyawan</option>');
+                $('#emno').prop('disabled', true); // Disable select
+                $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
+
+            }
+        });
+
+        $('#sectBaru').on('change', function() {
+            var id_sect = $(this).val();
+            if (id_sect) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php', // Pastikan path ini benar
+                    data: {
+                        id_sect: id_sect
+                    },
+                    success: function(html) {
+                        $('#subsectBaru').html(html);
+                        $('#subsectBaru').prop('disabled', false); // Enable select
+                        $('#subsectBaru').selectpicker(
+                            'refresh'); // Refresh selectpicker UI
+                    }
+                });
+            } else {
+                $('#subsectBaru').html(
+                    '<option value="" disabled selected hidden>Pilih Subseksi</option>');
+                $('#subsectBaru').prop('disabled', true); // Disable select
+                $('#subsectBaru').selectpicker('refresh'); // Refresh selectpicker UI
+
+            }
+        });
+
+        // Memastikan bahwa saat halaman dimuat ulang, status dropdown diatur sesuai keadaan awal
+        // Cek apakah sect asal sudah terpilih saat halaman dimuat
+        var id_sect = $('#sectAsal').val();
+        if (!id_sect) {
+            // Jika belum terpilih, disable subsect dan atur opsi default
+            $('#subsectBaru').html('<option value="" disabled selected hidden>Pilih Subseksi</option>');
+            $('#subsectBaru').prop('disabled', true); // Disable select
+            $('#subsectBaru').selectpicker('refresh'); // Refresh selectpicker UI
+        }
+
+        // Ketika npk 1 berubah
+        $('#emno').on('change', function() {
+            var emno = $(this).val();
+            if (emno) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'buatMutasiBaru.php', // Pastikan path ini benar
+                    data: {
+                        emno: emno
+                    },
+                    success: function(response) {
+                        $('#nama').val(response);
+                        $('#emno option[value=""]').remove(); // Remove "Select NPK" option
+                        $('#emno').selectpicker('refresh'); // Refresh selectpicker UI
                     }
                 });
             }
         });
 
-        $(function () {
-            $("#tanggalMutasi").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                minDate: 0 // Hanya tanggal hari ini atau setelahnya yang dapat dipilih
+        $('#cwocAsal').trigger('change');
+        $('#cwocBaru').trigger('change');
+    });
+
+    function resetForm() {
+        document.getElementById("formMutasi").reset();
+
+        $('#sectAsal').prop('disabled', false)
+            .selectpicker('refresh');
+        $('#subsectAsal').html('<option value="" disabled selected hidden>Pilih Subseksi</option>').prop('disabled',
+            true).selectpicker('refresh');
+        $('#emno').html('<option value="" disabled selected hidden>Pilih NPK</option>').prop('disabled', true)
+            .selectpicker('refresh');
+        $('#cwocBaru').val('').trigger('change');
+        $('#sectBaru').html('<option value="" disabled selected hidden>Pilih Seksi</option>').prop('disabled', true)
+            .selectpicker('refresh');
+        $('#subsectBaru').html('<option value="" disabled selected hidden>Pilih Subseksi</option>').prop('disabled',
+            true).selectpicker('refresh');
+        $('#golongan').html('<option value="" disabled selected hidden>Pilih Golongan</option>').prop('disabled',
+            true).selectpicker('refresh');
+        $('.select2').val('').trigger('change');
+    }
+
+    $('#formMutasi').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+
+        var valid = true;
+        var errorMsg = "<strong>Perhatian!</strong> Terdapat kesalahan dalam pengisian form:<br><ul>";
+
+        if (!$('#cwocAsal').val()) {
+            valid = false;
+            errorMsg += "<li>Departemen Asal harus dipilih.</li>";
+        }
+        if (!$('#sectAsal').val()) {
+            valid = false;
+            errorMsg += "<li>Section Asal harus dipilih.</li>";
+        }
+        if (!$('#subsectAsal').val()) {
+            valid = false;
+            errorMsg += "<li>Sub Section Asal harus dipilih.</li>";
+        }
+        if (!$('#emno').val()) {
+            valid = false;
+            errorMsg += "<li>NPK harus dipilih.</li>";
+        }
+        if (!$('#cwocBaru').val()) {
+            valid = false;
+            errorMsg += "<li>Departemen Baru harus dipilih.</li>";
+        }
+        if (!$('#tanggalMutasi').val()) {
+            valid = false;
+            errorMsg += "<li>Tanggal Mutasi harus diisi.</li>";
+        }
+
+        errorMsg += "</ul>";
+
+        if (!valid) {
+            // Jika ada kesalahan, tampilkan pesan error dengan SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: errorMsg
             });
+        } else {
+            // Jika validasi sukses, lakukan pengajuan mutasi via AJAX
+            var departemenAsal = $('#cwocAsal option:selected').text();
+            var departemenBaru = $('#cwocBaru option:selected').text();
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: `Apakah anda yakin untuk mengajukan mutasi dari departemen ${departemenAsal} ke Departemen ${departemenBaru}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Ajukan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: form.attr('method'),
+                        url: form.attr('action'),
+                        data: form.serialize(),
+                        success: function(response) {
+                            Swal.fire({
+                                position: "center",
+                                icon: "success",
+                                title: "Berhasil melakukan pengajuan mutasi",
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = "Dashboard.php";
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+    });
+
+    $(function() {
+        $("#tanggalMutasi").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0 // Hanya tanggal hari ini atau setelahnya yang dapat dipilih
         });
+    });
     </script>
 
     <!-- Bootstrap Select JS -->
@@ -522,23 +638,23 @@ include __DIR__ . '/../../query/function.php';
 
 </html>
 <style>
-    .btn-primary.custom-button {
-        color: white;
-    }
+.btn-primary.custom-button {
+    color: white;
+}
 
-    .btn-primary.custom-button:hover {
-        background-color: white;
-        color: #007bff;
-        /* Bootstrap primary color */
-    }
+.btn-primary.custom-button:hover {
+    background-color: white;
+    color: #007bff;
+    /* Bootstrap primary color */
+}
 
-    .btn-danger.custom-button {
-        color: white;
-    }
+.btn-danger.custom-button {
+    color: white;
+}
 
-    .btn-danger.custom-button:hover {
-        background-color: white;
-        color: #dc3545;
-        /* Bootstrap danger color */
-    }
+.btn-danger.custom-button:hover {
+    background-color: white;
+    color: #dc3545;
+    /* Bootstrap danger color */
+}
 </style>

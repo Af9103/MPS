@@ -289,7 +289,7 @@ if (!$resultMutasi) {
     <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -319,94 +319,94 @@ if (!$resultMutasi) {
     <script src="../../asset/dist/js/pages/dashboard.js"></script>
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
-    <script src="../../asset/js/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/search.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
     <script src="../../asset/select/select.min.js"></script>
 
     <script>
-        function filterByMonth() {
-            var selectedMonth = document.getElementById("bulan").value;
-            var selectedYear = document.getElementById("tahun").value;
-            var currentUrl = window.location.href;
-            currentUrl = updateQueryStringParameter(currentUrl, 'bulan', selectedMonth);
-            currentUrl = updateQueryStringParameter(currentUrl, 'tahun', selectedYear);
-            window.location.href = currentUrl;
+    function filterByMonth() {
+        var selectedMonth = document.getElementById("bulan").value;
+        var selectedYear = document.getElementById("tahun").value;
+        var currentUrl = window.location.href;
+        currentUrl = updateQueryStringParameter(currentUrl, 'bulan', selectedMonth);
+        currentUrl = updateQueryStringParameter(currentUrl, 'tahun', selectedYear);
+        window.location.href = currentUrl;
+    }
+
+
+
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        } else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+    // Buat fungsi untuk menangani perubahan bulan
+    function handleMonthChange() {
+        var selectedMonth = document.getElementById("bulan").value; // Dapatkan nilai bulan yang dipilih
+        var currentUrl = window.location.href; // Dapatkan URL saat ini
+        var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+
+        // Dapatkan nilai tahun yang telah dipilih dari URL jika ada
+        var selectedYear = url.searchParams.get('tahun');
+
+        // Periksa apakah tahun telah dipilih sebelumnya
+        if (selectedYear !== null) {
+            // Jika tahun telah dipilih, perbarui parameter bulan di URL
+            url.searchParams.set('bulan', selectedMonth);
+        } else {
+            // Jika tahun belum dipilih, tambahkan parameter bulan ke URL
+            url.searchParams.set('bulan', selectedMonth);
+
+            // Jika tahun tidak dipilih, hapus parameter tahun dari URL agar tahun tetap tidak berubah
+            url.searchParams.delete('tahun');
         }
 
+        // Muat ulang halaman dengan URL yang diperbarui
+        window.location.href = url.href;
+    }
 
+    // Tambahkan event listener untuk onchange pada pilihan bulan
+    document.getElementById('bulan').addEventListener('change', function(event) {
+        // Panggil fungsi handleMonthChange() ketika bulan berubah
+        handleMonthChange();
+    });
 
-        function updateQueryStringParameter(uri, key, value) {
-            var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-            var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-            if (uri.match(re)) {
-                return uri.replace(re, '$1' + key + "=" + value + '$2');
-            } else {
-                return uri + separator + key + "=" + value;
-            }
+    // Buat fungsi untuk menangani perubahan tahun
+    function handleYearChange() {
+        var selectedYear = document.getElementById("tahun").value; // Dapatkan nilai tahun yang dipilih
+        var currentUrl = window.location.href; // Dapatkan URL saat ini
+        var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+
+        // Dapatkan nilai bulan yang telah dipilih dari URL jika ada
+        var selectedMonth = url.searchParams.get('bulan');
+
+        // Periksa apakah bulan telah dipilih sebelumnya
+        if (selectedMonth !== null) {
+            // Jika bulan telah dipilih, perbarui parameter tahun di URL
+            url.searchParams.set('tahun', selectedYear);
+        } else {
+            // Jika bulan belum dipilih, tambahkan parameter tahun ke URL
+            url.searchParams.set('tahun', selectedYear);
+
+            // Jika bulan tidak dipilih, hapus parameter bulan dari URL agar bulan tetap tidak berubah
+            url.searchParams.delete('bulan');
         }
 
-        // Buat fungsi untuk menangani perubahan bulan
-        function handleMonthChange() {
-            var selectedMonth = document.getElementById("bulan").value; // Dapatkan nilai bulan yang dipilih
-            var currentUrl = window.location.href; // Dapatkan URL saat ini
-            var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+        // Muat ulang halaman dengan URL yang diperbarui
+        window.location.href = url.href;
+    }
 
-            // Dapatkan nilai tahun yang telah dipilih dari URL jika ada
-            var selectedYear = url.searchParams.get('tahun');
-
-            // Periksa apakah tahun telah dipilih sebelumnya
-            if (selectedYear !== null) {
-                // Jika tahun telah dipilih, perbarui parameter bulan di URL
-                url.searchParams.set('bulan', selectedMonth);
-            } else {
-                // Jika tahun belum dipilih, tambahkan parameter bulan ke URL
-                url.searchParams.set('bulan', selectedMonth);
-
-                // Jika tahun tidak dipilih, hapus parameter tahun dari URL agar tahun tetap tidak berubah
-                url.searchParams.delete('tahun');
-            }
-
-            // Muat ulang halaman dengan URL yang diperbarui
-            window.location.href = url.href;
-        }
-
-        // Tambahkan event listener untuk onchange pada pilihan bulan
-        document.getElementById('bulan').addEventListener('change', function (event) {
-            // Panggil fungsi handleMonthChange() ketika bulan berubah
-            handleMonthChange();
-        });
-
-        // Buat fungsi untuk menangani perubahan tahun
-        function handleYearChange() {
-            var selectedYear = document.getElementById("tahun").value; // Dapatkan nilai tahun yang dipilih
-            var currentUrl = window.location.href; // Dapatkan URL saat ini
-            var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
-
-            // Dapatkan nilai bulan yang telah dipilih dari URL jika ada
-            var selectedMonth = url.searchParams.get('bulan');
-
-            // Periksa apakah bulan telah dipilih sebelumnya
-            if (selectedMonth !== null) {
-                // Jika bulan telah dipilih, perbarui parameter tahun di URL
-                url.searchParams.set('tahun', selectedYear);
-            } else {
-                // Jika bulan belum dipilih, tambahkan parameter tahun ke URL
-                url.searchParams.set('tahun', selectedYear);
-
-                // Jika bulan tidak dipilih, hapus parameter bulan dari URL agar bulan tetap tidak berubah
-                url.searchParams.delete('bulan');
-            }
-
-            // Muat ulang halaman dengan URL yang diperbarui
-            window.location.href = url.href;
-        }
-
-        // Tambahkan event listener untuk onchange pada pilihan tahun
-        document.getElementById('tahun').addEventListener('change', function (event) {
-            // Panggil fungsi handleYearChange() ketika tahun berubah
-            handleYearChange();
-        });
+    // Tambahkan event listener untuk onchange pada pilihan tahun
+    document.getElementById('tahun').addEventListener('change', function(event) {
+        // Panggil fungsi handleYearChange() ketika tahun berubah
+        handleYearChange();
+    });
     </script>
 
 

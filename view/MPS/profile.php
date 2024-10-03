@@ -456,7 +456,7 @@ if ($resultDescSub && mysqli_num_rows($resultDescSub) > 0) {
     <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -488,18 +488,18 @@ if ($resultDescSub && mysqli_num_rows($resultDescSub) > 0) {
     <!-- Page specific script -->
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
-    <script src="../../asset/js/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/search.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
 </body>
 
 </html>
 <style>
-    .p-picture-container {
-        height: 100%;
-    }
+.p-picture-container {
+    height: 100%;
+}
 
-    .p-picture-container img {
-        border-radius: 16px;
-    }
+.p-picture-container img {
+    border-radius: 16px;
+}
 </style>

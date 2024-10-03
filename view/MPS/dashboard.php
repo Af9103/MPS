@@ -912,7 +912,7 @@ $urlToPHPExcel = buildExcelExportURL($selectedYear, $selectedMonth, $previousMon
     <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -941,111 +941,111 @@ $urlToPHPExcel = buildExcelExportURL($selectedYear, $selectedMonth, $previousMon
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="../../asset/dist/js/pages/dashboard.js"></script>
     <script src="../../asset/js/search.js"></script>
-    <script src="../../asset/js/time.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/time.js"></script>
+    <script src="../../asset/JS/day.js"></script>
     <script src="../../asset/select/select.min.js"></script>
 
     <script>
-        function filterByMonth() {
-            var selectedMonth = document.getElementById("bulan").value;
-            var selectedYear = document.getElementById("tahun").value;
-            var currentUrl = window.location.href;
-            currentUrl = updateQueryStringParameter(currentUrl, 'bulan', selectedMonth);
-            currentUrl = updateQueryStringParameter(currentUrl, 'tahun', selectedYear);
-            window.location.href = currentUrl;
+    function filterByMonth() {
+        var selectedMonth = document.getElementById("bulan").value;
+        var selectedYear = document.getElementById("tahun").value;
+        var currentUrl = window.location.href;
+        currentUrl = updateQueryStringParameter(currentUrl, 'bulan', selectedMonth);
+        currentUrl = updateQueryStringParameter(currentUrl, 'tahun', selectedYear);
+        window.location.href = currentUrl;
+    }
+
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        } else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+    // Buat fungsi untuk menangani perubahan bulan
+    function handleMonthChange() {
+        var selectedMonth = document.getElementById("bulan").value; // Dapatkan nilai bulan yang dipilih
+        var currentUrl = window.location.href; // Dapatkan URL saat ini
+        var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+
+        // Dapatkan nilai tahun yang telah dipilih dari URL jika ada
+        var selectedYear = url.searchParams.get('tahun');
+
+        // Periksa apakah tahun telah dipilih sebelumnya
+        if (selectedYear !== null) {
+            // Jika tahun telah dipilih, perbarui parameter bulan di URL
+            url.searchParams.set('bulan', selectedMonth);
+        } else {
+            // Jika tahun belum dipilih, tambahkan parameter bulan ke URL
+            url.searchParams.set('bulan', selectedMonth);
+
+            // Jika tahun tidak dipilih, hapus parameter tahun dari URL agar tahun tetap tidak berubah
+            url.searchParams.delete('tahun');
         }
 
-        function updateQueryStringParameter(uri, key, value) {
-            var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-            var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-            if (uri.match(re)) {
-                return uri.replace(re, '$1' + key + "=" + value + '$2');
-            } else {
-                return uri + separator + key + "=" + value;
-            }
+        // Muat ulang halaman dengan URL yang diperbarui
+        window.location.href = url.href;
+    }
+
+    // Tambahkan event listener untuk onchange pada pilihan bulan
+    document.getElementById('bulan').addEventListener('change', function(event) {
+        // Panggil fungsi handleMonthChange() ketika bulan berubah
+        handleMonthChange();
+    });
+
+    // Buat fungsi untuk menangani perubahan tahun
+    function handleYearChange() {
+        var selectedYear = document.getElementById("tahun").value; // Dapatkan nilai tahun yang dipilih
+        var currentUrl = window.location.href; // Dapatkan URL saat ini
+        var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+
+        // Dapatkan nilai bulan yang telah dipilih dari URL jika ada
+        var selectedMonth = url.searchParams.get('bulan');
+
+        // Periksa apakah bulan telah dipilih sebelumnya
+        if (selectedMonth !== null) {
+            // Jika bulan telah dipilih, perbarui parameter tahun di URL
+            url.searchParams.set('tahun', selectedYear);
+        } else {
+            // Jika bulan belum dipilih, tambahkan parameter tahun ke URL
+            url.searchParams.set('tahun', selectedYear);
+
+            // Jika bulan tidak dipilih, hapus parameter bulan dari URL agar bulan tetap tidak berubah
+            url.searchParams.delete('bulan');
         }
 
-        // Buat fungsi untuk menangani perubahan bulan
-        function handleMonthChange() {
-            var selectedMonth = document.getElementById("bulan").value; // Dapatkan nilai bulan yang dipilih
-            var currentUrl = window.location.href; // Dapatkan URL saat ini
-            var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
+        // Muat ulang halaman dengan URL yang diperbarui
+        window.location.href = url.href;
+    }
 
-            // Dapatkan nilai tahun yang telah dipilih dari URL jika ada
-            var selectedYear = url.searchParams.get('tahun');
-
-            // Periksa apakah tahun telah dipilih sebelumnya
-            if (selectedYear !== null) {
-                // Jika tahun telah dipilih, perbarui parameter bulan di URL
-                url.searchParams.set('bulan', selectedMonth);
-            } else {
-                // Jika tahun belum dipilih, tambahkan parameter bulan ke URL
-                url.searchParams.set('bulan', selectedMonth);
-
-                // Jika tahun tidak dipilih, hapus parameter tahun dari URL agar tahun tetap tidak berubah
-                url.searchParams.delete('tahun');
-            }
-
-            // Muat ulang halaman dengan URL yang diperbarui
-            window.location.href = url.href;
-        }
-
-        // Tambahkan event listener untuk onchange pada pilihan bulan
-        document.getElementById('bulan').addEventListener('change', function (event) {
-            // Panggil fungsi handleMonthChange() ketika bulan berubah
-            handleMonthChange();
-        });
-
-        // Buat fungsi untuk menangani perubahan tahun
-        function handleYearChange() {
-            var selectedYear = document.getElementById("tahun").value; // Dapatkan nilai tahun yang dipilih
-            var currentUrl = window.location.href; // Dapatkan URL saat ini
-            var url = new URL(currentUrl); // Buat objek URL dari URL saat ini
-
-            // Dapatkan nilai bulan yang telah dipilih dari URL jika ada
-            var selectedMonth = url.searchParams.get('bulan');
-
-            // Periksa apakah bulan telah dipilih sebelumnya
-            if (selectedMonth !== null) {
-                // Jika bulan telah dipilih, perbarui parameter tahun di URL
-                url.searchParams.set('tahun', selectedYear);
-            } else {
-                // Jika bulan belum dipilih, tambahkan parameter tahun ke URL
-                url.searchParams.set('tahun', selectedYear);
-
-                // Jika bulan tidak dipilih, hapus parameter bulan dari URL agar bulan tetap tidak berubah
-                url.searchParams.delete('bulan');
-            }
-
-            // Muat ulang halaman dengan URL yang diperbarui
-            window.location.href = url.href;
-        }
-
-        // Tambahkan event listener untuk onchange pada pilihan tahun
-        document.getElementById('tahun').addEventListener('change', function (event) {
-            // Panggil fungsi handleYearChange() ketika tahun berubah
-            handleYearChange();
-        });
+    // Tambahkan event listener untuk onchange pada pilihan tahun
+    document.getElementById('tahun').addEventListener('change', function(event) {
+        // Panggil fungsi handleYearChange() ketika tahun berubah
+        handleYearChange();
+    });
     </script>
 
     <script>
-        function filterByMonth() {
-            var selectedMonth = document.getElementById("bulan").value;
-            window.location.href = "?bulan=" + selectedMonth;
-        }
-        /* ChartJS
-         * -------
-         * Disini kita akan membuat beberapa grafik menggunakan ChartJS
-         */
+    function filterByMonth() {
+        var selectedMonth = document.getElementById("bulan").value;
+        window.location.href = "?bulan=" + selectedMonth;
+    }
+    /* ChartJS
+     * -------
+     * Disini kita akan membuat beberapa grafik menggunakan ChartJS
+     */
 
-        //-------------
-        //- BAR CHART Umur -
-        //-------------
-        var barChartCanvasUmur = $('#barChartUmur').get(0).getContext('2d')
+    //-------------
+    //- BAR CHART Umur -
+    //-------------
+    var barChartCanvasUmur = $('#barChartUmur').get(0).getContext('2d')
 
-        var barChartDataUmur = {
-            labels: ['<18', '18-25', '26-30', '31-35', '36-40', '41-45', '46-50', '51-55', '>55'],
-            datasets: [{
+    var barChartDataUmur = {
+        labels: ['<18', '18-25', '26-30', '31-35', '36-40', '41-45', '46-50', '51-55', '>55'],
+        datasets: [{
                 label: 'Pria',
                 backgroundColor: 'rgba(60,141,188,0.9)',
                 borderColor: 'rgba(60,141,188,0.8)',
@@ -1075,30 +1075,30 @@ $urlToPHPExcel = buildExcelExportURL($selectedYear, $selectedMonth, $previousMon
                     <?php echo $perempuan55; ?>
                 ]
             }
-            ]
-        }
+        ]
+    }
 
-        var barChartOptionsUmur = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
+    var barChartOptionsUmur = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false
+    }
 
-        new Chart(barChartCanvasUmur, {
-            type: 'bar',
-            data: barChartDataUmur,
-            options: barChartOptionsUmur
-        })
+    new Chart(barChartCanvasUmur, {
+        type: 'bar',
+        data: barChartDataUmur,
+        options: barChartOptionsUmur
+    })
 
 
-        //-------------
-        //- BAR CHART MK -
-        //-------------
-        var barChartCanvasMK = $('#barChartMK').get(0).getContext('2d')
+    //-------------
+    //- BAR CHART MK -
+    //-------------
+    var barChartCanvasMK = $('#barChartMK').get(0).getContext('2d')
 
-        var barChartDataMK = {
-            labels: ['0-5', '6-10', '11-15', '16-20', '21-25', '26-30', '>30'],
-            datasets: [{
+    var barChartDataMK = {
+        labels: ['0-5', '6-10', '11-15', '16-20', '21-25', '26-30', '>30'],
+        datasets: [{
                 label: 'Pria',
                 backgroundColor: 'rgba(60,141,188,0.9)',
                 borderColor: 'rgba(60,141,188,0.8)',
@@ -1128,61 +1128,61 @@ $urlToPHPExcel = buildExcelExportURL($selectedYear, $selectedMonth, $previousMon
                     <?php echo $jumlah_perempuan_lebih_dari_30; ?>
                 ]
             }
-            ]
-        }
+        ]
+    }
 
-        var barChartOptionsMK = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
+    var barChartOptionsMK = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false
+    }
 
-        new Chart(barChartCanvasMK, {
-            type: 'bar',
-            data: barChartDataMK,
-            options: barChartOptionsMK
-        })
+    new Chart(barChartCanvasMK, {
+        type: 'bar',
+        data: barChartDataMK,
+        options: barChartOptionsMK
+    })
 
-        //-------------
-        //- BAR CHART JK -
-        //-------------
-        var barChartCanvasJK = $('#barChartJK').get(0).getContext('2d');
+    //-------------
+    //- BAR CHART JK -
+    //-------------
+    var barChartCanvasJK = $('#barChartJK').get(0).getContext('2d');
 
-        var barChartDataJK = {
-            labels: ['Pria', 'Wanita'],
-            datasets: [{
-                label: 'Jenis Kelamin',
-                backgroundColor: ['rgba(60,141,188,0.9)', 'rgba(210, 214, 222, 1)'],
-                borderColor: ['rgba(60,141,188,0.8)', 'rgba(210, 214, 222, 1)'],
-                pointRadius: false,
-                pointColor: '#3b8bba',
-                pointStrokeColor: 'rgba(60,141,188,1)',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [<?php echo $pria; ?>, <?php echo $perempuan; ?>]
-            }]
-        };
+    var barChartDataJK = {
+        labels: ['Pria', 'Wanita'],
+        datasets: [{
+            label: 'Jenis Kelamin',
+            backgroundColor: ['rgba(60,141,188,0.9)', 'rgba(210, 214, 222, 1)'],
+            borderColor: ['rgba(60,141,188,0.8)', 'rgba(210, 214, 222, 1)'],
+            pointRadius: false,
+            pointColor: '#3b8bba',
+            pointStrokeColor: 'rgba(60,141,188,1)',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data: [<?php echo $pria; ?>, <?php echo $perempuan; ?>]
+        }]
+    };
 
-        var barChartOptionsJK = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        };
+    var barChartOptionsJK = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false
+    };
 
-        new Chart(barChartCanvasJK, {
-            type: 'pie',
-            data: barChartDataJK,
-            options: barChartOptionsJK
-        })
+    new Chart(barChartCanvasJK, {
+        type: 'pie',
+        data: barChartDataJK,
+        options: barChartOptionsJK
+    })
 
-        //-------------
-        //- BAR CHART Pendidikan -
-        //-------------
-        var barChartCanvasPend = $('#barChartPend').get(0).getContext('2d')
+    //-------------
+    //- BAR CHART Pendidikan -
+    //-------------
+    var barChartCanvasPend = $('#barChartPend').get(0).getContext('2d')
 
-        var barChartDataPend = {
-            labels: ['SD-, SLTP', 'SLTA', 'Diploma', 'S1', 'S2, S3'],
-            datasets: [{
+    var barChartDataPend = {
+        labels: ['SD-, SLTP', 'SLTA', 'Diploma', 'S1', 'S2, S3'],
+        datasets: [{
                 label: 'Pria',
                 backgroundColor: 'rgba(60,141,188,0.9)',
                 borderColor: 'rgba(60,141,188,0.8)',
@@ -1211,61 +1211,61 @@ $urlToPHPExcel = buildExcelExportURL($selectedYear, $selectedMonth, $previousMon
                     <?php echo $jumlah_perempuan_S2 + $jumlah_perempuan_S3; ?>
                 ]
             }
-            ]
-        }
+        ]
+    }
 
-        var barChartOptionsPend = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
+    var barChartOptionsPend = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false
+    }
 
-        new Chart(barChartCanvasPend, {
-            type: 'bar',
-            data: barChartDataPend,
-            options: barChartOptionsPend
-        })
+    new Chart(barChartCanvasPend, {
+        type: 'bar',
+        data: barChartDataPend,
+        options: barChartOptionsPend
+    })
     </script>
 
     <script>
-        $(document).ready(function () {
-            $('.export-excel-btn').on('click', function (e) {
-                $('#loadingAlert').show();
-                // Biarkan pengunduhan berlangsung setelah menunjukkan alert
-                setTimeout(function () {
+    $(document).ready(function() {
+        $('.export-excel-btn').on('click', function(e) {
+            $('#loadingAlert').show();
+            // Biarkan pengunduhan berlangsung setelah menunjukkan alert
+            setTimeout(function() {
                     $('#loadingAlert').hide();
                 },
-                    5000
-                ); // Sembunyikan alert setelah 5 detik (Anda bisa menyesuaikan durasi sesuai kebutuhan)
-            });
+                5000
+            ); // Sembunyikan alert setelah 5 detik (Anda bisa menyesuaikan durasi sesuai kebutuhan)
         });
+    });
     </script>
 </body>
 
 </html>
 
 <style>
-    .loading-alert {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-        border-radius: 5px;
-        z-index: 1000;
-    }
+.loading-alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    z-index: 1000;
+}
 
-    .btn-success.btn-sm.export-excel-btn {
-        color: white;
-    }
+.btn-success.btn-sm.export-excel-btn {
+    color: white;
+}
 
-    .btn-success.btn-sm.export-excel-btn:hover {
-        background-color: white;
-        color: #28a745;
-        /* Bootstrap success color */
-    }
+.btn-success.btn-sm.export-excel-btn:hover {
+    background-color: white;
+    color: #28a745;
+    /* Bootstrap success color */
+}
 </style>

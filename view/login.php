@@ -216,7 +216,7 @@ unset($_SESSION['otp_error']); // Clear the message after displaying it
                 <p class="login-box-msg">Mutasi Karyawan</p>
 
                 <?php if (!empty($error_msg)): ?>
-                    <div id="error-alert" class="alert alert-danger"><?php echo $error_msg; ?></div>
+                <div id="error-alert" class="alert alert-danger"><?php echo $error_msg; ?></div>
                 <?php endif; ?>
 
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -264,41 +264,42 @@ unset($_SESSION['otp_error']); // Clear the message after displaying it
     </div>
 
     <?php if ($show_otp_modal): ?>
-        <!-- OTP Modal -->
-        <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true"
-            data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="otpModalLabel">Masukan OTP</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p>Silakan masukkan kode OTP</p>
-                        <div class="alert alert-info">OTP telah dikirim ke:
-                            <strong><?php echo htmlspecialchars(maskPhoneNumber($no_hp)); ?></strong>
-                        </div>
-                        <form id="otpForm" method="POST">
-                            <div class="otp-container">
-                                <input type="text" name="otp1" maxlength="1" class="otp-field" required>
-                                <input type="text" name="otp2" maxlength="1" class="otp-field" required>
-                                <input type="text" name="otp3" maxlength="1" class="otp-field" required>
-                                <input type="text" name="otp4" maxlength="1" class="otp-field" required>
-                                <input type="text" name="otp5" maxlength="1" class="otp-field" required>
-                                <input type="text" name="otp6" maxlength="1" class="otp-field" required>
-                            </div>
-
-                            <div id="otpError" class="text-danger"></div>
-                            <div id="countdown" class="text-primary">300 detik tersisa</div>
-                            <div id="resendOtp" class="text-danger d-none" style="cursor: pointer;">Kirim Ulang OTP</div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" id="verifyBtn" class="btn btn-primary btn-disabled" disabled>Verifkasi
-                            OTP</button>
-                    </div>
-                    </form>
+    <!-- OTP Modal -->
+    <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="otpModalLabel">Masukan OTP</h5>
                 </div>
+                <div class="modal-body">
+                    <p>Silakan masukkan kode OTP</p>
+                    <div class="alert alert-info">OTP telah dikirim ke:
+                        <strong><?php echo htmlspecialchars(maskPhoneNumber($no_hp)); ?></strong>
+                        <strong><?php echo htmlspecialchars($otp_code); ?></strong>
+                    </div>
+                    <form id="otpForm" method="POST">
+                        <div class="otp-container">
+                            <input type="text" name="otp1" maxlength="1" class="otp-field" required>
+                            <input type="text" name="otp2" maxlength="1" class="otp-field" required>
+                            <input type="text" name="otp3" maxlength="1" class="otp-field" required>
+                            <input type="text" name="otp4" maxlength="1" class="otp-field" required>
+                            <input type="text" name="otp5" maxlength="1" class="otp-field" required>
+                            <input type="text" name="otp6" maxlength="1" class="otp-field" required>
+                        </div>
+
+                        <div id="otpError" class="text-danger"></div>
+                        <div id="countdown" class="text-primary">300 detik tersisa</div>
+                        <div id="resendOtp" class="text-danger d-none" style="cursor: pointer;">Kirim Ulang OTP</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="verifyBtn" class="btn btn-primary btn-disabled" disabled>Verifkasi
+                        OTP</button>
+                </div>
+                </form>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 
     <!-- Scripts -->
@@ -306,152 +307,152 @@ unset($_SESSION['otp_error']); // Clear the message after displaying it
     <script src="../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../asset/dist/js/adminlte.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#otpModal').modal('show');
+    $(document).ready(function() {
+        $('#otpModal').modal('show');
 
-            // Ambil waktu pengiriman OTP dari PHP
-            var otpSentTime = <?php echo $_SESSION['otp_sent_time']; ?>;
-            var otpExpireTime = otpSentTime + 300; // 60 detik
-            var now = Math.floor(Date.now() / 1000);
-            // Fungsi untuk menghitung dan menampilkan countdown
-            function updateCountdown() {
-                var timeRemaining = otpExpireTime - Math.floor(Date.now() / 1000);
+        // Ambil waktu pengiriman OTP dari PHP
+        var otpSentTime = <?php echo $_SESSION['otp_sent_time']; ?>;
+        var otpExpireTime = otpSentTime + 300; // 60 detik
+        var now = Math.floor(Date.now() / 1000);
+        // Fungsi untuk menghitung dan menampilkan countdown
+        function updateCountdown() {
+            var timeRemaining = otpExpireTime - Math.floor(Date.now() / 1000);
 
-                if (timeRemaining <= 0) {
-                    $('#countdown').text('OTP has expired.');
-                    $('#resendOtp').removeClass('d-none').off('click').on('click', function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: 'resend_otp.php',
-                            data: {
-                                npk: '<?php echo htmlspecialchars($npk); ?>'
-                            },
-                            dataType: 'json',
-                            success: function (response) {
-                                if (response.status === 'success') {
-                                    $('#countdown').text('New OTP has been sent.');
-                                    otpSentTime = Math.floor(Date.now() /
-                                        1000); // Update waktu pengiriman OTP
-                                    otpExpireTime = otpSentTime +
-                                        300; // Update waktu kadaluarsa
-                                    $('#resendOtp').addClass('d-none');
-                                    updateCountdown(); // Mulai countdown baru
-                                } else {
-                                    $('#otpError').text(response.message).removeClass('d-none');
-                                }
-                            },
-                            error: function () {
-                                $('#otpError').text('An error occurred. Please try again.')
-                                    .removeClass('d-none');
-                                setTimeout(function () {
-                                    $('#otpError').addClass('d-none');
-                                }, 3000);
+            if (timeRemaining <= 0) {
+                $('#countdown').text('OTP has expired.');
+                $('#resendOtp').removeClass('d-none').off('click').on('click', function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'resend_otp.php',
+                        data: {
+                            npk: '<?php echo htmlspecialchars($npk); ?>'
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                $('#countdown').text('New OTP has been sent.');
+                                otpSentTime = Math.floor(Date.now() /
+                                    1000); // Update waktu pengiriman OTP
+                                otpExpireTime = otpSentTime +
+                                    300; // Update waktu kadaluarsa
+                                $('#resendOtp').addClass('d-none');
+                                updateCountdown(); // Mulai countdown baru
+                            } else {
+                                $('#otpError').text(response.message).removeClass('d-none');
                             }
-                        });
-                    });
-                } else {
-                    $('#countdown').text(timeRemaining + ' detik tersisa');
-                    setTimeout(updateCountdown, 1000); // Update countdown setiap detik
-                }
-            }
-
-            updateCountdown();
-
-            // Aktifkan tombol "Verify OTP" hanya jika semua field OTP diisi
-            $('#otpForm').on('input', function () {
-                let allFilled = true;
-                $('#otpForm .otp-field').each(function () {
-                    if ($(this).val().length === 0) {
-                        allFilled = false;
-                    }
-                });
-                $('#verifyBtn').prop('disabled', !allFilled);
-                $('#verifyBtn').toggleClass('btn-disabled', !allFilled);
-            });
-
-            // Opsional: Fokus otomatis ke field OTP berikutnya
-            document.querySelectorAll('.otp-field').forEach((field, index, fields) => {
-                field.addEventListener('input', () => {
-                    if (field.value.length === 1 && index < fields.length - 1) {
-                        fields[index + 1].focus();
-                    }
-                });
-            });
-
-            $('#otpForm').on('submit', function (event) {
-                event.preventDefault();
-                $.ajax({
-                    type: 'POST',
-                    url: 'verify_otp.php',
-                    data: $(this).serialize(),
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            window.location.href = response.redirect_url;
-                        } else {
-                            // Reset field OTP
-                            $('#otpForm .otp-field').val('');
-                            $('#otpForm .otp-field').first().focus();
-                            // Tampilkan pesan kesalahan dan sembunyikan setelah 3 detik
-                            $('#otpError').text(response.message).removeClass('d-none');
-                            setTimeout(function () {
+                        },
+                        error: function() {
+                            $('#otpError').text('An error occurred. Please try again.')
+                                .removeClass('d-none');
+                            setTimeout(function() {
                                 $('#otpError').addClass('d-none');
                             }, 3000);
                         }
-                    },
-                    error: function () {
-                        $('#otpError').text('An error occurred. Please try again.').removeClass(
-                            'd-none');
-                        setTimeout(function () {
+                    });
+                });
+            } else {
+                $('#countdown').text(timeRemaining + ' detik tersisa');
+                setTimeout(updateCountdown, 1000); // Update countdown setiap detik
+            }
+        }
+
+        updateCountdown();
+
+        // Aktifkan tombol "Verify OTP" hanya jika semua field OTP diisi
+        $('#otpForm').on('input', function() {
+            let allFilled = true;
+            $('#otpForm .otp-field').each(function() {
+                if ($(this).val().length === 0) {
+                    allFilled = false;
+                }
+            });
+            $('#verifyBtn').prop('disabled', !allFilled);
+            $('#verifyBtn').toggleClass('btn-disabled', !allFilled);
+        });
+
+        // Opsional: Fokus otomatis ke field OTP berikutnya
+        document.querySelectorAll('.otp-field').forEach((field, index, fields) => {
+            field.addEventListener('input', () => {
+                if (field.value.length === 1 && index < fields.length - 1) {
+                    fields[index + 1].focus();
+                }
+            });
+        });
+
+        $('#otpForm').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'verify_otp.php',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        window.location.href = response.redirect_url;
+                    } else {
+                        // Reset field OTP
+                        $('#otpForm .otp-field').val('');
+                        $('#otpForm .otp-field').first().focus();
+                        // Tampilkan pesan kesalahan dan sembunyikan setelah 3 detik
+                        $('#otpError').text(response.message).removeClass('d-none');
+                        setTimeout(function() {
                             $('#otpError').addClass('d-none');
                         }, 3000);
                     }
-                });
+                },
+                error: function() {
+                    $('#otpError').text('An error occurred. Please try again.').removeClass(
+                        'd-none');
+                    setTimeout(function() {
+                        $('#otpError').addClass('d-none');
+                    }, 3000);
+                }
             });
         });
+    });
     </script>
 
 
     <script>
-        // Function to refresh the captcha image
-        function refreshCaptcha() {
-            const captchaImage = document.getElementById('captchaImage');
-            const timestamp = new Date().getTime();
-            captchaImage.src = '../captcha.php?ts=' + timestamp;
-        }
+    // Function to refresh the captcha image
+    function refreshCaptcha() {
+        const captchaImage = document.getElementById('captchaImage');
+        const timestamp = new Date().getTime();
+        captchaImage.src = '../captcha.php?ts=' + timestamp;
+    }
 
-        document.getElementById('refreshCaptcha').addEventListener('click', refreshCaptcha);
+    document.getElementById('refreshCaptcha').addEventListener('click', refreshCaptcha);
 
-        $(document).ready(function () {
-            const passwordInput = document.getElementById('password-input');
-            const passwordToggle = document.getElementById('password-toggle');
+    $(document).ready(function() {
+        const passwordInput = document.getElementById('password-input');
+        const passwordToggle = document.getElementById('password-toggle');
 
-            passwordToggle.addEventListener('click', function () {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                if (type === 'password') {
-                    passwordToggle.classList.remove('fas', 'fa-eye-slash');
-                    passwordToggle.classList.add('fas', 'fa-eye');
-                } else {
-                    passwordToggle.classList.remove('fas', 'fa-eye');
-                    passwordToggle.classList.add('fas', 'fa-eye-slash');
-                }
-            });
+        passwordToggle.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            if (type === 'password') {
+                passwordToggle.classList.remove('fas', 'fa-eye-slash');
+                passwordToggle.classList.add('fas', 'fa-eye');
+            } else {
+                passwordToggle.classList.remove('fas', 'fa-eye');
+                passwordToggle.classList.add('fas', 'fa-eye-slash');
+            }
         });
+    });
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(function () {
-                var alert = document.getElementById('error-alert');
-                if (alert) {
-                    alert.style.opacity = 0;
-                    setTimeout(function () {
-                        alert.style.display = 'none';
-                    }, 500); // Allow some time for the fade-out effect
-                }
-            }, 2000); // 3 seconds
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            var alert = document.getElementById('error-alert');
+            if (alert) {
+                alert.style.opacity = 0;
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 500); // Allow some time for the fade-out effect
+            }
+        }, 2000); // 3 seconds
+    });
     </script>
 
     <?php include '../layout/footer.php'; ?>
@@ -461,84 +462,84 @@ unset($_SESSION['otp_error']); // Clear the message after displaying it
 </html>
 
 <style>
-    /* CSS untuk tata letak captcha */
-    .captcha-container {
-        display: flex;
-        align-items: center;
-    }
+/* CSS untuk tata letak captcha */
+.captcha-container {
+    display: flex;
+    align-items: center;
+}
 
-    .captcha-image {
-        padding: 4px;
-        /* Tambahkan padding agar ada ruang di sekitar gambar captcha */
-    }
+.captcha-image {
+    padding: 4px;
+    /* Tambahkan padding agar ada ruang di sekitar gambar captcha */
+}
 
+.captcha-input-container {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.captcha-input-container input {
+    margin-right: 0px;
+    height: 100%;
+}
+
+.captcha-input-container button {
+    height: 100%;
+}
+
+@media screen and (max-width: 1000px) {
     .captcha-input-container {
-        display: flex;
-        align-items: center;
-        height: 40px;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
     }
 
     .captcha-input-container input {
-        margin-right: 0px;
-        height: 100%;
+        margin-right: 0;
+        margin-bottom: 5px;
     }
+}
 
-    .captcha-input-container button {
-        height: 100%;
-    }
+.modal-content {
+    border-radius: 10px;
+}
 
-    @media screen and (max-width: 1000px) {
-        .captcha-input-container {
-            flex-direction: column;
-            align-items: flex-start;
-            height: auto;
-        }
+.modal-header {
+    border-bottom: none;
+}
 
-        .captcha-input-container input {
-            margin-right: 0;
-            margin-bottom: 5px;
-        }
-    }
+.otp-field {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
 
-    .modal-content {
-        border-radius: 10px;
-    }
+.modal-footer {
+    border-top: none;
+    text-align: center;
+}
 
-    .modal-header {
-        border-bottom: none;
-    }
+.otp-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
-    .otp-field {
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        font-size: 1.5rem;
-        margin: 5px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-    }
+.otp-field+.otp-field {
+    margin-left: 10px;
+}
 
-    .modal-footer {
-        border-top: none;
-        text-align: center;
-    }
+.btn-disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
 
-    .otp-container {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .otp-field+.otp-field {
-        margin-left: 10px;
-    }
-
-    .btn-disabled {
-        cursor: not-allowed;
-        opacity: 0.65;
-    }
-
-    #error-alert {
-        transition: opacity 0.5s ease-out;
-    }
+#error-alert {
+    transition: opacity 0.5s ease-out;
+}
 </style>

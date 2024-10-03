@@ -309,7 +309,7 @@ if (isset($_GET['show_all'])) {
     <script src="../../asset/plugins/jquery-ui/jquery-ui.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- Bootstrap 4 -->
     <script src="../../asset/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -340,97 +340,97 @@ if (isset($_GET['show_all'])) {
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
     <script src="../../asset/JS/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
     <script src="../../asset/select/select.min.js"></script>
 
 
 
     <script>
-        $(document).ready(function () {
-            var exportBaseUrl = '../../output/excelMutasi.php';
+    $(document).ready(function() {
+        var exportBaseUrl = '../../output/excelMutasi.php';
 
-            // Fungsi untuk menangani klik pada tombol Export Excel
-            function handleExportExcel(e) {
-                e.preventDefault();
+        // Fungsi untuk menangani klik pada tombol Export Excel
+        function handleExportExcel(e) {
+            e.preventDefault();
 
-                // Ambil nilai bulan dan tahun yang sedang dipilih
-                var selectedMonth = $('#bulan').val();
-                var selectedYear = $('#tahun').val();
-                var exportUrl = exportBaseUrl;
+            // Ambil nilai bulan dan tahun yang sedang dipilih
+            var selectedMonth = $('#bulan').val();
+            var selectedYear = $('#tahun').val();
+            var exportUrl = exportBaseUrl;
 
-                // Cek apakah sedang menampilkan semua data
-                if ($('#showAllLink').data('show-all')) {
-                    exportUrl += '?show_all=1';
-                } else {
-                    exportUrl += '?tahun=' + selectedYear + '&bulan=' + selectedMonth;
+            // Cek apakah sedang menampilkan semua data
+            if ($('#showAllLink').data('show-all')) {
+                exportUrl += '?show_all=1';
+            } else {
+                exportUrl += '?tahun=' + selectedYear + '&bulan=' + selectedMonth;
+            }
+
+            // Redirect ke halaman ekspor Excel
+            window.location.href = exportUrl;
+        }
+
+        $('#exportExcel').click(handleExportExcel);
+
+        // Fungsi untuk meng-handle perubahan pada dropdown bulan dan tahun
+        $('#bulan, #tahun').change(function() {
+            $('#showAllLink').data('show-all', false);
+            filterByMonthAndYear();
+        });
+
+        function filterByMonthAndYear() {
+            var selectedMonth = $('#bulan').val();
+            var selectedYear = $('#tahun').val();
+            var url = 'mutasi.php'; // Sesuaikan dengan nama halaman PHP Anda
+
+            // Lakukan permintaan AJAX
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {
+                    bulan: selectedMonth,
+                    tahun: selectedYear
+                },
+                success: function(data) {
+                    // Dapatkan tabel dari respons data
+                    var table = $(data).find('.table-responsive').html();
+                    // Perbarui tabel di halaman saat ini
+                    $('.table-responsive').html(table);
+
+                    var title = $(data).find('.card-title').text();
+                    $('h3').text(title);
                 }
-
-                // Redirect ke halaman ekspor Excel
-                window.location.href = exportUrl;
-            }
-
-            $('#exportExcel').click(handleExportExcel);
-
-            // Fungsi untuk meng-handle perubahan pada dropdown bulan dan tahun
-            $('#bulan, #tahun').change(function () {
-                $('#showAllLink').data('show-all', false);
-                filterByMonthAndYear();
             });
+        }
 
-            function filterByMonthAndYear() {
-                var selectedMonth = $('#bulan').val();
-                var selectedYear = $('#tahun').val();
-                var url = 'mutasi.php'; // Sesuaikan dengan nama halaman PHP Anda
+        // Fungsi untuk menangani klik pada tautan "Tampilkan semua"
+        $('#showAllLink').click(function(e) {
+            e.preventDefault();
 
-                // Lakukan permintaan AJAX
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        bulan: selectedMonth,
-                        tahun: selectedYear
-                    },
-                    success: function (data) {
-                        // Dapatkan tabel dari respons data
-                        var table = $(data).find('.table-responsive').html();
-                        // Perbarui tabel di halaman saat ini
-                        $('.table-responsive').html(table);
+            var url = 'mutasi.php'; // Sesuaikan dengan nama halaman PHP Anda
 
-                        var title = $(data).find('.card-title').text();
-                        $('h3').text(title);
-                    }
-                });
-            }
+            // Lakukan permintaan AJAX tanpa parameter bulan dan tahun
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {
+                    show_all: '1'
+                },
+                success: function(data) {
+                    // Dapatkan tabel dari respons data
+                    var table = $(data).find('.table-responsive').html();
+                    // Perbarui tabel di halaman saat ini
+                    $('.table-responsive').html(table);
 
-            // Fungsi untuk menangani klik pada tautan "Tampilkan semua"
-            $('#showAllLink').click(function (e) {
-                e.preventDefault();
+                    var title = $(data).find('.card-title').text();
+                    $('h3').text(title);
 
-                var url = 'mutasi.php'; // Sesuaikan dengan nama halaman PHP Anda
-
-                // Lakukan permintaan AJAX tanpa parameter bulan dan tahun
-                $.ajax({
-                    type: 'GET',
-                    url: url,
-                    data: {
-                        show_all: '1'
-                    },
-                    success: function (data) {
-                        // Dapatkan tabel dari respons data
-                        var table = $(data).find('.table-responsive').html();
-                        // Perbarui tabel di halaman saat ini
-                        $('.table-responsive').html(table);
-
-                        var title = $(data).find('.card-title').text();
-                        $('h3').text(title);
-
-                        // Tandai bahwa sedang menampilkan semua data
-                        $('#showAllLink').data('show-all', true);
-                    }
-                });
+                    // Tandai bahwa sedang menampilkan semua data
+                    $('#showAllLink').data('show-all', true);
+                }
             });
         });
+    });
     </script>
 
 

@@ -12,7 +12,7 @@ include __DIR__ . '/../../query/koneksi.php';
 
 $currentYear = date('Y');
 $selectedYear = isset($_GET['tahun']) ? $_GET['tahun'] : $currentYear;
-$urlToPHPExcel = "../output/excel3.php";
+$urlToPHPExcel = "../output/excelINOUT.php";
 if (isset($_GET['show_all'])) {
     $urlToPHPExcel .= "?show_all=1";
 } else {
@@ -261,6 +261,7 @@ if (isset($_GET['show_all'])) {
                                         <th>Status</th>
                                         <th>Posisi</th>
                                         <th>Departemen</th>
+                                        <th>Divisi</th>
                                         <th>Seksi</th>
                                         <th>Tanggal Efektif Terakhir</th>
                                         <th>Alasan</th>
@@ -282,6 +283,28 @@ if (isset($_GET['show_all'])) {
                                     $no = 1; // Definisikan variabel $no di sini
                                     if (mysqli_num_rows($resultOut) > 0) {
                                         while ($row = mysqli_fetch_assoc($resultOut)) {
+                                            $divisiList = [
+                                                'Quality Assurance' => ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'],
+                                                'HRGA & MIS' => ['HRD IR', 'GA', 'MIS'],
+                                                'Engineering' => ['PCE', 'PE 2W', 'PE 4W'],
+                                                'Marketing & Procurement' => ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'],
+                                                'Production Control' => ['WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC'],
+                                                'Production' => ['PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5']
+                                            ];
+
+                                            $cwoc = isset($row['cwoc']) ? $row['cwoc'] : null;
+                                            $divisi = "Non Divisi";
+
+                                            if ($cwoc !== null) {
+                                                foreach ($divisiList as $division => $codes) {
+                                                    if (in_array($cwoc, $codes)) {
+                                                        $divisi = $division;
+                                                        break; // Stop searching once we find the division
+                                                    }
+                                                }
+                                            }
+
+
                                             // Tampilkan data dalam tabel
                                             echo "<tr>";
                                             echo "<td>" . $no++ . "</td>"; // Menampilkan nomor urutan (increment $no setelah digunakan)
@@ -327,6 +350,7 @@ if (isset($_GET['show_all'])) {
                                             echo "</td>";
 
                                             echo "<td>" . $row['cwoc'] . "</td>";
+                                            echo "<td>" . $divisi . "</td>";
                                             echo "<td>" . $row['sect_desc'] . "</td>";
                                             echo "<td>" . date('d F Y', strtotime($row['resdate'])) . "</td>";
                                             echo "<td>" . $row['reason'] . "</td>";
@@ -399,14 +423,14 @@ if (isset($_GET['show_all'])) {
     <script src="../../asset/dist/js/pages/dashboard.js"></script>
 
     <!-- Skrip JavaScript yang Anda tambahkan -->
-    <script src="../../asset/js/search.js"></script>
-    <script src="../../asset/js/day.js"></script>
+    <script src="../../asset/JS/search.js"></script>
+    <script src="../../asset/JS/day.js"></script>
 
     <script src="../../asset/select/select.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            var exportBaseUrl = '../../output/excel3.php';
+            var exportBaseUrl = '../../output/excelINOUT.php';
 
             // Fungsi untuk menangani klik pada tombol Export Excel
             function handleExportExcel(e) {
