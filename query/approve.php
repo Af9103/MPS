@@ -88,9 +88,9 @@ if (isset($_SESSION['role'])) {
                           FROM mutasi
                           WHERE hapus IS NULL
                           AND (
-                              (cwocAsal IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '6')
+                              (cwocAsal IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD') AND status = '6')
                               OR 
-                              (cwocBaru IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '7')
+                              (cwocBaru IN ('MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD') AND status = '7')
                           ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
                           ORDER BY tanggalMutasi ASC";
@@ -130,9 +130,9 @@ if (isset($_SESSION['role'])) {
         $queryMutasi = "SELECT *
                         FROM mutasi
                         WHERE hapus IS NULL AND (
-                                (cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '8')
+                                (cwocAsal IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD') AND status = '8')
                                 OR 
-                                (cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE') AND status = '9')
+                                (cwocBaru IN ('HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD') AND status = '9')
                             ) AND batchMutasi IS NOT NULL
                         GROUP BY batchMutasi
                         ORDER BY tanggalMutasi ASC";
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
     $IdMutasiList = implode(',', $IdMutasi);
     $name = isset($_SESSION['npk']) ? $_SESSION['npk'] : '';
     $namareject = isset($_SESSION['name']) ? $_SESSION['name'] : '';
-    $oleh = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    $oleh = isset($_SESSION['npk']) ? $_SESSION['npk'] : '';
     date_default_timezone_set('Asia/Jakarta');
     $tgl_apv_hrd = date("Y-m-d H:i:s");
     $tgl_fm = date("Y-m-d H:i:s");
@@ -270,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
     $kelompok1 = ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'];
     $kelompok2 = ['HRD IR', 'GA', 'MIS'];
     $kelompok3 = ['PCE', 'PE 2W', 'PE 4W'];
-    $kelompok4 = ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'];
+    $kelompok4 = ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD'];
     $kelompok5 = ['WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC'];
     $kelompok6 = ['PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5'];
 
@@ -319,7 +319,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
 
     $grup1 = ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'];
     $grup2 = ['HRD IR', 'MIS', 'GA'];
-    $grup3 = ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'];
+    $grup3 = ['MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD'];
     $grup4 = ['PRODUCTION SYSTEM', 'PPC'];
     $grup5 = ['PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5'];
 
@@ -338,6 +338,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
         $npk = '01577';
     }
 
+    $npk2 = '';
+
     if (in_array($cwocBaru, $grup1)) {
         $npk2 = '01033';
     } elseif (in_array($cwocBaru, $grup2)) {
@@ -352,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['IdMutasi']) && !empt
 
 
     $plantGroups = ['PDE 2W', 'PDE 4W', 'QA', 'CQE 2W', 'CQE 4W', 'PCE', 'PE 2W', 'PE 4W', 'WAREHOUSE', 'PRODUCTION SYSTEM', 'PPC', 'PRODUCTION 1', 'PRODUCTION 2', 'PRODUCTION 3', 'PRODUCTION 4', 'PRODUCTION 5'];
-    $nonPlantGroups = ['HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE'];
+    $nonPlantGroups = ['HRD IR', 'MIS', 'GA', 'MARKETING', 'PROCUREMENT', 'VENDOR DEVELOPMENT', 'GENERAL PURCHASE', 'VDD'];
 
     // Initialize department variable
     $deptTarget = '';

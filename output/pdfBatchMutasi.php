@@ -58,7 +58,7 @@ while ($row = $result->fetch_assoc()) {
     $pdf->SetFont('arial', '', 10);
 
     $pdf->SetXY(10, 32); // Set position for Nama Karyawan
-    $pdf->Cell(41, 5, 'Nama Karyawan             : ' . ($isSingleRecord ? $nama : 'Terlampir'), 0, 0);
+    $pdf->Cell(41, 5, 'Nama Karyawan             : ' . ($isSingleRecord ? $fullName : 'Terlampir'), 0, 0);
     $pdf->Cell(35, 5, '', 'B', 0);
     $pdf->SetXY(88, 32);
     $pdf->Cell(15, 5, 'NPK   ' . ($isSingleRecord1 ? 'Terlampir' : $emno), 0, 0);
@@ -262,8 +262,10 @@ while ($row = $result->fetch_assoc()) {
 
     // Assuming $status holds the value of the status
     if ($row['Direktur'] === $row['Direktur2'] || (is_null($row['Direktur']) && !is_null($row['Direktur2']))) {
-        $pdf->Image($direktur2, 70, 125, 9, 9);
-        unlink($direktur2); // Deletes the file after it is used
+        if (!empty($row['Direktur2'])) {
+            $pdf->Image($direktur2, 70, 125, 9, 9);
+            unlink($direktur2); // Deletes the file after it is used
+        }
 
     } else {
         // When Kadiv1 and Kadiv2 are different
@@ -438,7 +440,7 @@ if ($totalRecords > 1) {
     $pdf->Cell(50, 10, 'Nama', 1, 0, 'C');
     $pdf->Cell(50, 5, 'Asal', 1, 0, 'C');
     $pdf->Cell(50, 5, 'Ke', 1, 0, 'C');
-    $pdf->Cell(20, 10, 'Paraf', 1, 0, 'C');
+    $pdf->Cell(20, 10, 'Mengetahui', 1, 0, 'C');
 
     $pdf->SetXY(85, 45);
     $pdf->Cell(25, 5, 'Dept', 1, 0, 'C');
@@ -461,6 +463,11 @@ if ($totalRecords > 1) {
         $sectBaru = $row['sectBaru'];
         $cek = $row['cek'];
 
+        $query_full_name = "SELECT full_name FROM ct_users WHERE npk = '$emno'";
+        $result_full_name = $koneksi2->query($query_full_name);
+        $row_full_name = $result_full_name->fetch_assoc();
+        $full_name = $row_full_name['full_name'];
+
         // Check if we need to add a new page
         if ($rowCount >= $maxRowsPerPage) {
             $pdf->AddPage('P', 'A4'); // Add new page
@@ -480,7 +487,7 @@ if ($totalRecords > 1) {
             $pdf->Cell(50, 10, 'Nama', 1, 0, 'C');
             $pdf->Cell(50, 5, 'Asal', 1, 0, 'C');
             $pdf->Cell(50, 5, 'Ke', 1, 0, 'C');
-            $pdf->Cell(20, 10, 'Paraf', 1, 0, 'C');
+            $pdf->Cell(20, 10, 'Mengetahui', 1, 0, 'C');
 
             $pdf->SetXY(85, 45);
             $pdf->Cell(25, 5, 'Dept', 1, 0, 'C');
@@ -495,7 +502,7 @@ if ($totalRecords > 1) {
         // Print record
         $pdf->Cell(10, 5, $no, 1, 0, 'C'); // Display serial number
         $pdf->Cell(15, 5, $emno, 1, 0, 'C');
-        $pdf->Cell(50, 5, $nama, 1, 0, 'C');
+        $pdf->Cell(50, 5, $full_name, 1, 0, 'C');
         $pdf->Cell(25, 5, $cwocAsal, 1, 0, 'C');
         $pdf->Cell(25, 5, $sectAsalDesc, 1, 0, 'C');
         $pdf->Cell(25, 5, $cwocBaru, 1, 0, 'C');

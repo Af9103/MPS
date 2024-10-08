@@ -929,6 +929,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
                         var rejectMessage = data.reject[index];
                         var status = getStatusMessage(statusCode, rejectMessage);
                         var nama = data.nama[index];
+                        var full_name = data.full_name[index]; // Get full name
                         var emno = data.emnos[index];
                         var cwocAsal = data.cwocAsal; // Get cwocAsal
                         var tanggalBuat = formatDate(data.tanggalBuat[index]);
@@ -950,7 +951,7 @@ while ($batchRow = mysqli_fetch_assoc($batchCountResult)) {
 
                         var row = '<tr><td>' + (index + 1) + '</td>' +
                             '<td>' + emno + '</td>' +
-                            '<td>' + nama + '</td>' +
+                            '<td>' + full_name + '</td>' +
                             '<td>' + tanggalBuat + '</td>' +
                             '<td>' + tanggalMutasi + '</td>' + checkbox + '</tr>';
 

@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cwocAsal = mysqli_real_escape_string($koneksi3, $_POST['cwocAsal']);
     $sectAsal = mysqli_real_escape_string($koneksi3, $_POST['sectAsal']);
     $subsectAsal = mysqli_real_escape_string($koneksi3, $_POST['subsectAsal']);
-    $Req = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    $Req = isset($_SESSION['npk']) ? $_SESSION['npk'] : '';
 
     $emnoArray = $_POST['emno'];
     $emnoList = array_map(function ($item) use ($koneksi3) {
@@ -155,8 +155,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     continue 2; // Skip ke iterasi berikutnya
             }
 
-            $query_insert_mutasi = "INSERT INTO mutasi (cwocAsal, sectAsal, subsectAsal, emno, nama, tanggalMutasi, cwocBaru, sectBaru, subsectBaru, status, tanggalBuat, batchMutasi, Req) 
-            VALUES ('$cwocAsal', '$sectAsal', '$subsectAsal', '$emno', '$fullName', '$tanggalMutasi', '$cwocBaru', '$sectBaru', '$subsectBaru', '$status', '$tanggalBuat', '$batchMutasi', '$Req')";
+            $query_insert_mutasi = "INSERT INTO mutasi (cwocAsal, sectAsal, subsectAsal, emno, tanggalMutasi, cwocBaru, sectBaru, subsectBaru, status, tanggalBuat, batchMutasi, Req) 
+            VALUES ('$cwocAsal', '$sectAsal', '$subsectAsal', '$emno', '$tanggalMutasi', '$cwocBaru', '$sectBaru', '$subsectBaru', '$status', '$tanggalBuat', '$batchMutasi', '$Req')";
             mysqli_query($koneksi3, $query_insert_mutasi);
 
             $query_insert_batch = "INSERT INTO batch (batchMutasi, npk) VALUES ('$batchMutasi', '$emno')";

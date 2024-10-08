@@ -475,10 +475,12 @@ include __DIR__ . '/../../query/detail.php';
             case 7:
                 return 'Menunggu Ka.Div Tujuan';
             case 8:
-                return 'Menunggu Direktur';
+                return 'Menunggu Direktur Asal';
             case 9:
-                return 'Menunggu HRD';
+                return 'Menunggu Direktur Penerima';
             case 10:
+                return 'Menunggu HRD';
+            case 11:
                 return 'Finish';
             default:
                 return 'Unknown';
@@ -538,12 +540,13 @@ include __DIR__ . '/../../query/detail.php';
                         var status = getStatusMessage(statusCode);
                         var nama = data.nama[index];
                         var emno = data.emnos[index];
+                        var full_name = data.full_name[index]; // Get full name
                         var tanggalBuat = formatDate(data.tanggalBuat[index]);
                         var tanggalMutasi = formatDate2(data.tanggalMutasi[index]);
 
                         var row = '<tr><td>' + (index + 1) + '</td>' +
                             '<td>' + emno + '</td>' +
-                            '<td>' + nama + '</td>' +
+                            '<td>' + full_name + '</td>' +
                             '<td>' + tanggalBuat + '</td>' +
                             '<td>' + tanggalMutasi + '</td>' +
                             '<td><input type="checkbox" class="select-checkbox" data-id="' +
@@ -553,7 +556,7 @@ include __DIR__ . '/../../query/detail.php';
 
                     // Assuming you already have the role and data from the AJAX response
 
-                    let showRemarkButton = false;
+                    let showRemarkButton = true;
 
                     // Log the current role and the relevant data fields
                     console.log("Current Role:", currentRole);
@@ -572,6 +575,9 @@ include __DIR__ . '/../../query/detail.php';
                         // Show only if SPV is not null or empty, or if SPV is empty but Kadept1 is present
                         showRemarkButton = (data.SPV !== null && data.SPV !== '') || (data.SPV ===
                             null && (data.Kadept1 !== null && data.Kadept1 !== ''));
+                    }
+                    if (data.status === 10 || data.status === 11) {
+                        showRemarkButton = false;
                     }
 
                     // Log the result for showing the Remark button

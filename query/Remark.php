@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $remark = isset($_POST['remark']) ? $_POST['remark'] : '';
     date_default_timezone_set('Asia/Jakarta');
     $date = date('Y-m-d H:i:s'); // Get the current date and time
-    $by = isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    $by = isset($_SESSION['npk']) ? $_SESSION['npk'] : '';
 
     // Escape the inputs to prevent SQL injection
     $batchMutasi = mysqli_real_escape_string($koneksi3, $batchMutasi);
@@ -193,26 +193,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($status == 6) {
             if ($cwocAsal == $cwocBaru) {
                 $newstatus = 4;
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi " . $divisi . " telah memberikan remark pada batch mutasi " . $batchMutasi1 . " sebagai berikut:\n" . $remark . "\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
-                $query_npk = "SELECT npk FROM ct_users WHERE dept = '" . $cwocAsal . "' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi $divisi telah memberikan remark pada batch mutasi $batchMutasi1 sebagai berikut:\n$remark\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept =  '$cwocAsal' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
             } else {
                 $newstatus = 5;
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi " . $divisi . " telah memberikan remark pada batch mutasi " . $batchMutasi1 . " sebagai berikut:\n" . $remark . "\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
-                $query_npk = "SELECT npk FROM ct_users WHERE dept = '" . $cwocBaru . "' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi $divisi telah memberikan remark pada batch mutasi $batchMutasi1 sebagai berikut:\n$remark\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept = '$cwocBaru' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
             }
         } elseif ($status == 7) {
             if (sameGroup($cwocAsal, $cwocBaru, $allGroups)) {
                 $newstatus = 5;
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi " . $divisiBaru . " telah memberikan remark pada batch mutasi " . $batchMutasi1 . " sebagai berikut:\n" . $remark . "\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
-                $query_npk = "SELECT npk FROM ct_users WHERE dept = '" . $cwocBaru . "' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi $divisiBaru telah memberikan remark pada batch mutasi $batchMutasi1 sebagai berikut:\n $remark\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept = '$cwocBaru' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
             } elseif (in_array($cwocAsal, $specialGroups)) {
                 $newstatus = 5;
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi " . $divisiBaru . " telah memberikan remark pada batch mutasi " . $batchMutasi1 . " sebagai berikut:\n" . $remark . "\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
-                $query_npk = "SELECT npk FROM ct_users WHERE dept = '" . $cwocBaru . "' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi $divisiBaru telah memberikan remark pada batch mutasi $batchMutasi1 sebagai berikut:\n $remark\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
+                $query_npk = "SELECT npk FROM ct_users WHERE dept = '$cwocBaru' AND npk IN (SELECT npk FROM hrd_so WHERE tipe = 1)";
             } else {
                 $newstatus = 6;
-                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Departemen " . $divisiBaru . " telah memberikan remark pada batch mutasi " . $batchMutasi1 . " sebagai berikut:\n" . $remark . "\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
-                $query_npk = "SELECT npk FROM ct_users WHERE npk = '" . $npk . "'";
+                $message = "Pemberitahuan Mutasi Karyawan!!\n\nKepala Divisi $divisiBaru telah memberikan remark pada batch mutasi $batchMutasi1 sebagai berikut:\n$remark\nDaftar Karyawan yang terlibat dalam mutasi ini:\n" . implode("\n", $employeeDetails);
+                $query_npk = "SELECT npk FROM ct_users WHERE npk = '$npk'";
             }
         }
 

@@ -65,6 +65,17 @@ if (isset($_GET['batchMutasi'])) {
                 $data['IdMutasi'][] = $emnoRow['IdMutasi'];
                 $data['reject'][] = $emnoRow['reject'];
                 $data['batchMutasi'][] = $emnoRow['batchMutasi'];
+
+                $queryNama = "SELECT full_name FROM ct_users WHERE npk = '" . $emnoRow['emno'] . "'";
+                $resultNama = $koneksi2->query($queryNama);
+
+                if ($resultNama && $resultNama->num_rows > 0) {
+                    $NamaData = $resultNama->fetch_assoc();
+                    $data['full_name'][] = $NamaData['full_name'];
+                } else {
+                    $data['full_name'][] = $emnoRow['emno'];
+                }
+
             }
         } else {
             $data['error'] = 'Error fetching emno data.';
@@ -94,10 +105,11 @@ if (isset($_GET['batchMutasi'])) {
     $data['approvals'] = array();
 
     // Query to get the approval details
-    $queryApprovals = "SELECT cwocAsal, cwocBaru, status, Req, tanggalBuat, FM, tgl_fm, SPV, tgl_spv, Kadept1, tgl_kadept1, Kadept2, tgl_kadept2, Kadiv1, tgl_kadiv1, Kadiv2, tgl_kadiv2, Direktur, tgl_direktur, HRD, tgl_apv_hrd FROM mutasi WHERE batchMutasi = '$batchMutasi'";
+    $queryApprovals = "SELECT cwocAsal, cwocBaru, status, Req, tanggalBuat, FM, tgl_fm, SPV, tgl_spv, Kadept1, tgl_kadept1, Kadept2, tgl_kadept2, Kadiv1, tgl_kadiv1, Kadiv2, tgl_kadiv2, Direktur, tgl_direktur, Direktur2, tgl_direktur2, HRD, tgl_apv_hrd FROM mutasi WHERE batchMutasi = '$batchMutasi'";
     $resultApprovals = $koneksi3->query($queryApprovals);
 
     if ($resultApprovals && $rowApprovals = $resultApprovals->fetch_assoc()) {
+        $req_fullName = getFullName($rowApprovals['Req'], $koneksi2);
         $FM_fullName = getFullName($rowApprovals['FM'], $koneksi2);
         $SPV_fullName = getFullName($rowApprovals['SPV'], $koneksi2);
         $Kadept1_fullName = getFullName($rowApprovals['Kadept1'], $koneksi2);
@@ -106,6 +118,7 @@ if (isset($_GET['batchMutasi'])) {
         $Kadiv2_fullName = getFullName($rowApprovals['Kadiv2'], $koneksi2);
         $Kadiv2_fullName = getFullName($rowApprovals['Kadiv2'], $koneksi2);
         $Direktur_fullName = getFullName($rowApprovals['Direktur'], $koneksi2);
+        $Direktur2_fullName = getFullName($rowApprovals['Direktur2'], $koneksi2);
 
         $kelompok1 = ['QA', 'PDE 2W', 'PDE 4W', 'CQE 2W', 'CQE 4W'];
         $kelompok2 = ['HRD IR', 'GA', 'MIS'];
@@ -148,321 +161,85 @@ if (isset($_GET['batchMutasi'])) {
             $divisiBaru = "Non Divisi"; // Fallback if none matches
         }
 
-
-        if ($rowApprovals['status'] == 2) {
+        $data['approvals'][] = [
+            'status2' => 'Diajukan',
+            'approver' => $req_fullName,
+            'date' => $rowApprovals['tanggalBuat']
+        ];
+        if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
             $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
+                'status2' => 'Disetujui FM',
+                'approver' => $FM_fullName,
+                'date' => $rowApprovals['tgl_fm']
             ];
+        }
 
-        } elseif ($rowApprovals['status'] == 3) {
+        if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
             $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
+                'status2' => 'Disetujui SPV',
+                'approver' => $SPV_fullName,
+                'date' => $rowApprovals['tgl_spv']
             ];
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
-
-        } elseif ($rowApprovals['status'] == 4) {
-            $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
-            ];
-
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-
-
-        } elseif ($rowApprovals['status'] == 5) {
-            // Selalu tampilkan data dengan status 'Diajukan'
-            $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
-            ];
-
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
-
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-
-            if ($Kadept1_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1'])) {
+        }
+        if ($Kadept1_fullName !== 'N/A' && $Kadept2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1']) && !is_null($rowApprovals['tgl_kadept2'])) {
+            if ($Kadept1_fullName !== $Kadept2_fullName) {
+                // Jika nama Kadept1 dan Kadept2 berbeda, tampilkan keduanya
                 $data['approvals'][] = [
                     'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocAsal'],
                     'approver' => $Kadept1_fullName,
                     'date' => $rowApprovals['tgl_kadept1']
                 ];
-            }
-
-
-        } elseif ($rowApprovals['status'] == 6) {
-            $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
-            ];
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
                 $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
+                    'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
+                    'approver' => $Kadept2_fullName,
+                    'date' => $rowApprovals['tgl_kadept2']
+                ];
+            } else {
+                // Jika nama Kadept1 dan Kadept2 sama, hanya tampilkan untuk cwocBaru
+                $data['approvals'][] = [
+                    'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
+                    'approver' => $Kadept2_fullName,
+                    'date' => $rowApprovals['tgl_kadept2']
                 ];
             }
+        }
 
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-            if ($Kadept1_fullName !== 'N/A' && $Kadept2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1']) && !is_null($rowApprovals['tgl_kadept2'])) {
-                if ($Kadept1_fullName !== $Kadept2_fullName) {
-                    // Jika nama Kadept1 dan Kadept2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocAsal'],
-                        'approver' => $Kadept1_fullName,
-                        'date' => $rowApprovals['tgl_kadept1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                } else {
-                    // Jika nama Kadept1 dan Kadept2 sama, hanya tampilkan untuk cwocBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                }
-            }
-
-
-        } elseif ($rowApprovals['status'] == 7) {
-            $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
-            ];
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
-
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-            if ($Kadept1_fullName !== 'N/A' && $Kadept2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1']) && !is_null($rowApprovals['tgl_kadept2'])) {
-                if ($Kadept1_fullName !== $Kadept2_fullName) {
-                    // Jika nama Kadept1 dan Kadept2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocAsal'],
-                        'approver' => $Kadept1_fullName,
-                        'date' => $rowApprovals['tgl_kadept1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                } else {
-                    // Jika nama Kadept1 dan Kadept2 sama, hanya tampilkan untuk cwocBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                }
-            }
-
-            if ($Kadiv1_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadiv1'])) {
+        if ($Kadiv1_fullName !== 'N/A' && $Kadiv2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadiv1']) && !is_null($rowApprovals['tgl_kadiv2'])) {
+            if ($Kadiv1_fullName !== $Kadiv2_fullName) {
+                // Jika nama Kadiv1 dan Kadiv2 berbeda, tampilkan keduanya
                 $data['approvals'][] = [
                     'status2' => 'Disetujui Kepala Divisi ' . $divisi,
                     'approver' => $Kadiv1_fullName,
                     'date' => $rowApprovals['tgl_kadiv1']
                 ];
+                $data['approvals'][] = [
+                    'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
+                    'approver' => $Kadiv2_fullName,
+                    'date' => $rowApprovals['tgl_kadiv2']
+                ];
+            } else {
+                // Jika nama Kadiv1 dan Kadiv2 sama, hanya tampilkan untuk divisiBaru
+                $data['approvals'][] = [
+                    'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
+                    'approver' => $Kadiv2_fullName,
+                    'date' => $rowApprovals['tgl_kadiv2']
+                ];
             }
-
-        } elseif ($rowApprovals['status'] == 8) {
+        }
+        if ($Direktur_fullName !== 'N/A' && !is_null($rowApprovals['tgl_direktur'])) {
             $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
+                'status2' => 'Disetujui Direktur Asal',
+                'approver' => $Direktur_fullName,
+                'date' => $rowApprovals['tgl_direktur']
             ];
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
+        }
 
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-            if ($Kadept1_fullName !== 'N/A' && $Kadept2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1']) && !is_null($rowApprovals['tgl_kadept2'])) {
-                if ($Kadept1_fullName !== $Kadept2_fullName) {
-                    // Jika nama Kadept1 dan Kadept2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocAsal'],
-                        'approver' => $Kadept1_fullName,
-                        'date' => $rowApprovals['tgl_kadept1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                } else {
-                    // Jika nama Kadept1 dan Kadept2 sama, hanya tampilkan untuk cwocBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                }
-            }
-
-            if ($Kadiv1_fullName !== 'N/A' && $Kadiv2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadiv1']) && !is_null($rowApprovals['tgl_kadiv2'])) {
-                if ($Kadiv1_fullName !== $Kadiv2_fullName) {
-                    // Jika nama Kadiv1 dan Kadiv2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisi,
-                        'approver' => $Kadiv1_fullName,
-                        'date' => $rowApprovals['tgl_kadiv1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
-                        'approver' => $Kadiv2_fullName,
-                        'date' => $rowApprovals['tgl_kadiv2']
-                    ];
-                } else {
-                    // Jika nama Kadiv1 dan Kadiv2 sama, hanya tampilkan untuk divisiBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
-                        'approver' => $Kadiv2_fullName,
-                        'date' => $rowApprovals['tgl_kadiv2']
-                    ];
-                }
-            }
-
-        } elseif ($rowApprovals['status'] == 9) {
+        if ($Direktur2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_direktur2'])) {
             $data['approvals'][] = [
-                'status2' => 'Diajukan',
-                'approver' => $rowApprovals['Req'],
-                'date' => $rowApprovals['tanggalBuat']
+                'status2' => 'Disetujui Direktur Penerima',
+                'approver' => $Direktur_fullName,
+                'date' => $rowApprovals['tgl_direktur2']
             ];
-            if ($FM_fullName !== 'N/A' && !is_null($rowApprovals['tgl_fm'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui FM',
-                    'approver' => $FM_fullName,
-                    'date' => $rowApprovals['tgl_fm']
-                ];
-            }
-
-            if ($SPV_fullName !== 'N/A' && !is_null($rowApprovals['tgl_spv'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui SPV',
-                    'approver' => $SPV_fullName,
-                    'date' => $rowApprovals['tgl_spv']
-                ];
-            }
-            if ($Kadept1_fullName !== 'N/A' && $Kadept2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadept1']) && !is_null($rowApprovals['tgl_kadept2'])) {
-                if ($Kadept1_fullName !== $Kadept2_fullName) {
-                    // Jika nama Kadept1 dan Kadept2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocAsal'],
-                        'approver' => $Kadept1_fullName,
-                        'date' => $rowApprovals['tgl_kadept1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                } else {
-                    // Jika nama Kadept1 dan Kadept2 sama, hanya tampilkan untuk cwocBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Departemen ' . $rowApprovals['cwocBaru'],
-                        'approver' => $Kadept2_fullName,
-                        'date' => $rowApprovals['tgl_kadept2']
-                    ];
-                }
-            }
-
-            if ($Kadiv1_fullName !== 'N/A' && $Kadiv2_fullName !== 'N/A' && !is_null($rowApprovals['tgl_kadiv1']) && !is_null($rowApprovals['tgl_kadiv2'])) {
-                if ($Kadiv1_fullName !== $Kadiv2_fullName) {
-                    // Jika nama Kadiv1 dan Kadiv2 berbeda, tampilkan keduanya
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisi,
-                        'approver' => $Kadiv1_fullName,
-                        'date' => $rowApprovals['tgl_kadiv1']
-                    ];
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
-                        'approver' => $Kadiv2_fullName,
-                        'date' => $rowApprovals['tgl_kadiv2']
-                    ];
-                } else {
-                    // Jika nama Kadiv1 dan Kadiv2 sama, hanya tampilkan untuk divisiBaru
-                    $data['approvals'][] = [
-                        'status2' => 'Disetujui Kepala Divisi ' . $divisiBaru,
-                        'approver' => $Kadiv2_fullName,
-                        'date' => $rowApprovals['tgl_kadiv2']
-                    ];
-                }
-            }
-            if ($Direktur_fullName !== 'N/A' && !is_null($rowApprovals['tgl_direktur'])) {
-                $data['approvals'][] = [
-                    'status2' => 'Disetujui Direktur',
-                    'approver' => $Direktur_fullName,
-                    'date' => $rowApprovals['tgl_direktur']
-                ];
-            }
         }
     }
 
