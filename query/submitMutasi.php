@@ -155,8 +155,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     continue 2; // Skip ke iterasi berikutnya
             }
 
-            $query_insert_mutasi = "INSERT INTO mutasi (cwocAsal, sectAsal, subsectAsal, emno, tanggalMutasi, cwocBaru, sectBaru, subsectBaru, status, tanggalBuat, batchMutasi, Req) 
-            VALUES ('$cwocAsal', '$sectAsal', '$subsectAsal', '$emno', '$tanggalMutasi', '$cwocBaru', '$sectBaru', '$subsectBaru', '$status', '$tanggalBuat', '$batchMutasi', '$Req')";
+            $query_insert_mutasi = "INSERT INTO mutasi (cwocAsal, sectAsal, subsectAsal, emno, nama, tanggalMutasi, cwocBaru, sectBaru, subsectBaru, status, tanggalBuat, batchMutasi, Req) 
+            VALUES ('$cwocAsal', '$sectAsal', '$subsectAsal', '$emno', '$fullName', '$tanggalMutasi', '$cwocBaru', '$sectBaru', '$subsectBaru', '$status', '$tanggalBuat', '$batchMutasi', '$Req')";
             mysqli_query($koneksi3, $query_insert_mutasi);
 
             $query_insert_batch = "INSERT INTO batch (batchMutasi, npk) VALUES ('$batchMutasi', '$emno')";
